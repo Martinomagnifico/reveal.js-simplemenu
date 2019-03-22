@@ -1,0 +1,42 @@
+.reveal .menubar {
+	z-index: 3;
+	position: fixed;
+	width: 100%;
+	border-bottom: 1px solid rgba(150, 150, 150, .5);
+	justify-content: center;
+	display: flex
+}
+
+.reveal .menu ul,
+.reveal ul.menu {
+	list-style-type: none;
+	margin-left: 0
+}
+
+.reveal .menu ul li,
+.reveal ul.menu li {
+	display: inline-block
+}
+
+.reveal .menu ul li a.active,
+.reveal .menu ul li.active a,
+.reveal ul.menu li a.active,
+.reveal ul.menu li.active a {
+	color: #000;
+	pointer-events: none
+}
+
+.reveal .menu ul a,
+.reveal ul.menu a {
+	font-size: 1rem;
+	padding: .5rem 1rem;
+	display: inline-block;
+	vertical-align: top
+}
+
+.print-pdf .reveal .menu ul a.active,
+.print-pdf .reveal .menu ul.active a,
+.print-pdf .reveal ul.menu a.active,
+.print-pdf .reveal ul.menu.active a {
+	color: inherit
+}
