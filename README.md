@@ -10,7 +10,7 @@ There has to be a:
 - The top-level sections need a data attribute: `data-menu-title="chaptername"`.
 - Simplemenu checks if the href value of those links correspond to the data-menu-title attribute of the sections. 
 
-Simplemenu does not check if an anchor has the same name as the data-attribute. Reveal.js handles clicks to (named) anchors only horizontally. That means if you have clicked through the slides of chapter 1, are now in chapter 2, and click on an anchor that points to the top-level section of chapter one, it will not 'scroll' to the top, but show the last view slide of chapter 1. That's why the anchors need to be on the first slides of a chapter, and that's why there is both an anchor and a data-attribute. Another possibility would be to use only anchors and to check if there is a sibling or parent with an anchor that is also in the menu, but this current version works well enough.
+Simplemenu does not check if an anchor has the same name as the data-attribute. Reveal.js handles clicks to (named) anchors of top-level sections with subsections only horizontally. That means if you have clicked through the slides of chapter 1, are now in chapter 2, and click on an anchor that points to the top-level section of chapter one, it will not 'scroll' to the top, but show the last view slide of chapter 1. That's why the anchors need to be on the first slides of a chapter, and that's why there is both an anchor and a data-attribute. Another possibility would be to use only anchors and to check if there is a sibling or parent with an anchor that is also in the menu, but this current version works well enough.
 
 
 
