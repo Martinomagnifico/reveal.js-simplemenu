@@ -16,7 +16,7 @@ Simplemenu does not check if an anchor has the same name as the data-attribute. 
 
 ## Installation
 
-Copy the simple menu.js file to the plugins folder of the reveal.js folder, like this: `plugins/simplemenu`. Now add it to the dependencies of Reveal.js:
+Copy the simple menu.js file to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`. Now add it to the dependencies of Reveal.js:
 
 
 ```javascript
