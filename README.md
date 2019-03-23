@@ -31,6 +31,47 @@ Reveal.initialize({
 ```
 
 
+## Setup
+
+It is easy to set up your HTML structure for Simplemenu: 
+
+```html
+<div class="menubar">
+	<ul class="menu">
+		<!-- Here's the menu -->
+		<li><a href="#/firstchapter">First chapter</a></li>
+		<li><a href="#/secondchapter">Second chapter</a></li>
+		<li><a href="#/thirdchapter">Third chapter</a></li>
+	</ul>
+</div>
+<div class="slides">
+	<section>
+		<h1>Main title slide</h1>
+	</section>
+	<!-- Add data-attributes to the top-level sections -->
+	<section data-menu-title="firstchapter">
+		<!-- And an ID -->
+		<section id="firstchapter">
+			<h2>This is 1</h2>
+		</section>
+		<section>
+			<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
+		</section>
+	</section>
+	<section id="secondchapter" data-menu-title="secondchapter">
+		<h2>This is 2, no child slides</h2>
+	</section>
+	<section data-menu-title="thirdchapter">
+		<section id="thirdchapter">
+			<h2>This is 3</h2>
+		</section>
+		<section>
+			<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
+		</section>
+	</section>
+</div>
+```
+
 
 ## Configuration
 
