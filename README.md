@@ -60,6 +60,4 @@ Reveal.initialize({
 
 ## License
 
-Beer license
-
 Copyright (C) 2019 Martino
