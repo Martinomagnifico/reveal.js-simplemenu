@@ -1,7 +1,7 @@
  /**
  * Simplemenu.js for Reveal.js 1.0.0
  * @license 
- * Beerware licensed
+ * MIT licensed
  * (c) Martino 2019
  * https://github.com/Martinomagnifico
  */
