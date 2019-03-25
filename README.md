@@ -84,10 +84,10 @@ Reveal.initialize({
     	// Use menuselector to assign the menu items to be used. You might want to point 
     	// it to '.menu li a' for example. In that case the class of the a's will toggle, 
     	// not the class of the li's.
-  		menuselector: '.menu li',
+  	menuselector: '.menu li',
     
     	// Use a specific class for the active state.
-			activeclass: 'active'
+	activeclass: 'active'
 	},
 	dependencies: [
 		// ... 
