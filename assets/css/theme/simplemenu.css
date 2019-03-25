@@ -7,6 +7,12 @@
 	display: flex
 }
 
+.reveal .slides + .menubar {
+	bottom: 0;
+	border-top: 1px solid rgba(150, 150, 150, .5);
+	border-bottom: none;
+}
+
 .reveal .menu ul,
 .reveal ul.menu {
 	list-style-type: none;
