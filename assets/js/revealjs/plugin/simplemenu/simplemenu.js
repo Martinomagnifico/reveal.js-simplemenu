@@ -1,10 +1,15 @@
- /**
- * Simplemenu.js for Reveal.js 1.0.0
- * @license 
- * MIT licensed
- * (c) Martino 2019
+/*****************************************************************
+ * Author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
  * https://github.com/Martinomagnifico
- */
+ *
+ * Simplemenu.js for Reveal.js 1.0.0
+ *
+ * @license 
+ * Beerware licensed
+ *
+ * Credits:
+ *  - Hakim El Hattab for Reveal.js
+******************************************************************/
 
 (function () {
 
