@@ -3,7 +3,10 @@ A simple menu for Reveal.js
 
 In Powerpoint you can make slides with a nice bottom- or top bar in which the active chapter is highlighted. This menu works in the same way. 
 
-[Demo](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
+[Topbar demo](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
+[Bottombar demo](https://martinomagnifico.github.io/reveal.js-simplemenu/bottombar.html)
+
+
 
 It's easy to set up, but expects a few things:
 
