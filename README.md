@@ -24,7 +24,7 @@ Simplemenu does not check if an ID has the same name as the data-attribute. Reve
 
 ## Installation
 
-Copy the simplemenu.js file to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`. Now add it to the dependencies of Reveal.js:
+Copy the simplemenu folder to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`. Now add it to the dependencies of Reveal.js:
 
 
 ```javascript
