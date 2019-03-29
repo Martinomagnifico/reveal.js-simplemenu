@@ -103,10 +103,10 @@ Reveal.initialize({
 });
 ```
 
-
+## Like it?
 This is my first Github repo... let me know if you like it.
 
 
 ## License
 
-Copyright (C) 2019 Martino
+Copyright (C) 2019 Martijn De Jongh
