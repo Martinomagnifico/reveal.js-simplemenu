@@ -104,7 +104,7 @@ Reveal.initialize({
 ```
 
 
-
+This is my first Github repo... let me know if you like it.
 
 
 ## License
