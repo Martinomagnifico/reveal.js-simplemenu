@@ -5,7 +5,7 @@
  * Simplemenu.js for Reveal.js 1.0.0
  *
  * @license 
- * Beerware licensed
+ * MIT licensed
  *
  * Credits:
  *  - Hakim El Hattab for Reveal.js

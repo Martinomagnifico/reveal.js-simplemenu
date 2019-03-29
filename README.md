@@ -108,5 +108,5 @@ This is my first Github repo... let me know if you like it.
 
 
 ## License
-
+MIT licensed
 Copyright (C) 2019 Martijn De Jongh
