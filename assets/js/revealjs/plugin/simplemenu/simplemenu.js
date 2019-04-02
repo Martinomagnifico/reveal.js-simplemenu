@@ -1,5 +1,5 @@
 /*****************************************************************
- * Author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
+ * @author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 1.0.0
@@ -11,20 +11,24 @@
  *  - Hakim El Hattab for Reveal.js
 ******************************************************************/
 
-(function () {
+const Simplemenu = window.Simplemenu || (function(){
 
-	const defaultoptions = {
+	let options = Reveal.getConfig().simplemenu || {};
+	
+	let defaultOptions = {
 		menuselector: '.menu li',
 		activeclass: 'active'
-	} 
+	}
+	
+	const defaults = function (options, defaultOptions) {
+		for ( var i in defaultOptions ) {
+			if ( !options.hasOwnProperty( i ) ) {
+				options[i] = defaultOptions[i];
+			}
+		}
+	}
 
-	let config = Reveal.getConfig();
-	let useroptions = config.simplemenu || {};
-	let menuselector = useroptions.menuselector || defaultoptions.menuselector;
-	let activeclass = useroptions.activeclass || defaultoptions.activeclass;
-	let listItems = document.querySelectorAll(menuselector); 
-
-
+	let listItems = document.querySelectorAll(options.menuselector); 
 
 	const checkChapter = function (event) {
 		let thisname = event.currentSlide.dataset.menuTitle;
@@ -36,14 +40,23 @@
 			let linkname = linkhref.substr(linkhref.lastIndexOf('/') + 1);
 
 			if (linkname === thisname || linkname === parentname) {
-				return element.classList.add(activeclass)
+				return element.classList.add(options.activeclass)
 			} else {
-				return element.classList.remove(activeclass)
+				return element.classList.remove(options.activeclass)
 			}
 		});
 	};
+	
+	const init = function () {
+		defaults( options, defaultOptions );
+		Reveal.addEventListener('ready', checkChapter, false);
+		Reveal.addEventListener('slidechanged', checkChapter, false);
+	};
 
-	Reveal.addEventListener('ready', checkChapter, false);
-	Reveal.addEventListener('slidechanged', checkChapter, false);
-
+	return {
+		init: init
+	};
+	
 })();
+
+Reveal.registerPlugin('simplemenu', Simplemenu);
