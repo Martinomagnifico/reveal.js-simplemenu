@@ -2,41 +2,40 @@
  * @author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
  * https://github.com/Martinomagnifico
  *
- * Simplemenu.js for Reveal.js 1.0.0
+ * Simplemenu.js for Reveal.js 1.0.1
  *
  * @license 
  * MIT licensed
  *
  * Credits:
  *  - Hakim El Hattab for Reveal.js
-******************************************************************/
+ ******************************************************************/
 
-const Simplemenu = window.Simplemenu || (function(){
+const Simplemenu = window.Simplemenu || (function () {
 
 	let options = Reveal.getConfig().simplemenu || {};
-	
+
 	let defaultOptions = {
 		menuselector: '.menu li',
 		activeclass: 'active'
 	}
-	
+
 	const defaults = function (options, defaultOptions) {
-		for ( var i in defaultOptions ) {
-			if ( !options.hasOwnProperty( i ) ) {
+		for (var i in defaultOptions) {
+			if (!options.hasOwnProperty(i)) {
 				options[i] = defaultOptions[i];
 			}
 		}
 	}
 
-	let listItems = document.querySelectorAll(options.menuselector); 
-
 	const checkChapter = function (event) {
+		let listItems = document.querySelectorAll(options.menuselector);
 		let thisname = event.currentSlide.dataset.menuTitle;
 		let parentname = event.currentSlide.parentNode.dataset.menuTitle;
 		let arr = Array.prototype.slice.call(listItems);
 
 		arr.filter(element => {
-			let linkhref = element.href || (element.querySelector('a')).href ;
+			let linkhref = element.href || (element.querySelector('a')).href;
 			let linkname = linkhref.substr(linkhref.lastIndexOf('/') + 1);
 
 			if (linkname === thisname || linkname === parentname) {
@@ -46,9 +45,9 @@ const Simplemenu = window.Simplemenu || (function(){
 			}
 		});
 	};
-	
+
 	const init = function () {
-		defaults( options, defaultOptions );
+		defaults(options, defaultOptions);
 		Reveal.addEventListener('ready', checkChapter, false);
 		Reveal.addEventListener('slidechanged', checkChapter, false);
 	};
@@ -56,7 +55,7 @@ const Simplemenu = window.Simplemenu || (function(){
 	return {
 		init: init
 	};
-	
+
 })();
 
 Reveal.registerPlugin('simplemenu', Simplemenu);
