@@ -1,8 +1,10 @@
+"use strict";
+
 /*****************************************************************
  * @author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
  * https://github.com/Martinomagnifico
  *
- * Simplemenu.js for Reveal.js 1.0.1
+ * Simplemenu.js for Reveal.js 1.0.2
  *
  * @license 
  * MIT licensed
@@ -21,7 +23,7 @@ const Simplemenu = window.Simplemenu || (function () {
 	}
 
 	const defaults = function (options, defaultOptions) {
-		for (var i in defaultOptions) {
+		for (let i in defaultOptions) {
 			if (!options.hasOwnProperty(i)) {
 				options[i] = defaultOptions[i];
 			}
@@ -34,14 +36,14 @@ const Simplemenu = window.Simplemenu || (function () {
 		let parentname = event.currentSlide.parentNode.dataset.menuTitle;
 		let arr = Array.prototype.slice.call(listItems);
 
-		arr.filter(element => {
+		arr.filter(function (element) {
 			let linkhref = element.href || (element.querySelector('a')).href;
 			let linkname = linkhref.substr(linkhref.lastIndexOf('/') + 1);
 
 			if (linkname === thisname || linkname === parentname) {
-				return element.classList.add(options.activeclass)
+				return element.classList.add(options.activeclass);
 			} else {
-				return element.classList.remove(options.activeclass)
+				return element.classList.remove(options.activeclass);
 			}
 		});
 	};
@@ -59,3 +61,4 @@ const Simplemenu = window.Simplemenu || (function () {
 })();
 
 Reveal.registerPlugin('simplemenu', Simplemenu);
+/* global Reveal */
