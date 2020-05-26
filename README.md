@@ -11,6 +11,8 @@ or
 
 It's easy to set up, but expects a few things:
 
+Chapters can only be top-level sections (horizontal) with, or without, nested sections (vertical).
+
 There has to be a:
 
 - Element with `class="menu"`. 
