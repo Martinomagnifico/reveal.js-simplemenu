@@ -1,57 +1,174 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Simplemenu demo</title>
-		<meta name="description" content="Simple menu for reveal.js slides">
-		<meta name="viewport" content="width=device-width">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/sky.css">
-		<link rel="stylesheet" href="assets/css/theme/simplemenu.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="menubar">
-				<ul class="menu">
-					<li><a href="#/firstchapter">First chapter</a></li>
-					<li><a href="#/secondchapter">Second chapter</a></li>
-					<li><a href="#/thirdchapter">Third chapter</a></li>
-				</ul>
-			</div>
-			<div class="slides">
-				<section>
-					<h1>Main title slide</h1>
-				</section>
-				<section data-menu-title="firstchapter">
-					<section id="firstchapter">
-						<h2>This is 1</h2>
-					</section>
-					<section>
-						<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
-					</section>
-				</section>
-				<section id="secondchapter" data-menu-title="secondchapter">
-					<h2>This is 2, no child slides</h2>
-				</section>
-				<section data-menu-title="thirdchapter">
-					<section id="thirdchapter">
-						<h2>This is 3</h2>
-					</section>
-					<section>
-						<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
-					</section>
-				</section>
-			</div>
-		</div>
-		<script src="assets/js/revealjs/reveal.js"></script>
-		<script>Reveal.initialize({
-			simplemenu: {
-				menuselector: '.menu a'
-			},
-			dependencies: [
-				{ src: 'assets/js/revealjs/plugin/simplemenu/simplemenu.js', async: false }
-			]
-			});
-		</script>
-	</body>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simplemenu for Reveal.js</title>
+    <meta name="description" content="">
+    <meta name="author" content="Martinomagnifico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="menubar">
+            <ul class="menu">
+                <li><a href="#/firstmenuitem">What it does</a></li>
+                <li><a href="#/secondmenuitem">Set it up</a></li>
+                <li><a href="#/thirdmenuitem">Options</a></li>
+            </ul>
+        </div>
+        <div class="slides">
+            <section class="center" data-transition="fade">
+                <h1>Simplemenu</h1>
+                <h3>for Reveal.js</h3>
+            </section>
+            <section id="firstmenuitem">
+                <section class="center">
+                    <p>In Powerpoint you can make slides with a nice bottom- or top bar in which the active menu item is highlighted. This menu works in the same way, but automatically.</p>
+                </section>
+                <section class="center">
+                    <p>What Simplemenu does</p>
+                    <ul class="small">
+                        <li>Make menu items of your vertical stacks (top-level sections).</li>
+                        <li>Moving to another vertical stack (by whatever navigation) will automatically update the current menu item.</li>
+                        <li>Clicking an item in the menu will open the first section in the corresponding vertical stack.</li>
+                        <li>Simplemenu can auto-generate the menu, using section names (ID's give ugly button names). See the option 'auto' in <a href="#/3/0">options</a></li>
+                        <li>Simplemenu also works in the Reveal multi-viewport setup.</li>
+                    </ul>
+                </section>
+            </section>
+            <section id="secondmenuitem">
+                <section class="center">
+                    <p>It's easy to set up, but expects a few things:</p>
+                    <ul class="small">
+                        <li>Menu items can only be top-level sections: regular horizontal slides or vertical stacks.</li>
+                        <li>There has to be an element that will hold the links. By default this selector is the class `menu`. The selector can be changed in the Simplemenu options.</li>
+                        <li>Inside this main menu, there have to be anchors with an href. These need to point to an ID of a top-level section. Reveal uses links with hashes to navigate, so the link has to be written like that: <code>href="#/firstchapter"</code>.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>JavaScript</h4>
+                    <p class="small">Load the script and make a reference to it in the Reveal plugin options.</p>
+                    <pre><code class="hljs html" data-line-numbers>&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+	Reveal.initialize({
+		plugins: [ Simplemenu ]
+	});
+&lt;script&gt;</code></pre>
+                </section>
+                <section>
+                    <h4>HTML Markup</h4>
+                    <p class="small">Make anchors in your links to the ID's of your sections. Use the <code>#/anchor</code> notation that Reveal uses.</p>
+                    <pre><code>&lt;div class="menubar"&gt;
+    &lt;ul class="menu"&gt;
+        &lt;li&gt;
+            &lt;a href="#/firstmenuitem"&gt;First menu item&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="slides"&gt;
+    &lt;section id="firstmenuitem"&gt;
+        //...
+    &lt;/section&gt;
+        //...
+&lt;/div&gt;</code></pre>
+                </section>
+                <section>
+                    <h4>That's it! </h4>
+                    <p class="small">The setup above is the default way of linking the menu with the sections. But you can <em>simplify it a lot</em> by using named sections in combination with an auto-generated menu. See the <a href="#/3/0">options</a>.</p>
+                </section>
+            </section>
+            <section id="thirdmenuitem">
+                <section>
+                    <h2>Options</h2>
+                    <ol>
+                        <li>menuclass</li>
+                        <li>activeclass</li>
+                        <li>activeelement</li>
+                        <li>selectby</li>
+                        <li>auto</li>
+                    </ol>
+                </section>
+                <section>
+                    <h4>Option 1: menuclass</h4>
+                    <p class="small">The menuclass option sets the classname of the menu. </p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		menuclass: 'menu'
+	},
+	plugins: [ Simplemenu ]
+</code></pre>
+                    <p class="small">Simplemenu looks inside this menu for list items (LI's).</p>
+                </section>
+                <section>
+                    <h4>Option 2: activeclass</h4>
+                    <p class="small">The activeclass option is the class an active menuitem gets.</p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		activeclass: 'active'
+	},
+	plugins: [ Simplemenu ]
+</code></pre>
+                </section>
+                <section>
+                    <h4>Option 3: selectby</h4>
+                    <p class="small">The selectby option finds the currently active vertical stack by this. </p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		selectby: 'id'
+		// or 'name'
+	},
+	plugins: [ Simplemenu ]
+</code></pre>
+                    <p class="small">By default it is 'id', but can also be set to 'name'. If set by name, Simplemenu will compare the text content of the link to the section. Then <code>&lt;a(href="#")&gt;What does it do?&lt;/a&gt;</code> will link to <code>&lt;section(name="What does it do?")&gt;</code></p>
+                </section>
+                <section>
+                    <h4>Option 3: auto</h4>
+                    <p class="small">If set to true, the auto option will auto-generate a menu.</p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		auto: 'true'
+	},
+	plugins: [ Simplemenu ]
+</code></pre>
+                    <p class="small">This will override any <code>selectby</code> option to 'name'. Make sure your sections have names.</p>
+                    <p class="small">Then you will only need to supply an empty OL or UL with class 'menu' (or something else if set through the <code>menuclass</code> option). Simplemenu will generate the menu-items from the names of the sections.</p>
+                </section>
+                <section class="center">
+                    <h4>Option demos</h4>
+                    <ul>
+                        <li>Menu with no options set: this demo</li>
+                        <li><a href="demo-bottom.html">Menu at bottom with no options set</a></li>
+                        <li><a href="demo-name.html">Option selectby: 'name'</a></li>
+                        <li><a href="demo-auto.html">Option auto: true</a></li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="plugin/simplemenu/simplemenu.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: "convex",
+            plugins: [
+                Simplemenu,
+                RevealHighlight
+            ]
+        });
+    </script>
+</body>
+
 </html>

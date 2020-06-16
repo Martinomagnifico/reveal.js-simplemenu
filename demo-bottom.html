@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simplemenu for Reveal.js, bottom menu</title>
+    <meta name="description" content="">
+    <meta name="author" content="Martinomagnifico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section class="center" data-transition="fade">
+                <h1>Simplemenu</h1>
+                <h3>for Reveal.js</h3>
+                <p class="smaller">Menu on the bottom</p>
+            </section>
+            <section id="firstmenuitem">
+                <section class="center">
+                    <h3>You can place the menu on the bottom.</h3>
+                </section>
+                <section class="center">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                </section>
+            </section>
+            <section id="secondmenuitem">
+                <h3>This is menu item 2, no child slides</h3>
+            </section>
+            <section id="thirdmenuitem">
+                <section>
+                    <h3>This is menu item 3</h3>
+                </section>
+            </section>
+        </div>
+        <div class="menubar">
+            <ul class="menu">
+                <li><a href="#/firstmenuitem">First menu item</a></li>
+                <li><a href="#/secondmenuitem">Second menu item</a></li>
+                <li><a href="#/thirdmenuitem">Third menu item</a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="plugin/simplemenu/simplemenu.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: "convex",
+            plugins: [
+                Simplemenu
+            ]
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simplemenu for Reveal.js, auto</title>
+    <meta name="description" content="">
+    <meta name="author" content="Martinomagnifico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="menubar">
+            <ul class="menu"></ul>
+        </div>
+        <div class="slides">
+            <section class="center" data-transition="fade" name="Start">
+                <h1>Simplemenu</h1>
+                <h3>for Reveal.js</h3>
+                <p class="smaller">Option <code>auto: true</code></p>
+            </section>
+            <section name="What it does">
+                <section class="center">
+                    <h2>What it does</h2>
+                </section>
+                <section class="center">
+                    <p>Simplemenu can simplify HTML editing by letting authors just set a name to the sections, and autogenerate a menu from that.</p>
+                </section>
+            </section>
+            <section name="Set it up">
+                <section>
+                    <h4>JavaScript</h4>
+                    <p>Set the auto-option to true.</p>
+                    <pre><code class="hljs javascript" data-line-numbers>&hellip;
+Reveal.initialize({
+	simplemenu: {
+		auto: true,
+	},
+	plugins: [ Simplemenu ]</code></pre>
+                </section>
+                <section>
+                    <h4>HTML Markup</h4>
+                    <p>Give your sections a name, and add an empty menu.</p>
+                    <pre><code>&lt;div class="menubar"&gt;
+    &lt;ul class="menu"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="slides"&gt;
+    &lt;section name="Start"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section name="What it does"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section name="Setup"&gt;
+        //...
+    &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+                </section>
+                <section>
+                    <h4>That's it!</h4>
+                </section>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="plugin/simplemenu/simplemenu.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: "convex",
+            simplemenu: {
+                auto: true
+            },
+            plugins: [
+                Simplemenu,
+                RevealHighlight
+            ]
+        });
+    </script>
+</body>
+
+</html>

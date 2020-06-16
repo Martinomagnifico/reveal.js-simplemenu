@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simplemenu for Reveal.js, select by name </title>
+    <meta name="description" content="">
+    <meta name="author" content="Martinomagnifico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="menubar">
+            <ul class="menu">
+                <li><a href="#/firstchapter">Start</a></li>
+                <li><a href="#/secondchapter">What it does</a></li>
+                <li><a href="#/thirdchapter">Set it up</a></li>
+            </ul>
+        </div>
+        <div class="slides">
+            <section class="center" data-transition="fade" name="Start">
+                <h1>Simplemenu</h1>
+                <h3>for Reveal.js</h3>
+                <p class="smaller">Option <code>selectby: 'name'</code></p>
+            </section>
+            <section name="What it does">
+                <section class="center">
+                    <h2>What it does</h2>
+                </section>
+                <section class="center">
+                    <p class="small">Simplemenu links sections to the menu by an attribute, which is defined by <code>selectby</code>. By default it is 'id', but you can also set it to 'name' as in this example.</p>
+                </section>
+            </section>
+            <section name="Set it up">
+                <section>
+                    <h4>JavaScript</h4>
+                    <p class="small">Set the selectby option to 'name'.</p>
+                    <pre><code class="hljs javascript" data-line-numbers>&hellip;
+Reveal.initialize({
+	simplemenu: {
+		selectby: 'name',
+	},
+	plugins: [ Simplemenu ]</code></pre>
+                </section>
+                <section>
+                    <h4>HTML Markup</h4>
+                    <p class="small">Make sure that the text content of your links is the same as the 'name' attribute of your sections. In the example below it is literally "Put some text here".</p>
+                    <pre><code>&lt;div class="menubar"&gt;
+    &lt;ul class="menu"&gt;
+        &lt;li&gt;
+            &lt;a href="#"&gt;Put some text here&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="slides"&gt;
+    &lt;section name="Put some text here"&gt;
+        //...
+    &lt;/section&gt;
+        //...
+&lt;/div&gt;</code></pre>
+                </section>
+                <section>
+                    <h4>That's it!</h4>
+                </section>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="plugin/simplemenu/simplemenu.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            transition: "convex",
+            simplemenu: {
+                selectby: "name"
+            },
+            plugins: [
+                Simplemenu,
+                RevealHighlight
+            ]
+        });
+    </script>
+</body>
+
+</html>
