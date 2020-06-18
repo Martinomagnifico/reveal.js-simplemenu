@@ -29,8 +29,21 @@ It's easy to set up, but expects a few things:
 
 ## Installation
 
-Copy the simplemenu folder to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`. Now add it to the dependencies of Reveal.js:
+### Regular installation
 
+Copy the simplemenu folder to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`.
+
+### npm installation
+
+This plugin is published to, and can be installed from, npm.
+
+```javascript
+npm install reveal.js-simplemenu
+```
+The Simplemenu plugin folder can then be referenced from `node_modules/reveal.js-simplemenu/plugin/simplemenu `
+
+
+## Setup
 
 ### JavaScript
 
@@ -73,9 +86,11 @@ If you're using ES modules, you can add it like this:
 Simplemenu also works in setups with multiple Reveal instances.
 
 
-## Setup
+### HTML
 
-It is easy to set up your HTML structure for Simplemenu. To keep the Simplemenu on every slide, put it outside of the `.slides`: 
+It is easy to set up your HTML structure for Simplemenu. To keep the Simplemenu on every slide, put it outside of the `.slides`.
+
+#### The manual way
 
 ```html
 <div class="menubar">
@@ -116,7 +131,7 @@ The top-level sections (that should be in the menu) need to have an ID:
 	</section>
 </div>
 ```
-### The auto way
+#### The auto way
 
 When using the `auto` option (see Configuration), you only need to add an empty menu, and give names to your sections.
 
@@ -162,9 +177,10 @@ Reveal.initialize({
 * **`auto`**: If set to true, the auto option will auto-generate a menu by the names of the sections.
 
 
-
 ## Like it?
-If you like it, please star this repo.
+If you like it, please star this repo! 
+
+And if you want to show off what you made with it, please do :-)
 
 
 ## License

@@ -1,0 +1,16 @@
+{
+    "name": "reveal.js-simplemenu",
+    "version": "1.0.3",
+    "description": "A simple menu for Reveal.js",
+    "keywords": "reveal, reveal.js, reveal-plugin, plugin, menu",
+    "homepage": "https://github.com/Martinomagnifico/reveal.js-simplemenu",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Martinomagnifico/reveal.js-simplemenu.git"
+    },
+    "peerDependencies": {
+        "reveal.js": "^4.0"
+    },
+    "author": "Martijn De Jongh",
+    "license": "MIT, Copyright (C) 2020 Martijn De Jongh"
+}
