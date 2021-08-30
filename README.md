@@ -1,5 +1,7 @@
 # Simplemenu
 
+[![Version](https://img.shields.io/npm/v/reveal.js-simplemenu)](#) [![Downloads](https://img.shields.io/npm/dt/reveal.js-simplemenu)](https://github.com/Martinomagnifico/reveal.js-simplemenu/archive/refs/heads/master.zip)
+
 A simple menu for [Reveal.js](https://revealjs.com)
 
 [![Screenshot](screenshot.png)](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
