@@ -30,19 +30,30 @@ It's easy to set up, but expects a few things:
 - Inside this main menu, there have to be anchors with an href. These need to point to an ID of a top-level section. Reveal uses links with hashes to navigate, so the link has to be written like that: `href="#/firstchapter"`.
 
 
+
 ## Installation
 
-Copy the simplemenu folder to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`. Now add it to the dependencies of Reveal.js:
+### Regular installation
 
+Copy the simplemenu folder to the plugins folder of the reveal.js folder, like this: `plugin/simplemenu`.
+
+### npm installation
+
+This plugin is published to, and can be installed from, npm.
+
+```console
+npm install reveal.js-simplemenu
+```
+The Simplemenu plugin folder can then be referenced from `node_modules/reveal.js-simplemenu/plugin/simplemenu`
+
+
+## Setup
 
 ### JavaScript
 
-The Simplemenu plugin has been rewritten for Reveal.js version 4.
-
-If you want to use Simplemenu with an older version of Reveal, use the [1.0.2 version](https://github.com/Martinomagnifico/reveal.js-simplemenu/releases).
+The Simplemenu plugin has been written for Reveal.js version 4. Simplemenu also works in setups with multiple Reveal instances.
 
 There are two JavaScript files for Simplemenu, a regular one, `simplemenu.js`, and a module one, `simplemenu.esm.js`. You only need one of them:
-
 
 #### Regular 
 If you're not using ES modules, for example, to be able to run your presentation from the filesystem, you can add it like this:
@@ -57,7 +68,6 @@ If you're not using ES modules, for example, to be able to run your presentation
 	});
 </script>
 ```
-
 #### As a module 
 If you're using ES modules, you can add it like this:
 
@@ -72,8 +82,6 @@ If you're using ES modules, you can add it like this:
 	});
 </script>
 ```
-
-Simplemenu also works in setups with multiple Reveal instances.
 
 
 ## Setup
