@@ -130,7 +130,7 @@ The top-level sections (that should be in the menu) need to have an ID:
 </div>
 ```
 
-### The auto way
+#### The auto way
 
 When using the `auto` option (see Configuration), you only need to add an empty menu, and give names to your sections.
 
