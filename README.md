@@ -4,7 +4,7 @@
 
 A simple menu for [Reveal.js](https://revealjs.com)
 
-[![Screenshot](screenshot.png)](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
+[![Screenshot](https://martinomagnifico.github.io/reveal.js-simplemenu/screenshot.png)](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
 
 In Powerpoint you can make slides with a nice bottom- or top bar in which ***the active menu item is highlighted***. This menu works in the same way, but automatically. 
 
@@ -14,13 +14,15 @@ In Powerpoint you can make slides with a nice bottom- or top bar in which ***the
 
 [Demo with select by name](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-name.html)
 
+[Demo with select by data-name](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-dataname.html)
+
 [Demo with auto-generated menu](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-auto.html)
 
 ### What it does
 - Make menu items of your vertical stacks (top-level sections).
 - Moving to another vertical stack (by whatever navigation) will automatically update the current menu item.
 - Clicking an item in the menu will open the first section in the corresponding vertical stack.
-- Simplemenu can auto-generate the menu, using section names (ID's give ugly button names). See the option 'auto' in options
+- Simplemenu can auto-generate the menu, using sections with an attribute of `name` or `data-name` (ID's give ugly button names). See the option 'auto' in options
 
 
 It's easy to set up, but expects a few things:
@@ -150,6 +152,24 @@ When using the `auto` option (see Configuration), you only need to add an empty 
     </section>
 </div>
 ```
+Optionally, you can use `data-name` attributes instead of names, in that case you should also set `selectby: 'data-name'`.
+
+```html
+<div class="menubar">
+    <ul class="menu"></ul>
+</div>
+<div class="slides">
+    <section data-name="Menu item one">
+        //...
+    </section>
+    <section data-name="Menu item two">
+        //...
+    </section>
+    <section data-name="Menu item three">
+        //...
+    </section>
+</div>
+```
 
 
 ## Configuration
@@ -172,7 +192,7 @@ Reveal.initialize({
 * **`menuclass`**: This option sets the classname of the menu.
 * **`activeclass`**: This option is the class an active menuitem gets.
 * **`activeelement`**: This option sets the element that gets the active class. Change it if you directly want to style the `a`, for example. 
-* **`selectby`**: The selectby option finds the currently active vertical stack by this. By default, it selects by ID, but it can also be set to `name`. In that case, Simplemenu will compare the text content of your links to the name of the section.
+* **`selectby`**: The selectby option finds the currently active vertical stack by this. By default, it selects by ID, but it can also be set to `name` or `data-name`. In that case, Simplemenu will compare the text content of your links to the name (or data-name) of the section.
 * **`auto`**: If set to true, the auto option will auto-generate a menu by the names of the sections.
 
 
@@ -185,4 +205,4 @@ And if you want to show off what you made with it, please do :-)
 ## License
 MIT licensed
 
-Copyright (C) 2020 Martijn De Jongh (Martino)
+Copyright (C) 2021 Martijn De Jongh (Martino)

@@ -13,10 +13,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
 </head>
 
 <body>
-    <div class="reveal">
+    <div class="reveal"><a class="github-corner bottom" href="https://github.com/Martinomagnifico/reveal.js-simplemenu" target="blank" title="View source on GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55">
+                <path fill="currentColor" d="M27.5 11.2a16.3 16.3 0 0 0-5.1 31.7c.8.2 1.1-.3 1.1-.7v-2.8c-4.5 1-5.5-2.2-5.5-2.2-.7-1.9-1.8-2.4-1.8-2.4-1.5-1 .1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.2-1 .6-1.8 1-2.2-3.5-.4-7.3-1.8-7.3-8 0-1.8.6-3.3 1.6-4.4-.1-.5-.7-2.1.2-4.4 0 0 1.4-.4 4.5 1.7a15.6 15.6 0 0 1 8.1 0c3.1-2 4.5-1.7 4.5-1.7.9 2.3.3 4 .2 4.4 1 1 1.6 2.6 1.6 4.3 0 6.3-3.8 7.7-7.4 8 .6.6 1.1 1.6 1.1 3v4.6c0 .4.3.9 1.1.7a16.3 16.3 0 0 0-5.2-31.7"></path>
+            </svg></a>
         <div class="menubar">
             <ul class="menu">
                 <li><a href="#/firstmenuitem">What it does</a></li>
@@ -25,7 +29,7 @@
             </ul>
         </div>
         <div class="slides">
-            <section class="center" data-transition="fade">
+            <section class="center" data-transition="fade" data-state="hide-menubar">
                 <h1>Simplemenu</h1>
                 <h3>for Reveal.js</h3>
             </section>
@@ -36,11 +40,11 @@
                 <section class="center">
                     <p>What Simplemenu does</p>
                     <ul class="small">
+                        <li>Allows for static header and footer bars on every slide that can also be exported to PDF</li>
                         <li>Make menu items of your vertical stacks (top-level sections).</li>
                         <li>Moving to another vertical stack (by whatever navigation) will automatically update the current menu item.</li>
                         <li>Clicking an item in the menu will open the first section in the corresponding vertical stack.</li>
-                        <li>Simplemenu can auto-generate the menu, using section names (ID's give ugly button names). See the option 'auto' in <a href="#/3/0">options</a></li>
-                        <li>Simplemenu also works in the Reveal multi-viewport setup.</li>
+                        <li>Simplemenu can auto-generate the menu, using section names. See the option 'auto' in <a href="#/thirdmenuitem">options</a></li>
                     </ul>
                 </section>
             </section>
@@ -89,6 +93,7 @@
                 <section>
                     <h2>Options</h2>
                     <ol>
+                        <li>menubarclass</li>
                         <li>menuclass</li>
                         <li>activeclass</li>
                         <li>activeelement</li>
@@ -97,7 +102,19 @@
                     </ol>
                 </section>
                 <section>
-                    <h4>Option 1: menuclass</h4>
+                    <h4>Option 1: menubarclass</h4>
+                    <p class="small">The menubarclass option sets the classname of menubars. </p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		menubarclass: 'menubar'
+	},
+	plugins: [ Simplemenu ]
+</code></pre>
+                    <p class="small">Simplemenu will show the menubar(s) on all pages. If you do not want to show the menubar on certain pages, use <code>data-state="hide-menubar"</code> on that section. This behaviour also works when exporting to PDF using the Reveal.js <code>?print-pdf</code> option.</p>
+                </section>
+                <section>
+                    <h4>Option 2: menuclass</h4>
                     <p class="small">The menuclass option sets the classname of the menu. </p>
                     <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
 	//...
@@ -109,7 +126,7 @@
                     <p class="small">Simplemenu looks inside this menu for list items (LI's).</p>
                 </section>
                 <section>
-                    <h4>Option 2: activeclass</h4>
+                    <h4>Option 3: activeclass</h4>
                     <p class="small">The activeclass option is the class an active menuitem gets.</p>
                     <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
 	//...
@@ -120,7 +137,18 @@
 </code></pre>
                 </section>
                 <section>
-                    <h4>Option 3: selectby</h4>
+                    <h4>Option 4: activeelement</h4>
+                    <p class="small">The activeelement option sets the item that gets the active class.</p>
+                    <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
+	//...
+	Simplemenu: {
+		activeelement: 'li'
+	},
+	plugins: [ Simplemenu ]</code></pre>
+                    <p class="small">You may want to change it to the anchor inside the li: activeelement: 'a'.</p>
+                </section>
+                <section>
+                    <h4>Option 5: selectby</h4>
                     <p class="small">The selectby option finds the currently active vertical stack by this. </p>
                     <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
 	//...
@@ -133,7 +161,7 @@
                     <p class="small">By default it is 'id', but can also be set to 'name'. If set by name, Simplemenu will compare the text content of the link to the section. Then <code>&lt;a(href="#")&gt;What does it do?&lt;/a&gt;</code> will link to <code>&lt;section(name="What does it do?")&gt;</code></p>
                 </section>
                 <section>
-                    <h4>Option 3: auto</h4>
+                    <h4>Option 6: auto</h4>
                     <p class="small">If set to true, the auto option will auto-generate a menu.</p>
                     <pre><code class="hljs javascript" data-line-numbers>Reveal.initialize({
 	//...

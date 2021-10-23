@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Simplemenu for Reveal.js, auto</title>
+    <title>Simplemenu for Reveal.js, select by data-name </title>
     <meta name="description" content="">
     <meta name="author" content="Martinomagnifico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -22,74 +22,52 @@
                 <path fill="currentColor" d="M27.5 11.2a16.3 16.3 0 0 0-5.1 31.7c.8.2 1.1-.3 1.1-.7v-2.8c-4.5 1-5.5-2.2-5.5-2.2-.7-1.9-1.8-2.4-1.8-2.4-1.5-1 .1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.2-1 .6-1.8 1-2.2-3.5-.4-7.3-1.8-7.3-8 0-1.8.6-3.3 1.6-4.4-.1-.5-.7-2.1.2-4.4 0 0 1.4-.4 4.5 1.7a15.6 15.6 0 0 1 8.1 0c3.1-2 4.5-1.7 4.5-1.7.9 2.3.3 4 .2 4.4 1 1 1.6 2.6 1.6 4.3 0 6.3-3.8 7.7-7.4 8 .6.6 1.1 1.6 1.1 3v4.6c0 .4.3.9 1.1.7a16.3 16.3 0 0 0-5.2-31.7"></path>
             </svg></a>
         <div class="menubar">
-            <ul class="menu"></ul>
+            <ul class="menu">
+                <li><a href="#/firstchapter">Start</a></li>
+                <li><a href="#/secondchapter">What it does</a></li>
+                <li><a href="#/thirdchapter">Set it up</a></li>
+            </ul>
         </div>
         <div class="slides">
-            <section class="center" data-transition="fade" name="Start">
+            <section class="center" data-transition="fade" data-name="Start">
                 <h1>Simplemenu</h1>
                 <h3>for Reveal.js</h3>
-                <p class="smaller">Option <code>auto: true</code></p>
+                <p class="smaller">Option <code>selectby: 'data-name'</code></p>
             </section>
-            <section name="What it does">
+            <section data-name="What it does">
                 <section class="center">
                     <h2>What it does</h2>
                 </section>
                 <section class="center">
-                    <p>Simplemenu can simplify HTML editing by letting authors just set a name to the sections, and autogenerate a menu from that.</p>
+                    <p class="small">Simplemenu links sections to the menu by an attribute, which is defined by <code>selectby</code>. By default it is 'id', but you can also set it to 'data-name' as in this example.</p>
                 </section>
             </section>
-            <section name="Set it up">
+            <section data-name="Set it up">
                 <section>
                     <h4>JavaScript</h4>
-                    <p>Set the auto-option to true.</p>
+                    <p class="small">Set the selectby option to 'data-name'.</p>
                     <pre><code class="hljs javascript" data-line-numbers>&hellip;
 Reveal.initialize({
 	simplemenu: {
-		auto: true
-	},
-	plugins: [ Simplemenu ]</code></pre>
-                    <p class="small">Optionally, choose <code>data-name</code> instead of <code>name</code>.</p>
-                    <pre><code class="hljs javascript" data-line-numbers>&hellip;
-Reveal.initialize({
-	simplemenu: {
-		auto: true,
-		selectby: 'data-name'
+		selectby: 'data-name',
 	},
 	plugins: [ Simplemenu ]</code></pre>
                 </section>
                 <section>
                     <h4>HTML Markup</h4>
-                    <p>Give your sections a <code>name</code>, and add an empty menu.</p>
+                    <p class="small">Make sure that the text content of your links is the same as the 'data-name' attribute of your sections. In the example below it is literally "Put some text here".</p>
                     <pre><code>&lt;div class="menubar"&gt;
-    &lt;ul class="menu"&gt;&lt;/ul&gt;
+    &lt;ul class="menu"&gt;
+        &lt;li&gt;
+            &lt;a href="#"&gt;Put some text here&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="slides"&gt;
-    &lt;section name="Start"&gt;
+    &lt;section data-name="Put some text here"&gt;
         //...
     &lt;/section&gt;
-    &lt;section name="What it does"&gt;
         //...
-    &lt;/section&gt;
-    &lt;section name="Setup"&gt;
-        //...
-    &lt;/section&gt;
-&lt;/div&gt;</code></pre>
-                </section>
-                <section>
-                    <p>When having set the 'select-by' option to <code>data-name</code>, you should also use that in the markup. </p>
-                    <pre><code>&lt;div class="menubar"&gt;
-    &lt;ul class="menu"&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="slides"&gt;
-    &lt;section data-name="Start"&gt;
-        //...
-    &lt;/section&gt;
-    &lt;section data-name="What it does"&gt;
-        //...
-    &lt;/section&gt;
-    &lt;section data-name="Setup"&gt;
-        //...
-    &lt;/section&gt;
 &lt;/div&gt;</code></pre>
                 </section>
                 <section>
@@ -105,7 +83,7 @@ Reveal.initialize({
         Reveal.initialize({
             transition: "convex",
             simplemenu: {
-                auto: true
+                selectby: "data-name"
             },
             plugins: [
                 Simplemenu,

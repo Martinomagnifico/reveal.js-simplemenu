@@ -11,51 +11,14 @@
   opacity: 1; }
 
 .menubar {
-  position: absolute;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 3vmin;
-  z-index: 2;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
-  .menubar ul.menu, .menubar .menu ul {
-    list-style-type: none;
-    margin-left: 0;
-    text-align: center; }
-  .menubar, .menubar a {
-    font-size: 1rem; }
+  top: 0; }
 
-.menu li {
-  display: inline-block; }
-
-.menu a {
-  font-size: 1rem;
-  padding: 1rem;
-  display: block;
-  color: rgba(255, 255, 255, 0.5); }
-  .menu a:hover {
-    color: white; }
-
-.menu a.active,
-.menu li.active a {
-  color: white;
-  pointer-events: none; }
-
-.slides + .menubar {
+.slides ~ .menubar {
   bottom: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
   border-bottom: none; }
 
-.slides + .menubar ~ .controls {
+.slides ~ .menubar.bottom ~ .controls {
   margin-bottom: 6vmin; }
 
 .small {
@@ -83,3 +46,17 @@ p kbd, ul kbd {
 
 section ul li + li {
   margin-top: 1rem; }
+
+a.github-corner {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: clamp(50px, 8vmax, 80px);
+  line-height: 0;
+  color: rgba(255, 255, 255, 0.5); }
+  a.github-corner.bottom {
+    top: auto;
+    bottom: 3px; }
+
+a.github-corner:hover {
+  color: white; }
