@@ -49,10 +49,7 @@
 	          menubar.classList.add("bottom");
 	        }
 	      });
-	    } // if (options.auto == true ) {
-	    // 	options.selectby = "name";
-	    // }
-
+	    }
 
 	    var chapters = selectionArray(viewport, "section[".concat(options.selectby, "]"));
 

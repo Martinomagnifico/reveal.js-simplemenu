@@ -36,10 +36,6 @@ const Plugin = () => {
 			});
 		}
 
-		// if (options.auto == true ) {
-		// 	options.selectby = "name";
-		// }
-
 		let chapters = selectionArray(viewport, `section[${options.selectby}]`);
 
 		if (options.auto == true) {
