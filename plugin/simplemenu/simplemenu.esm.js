@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.0.4
+ * Version 1.0.6
  * 
  * @license 
  * MIT licensed
@@ -26,6 +26,7 @@ var Plugin = function Plugin() {
     var menus = selectionArray(viewport, ".".concat(options.menuclass));
     var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
     var slides = deck.getSlidesElement();
+    var langattribute = deck.getConfig().internation.langattribute;
 
     function isBefore(a, b) {
       var all = document.getElementsByTagName('*');
@@ -55,12 +56,15 @@ var Plugin = function Plugin() {
       var listHtml = '';
       chapters = options.selectby == "data-name" ? selectionArray(viewport, "section[data-name]") : selectionArray(viewport, "section[name]");
       chapters.forEach(function (chapter) {
-        var name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
+        if (chapter.dataset.visibility != "hidden") {
+          var name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
+          var intlString = chapter.getAttribute(langattribute) ? " ".concat(langattribute, "=\"").concat(chapter.getAttribute(langattribute), "\"") : '';
 
-        if (name) {
-          var href = name.toLowerCase().replace(/\W/g, '');
-          chapter.id = href;
-          listHtml += "<li><a href=\"#/".concat(href, "\">").concat(name, "</a></li>");
+          if (name) {
+            var href = name.toLowerCase().replace(/\W/g, '');
+            chapter.id = href;
+            listHtml += "<li><a href=\"#/".concat(href, "\"").concat(intlString, ">").concat(name, "</a></li>");
+          }
         }
       });
 
@@ -80,6 +84,14 @@ var Plugin = function Plugin() {
         var linkhref = listItem.href || listItem.querySelector('a').href;
         var linkID = linkhref.substr(linkhref.lastIndexOf('/') + 1);
         var attributeContent = options.selectby == 'name' || options.selectby == 'data-name' ? textContent : linkID;
+
+        if (langattribute) {
+          if (listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute)) {
+            attributeContent = listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute);
+            console.log(attributeContent);
+          }
+        }
+
         var target = selectionArray(viewport, "[".concat(options.selectby, "=\"").concat(attributeContent, "\"], [data-name=\"").concat(attributeContent, "\"]"))[0];
         var targetIndices = deck.getIndices(target);
         e.preventDefault();

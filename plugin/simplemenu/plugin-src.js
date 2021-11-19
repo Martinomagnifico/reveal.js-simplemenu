@@ -12,7 +12,7 @@ const Plugin = () => {
 		let menus = selectionArray(viewport, `.${options.menuclass}`);
 		let menubars = selectionArray(viewport, `.${options.menubarclass}`);
 		let slides = deck.getSlidesElement();
-
+		let langattribute = deck.getConfig().internation.langattribute;
 
 
 		function isBefore( a, b ) {
@@ -49,12 +49,16 @@ const Plugin = () => {
 			chapters = options.selectby == "data-name" ? selectionArray(viewport, `section[data-name]`) : selectionArray(viewport, `section[name]`);
 
 			chapters.forEach(chapter => {
-				let name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
 
-				if (name) {
-					let href = name.toLowerCase().replace(/\W/g, '');
-					chapter.id = href;
-					listHtml += `<li><a href="#/${href}">${name}</a></li>`;
+				if ( chapter.dataset.visibility != "hidden" ) {
+					let name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
+					let intlString = chapter.getAttribute(langattribute) ? ` ${langattribute}="${chapter.getAttribute(langattribute)}"` : '';
+
+					if (name) {
+						let href = name.toLowerCase().replace(/\W/g, '');
+						chapter.id = href;
+						listHtml += `<li><a href="#/${href}"${intlString}>${name}</a></li>`;
+					}
 				}
 			});
 			if (listHtml.length < 1) {
@@ -74,10 +78,17 @@ const Plugin = () => {
 				let textContent = listItem.textContent || (listItem.querySelector('a').textContent);
 				let linkhref = listItem.href || (listItem.querySelector('a')).href;
 				let linkID = linkhref.substr(linkhref.lastIndexOf('/') + 1);
+
 				let attributeContent = (options.selectby == 'name' || options.selectby == 'data-name' ) ? textContent : linkID;
 
-				let target = selectionArray(viewport, `[${options.selectby}="${attributeContent}"], [data-name="${attributeContent}"]`)[0];
+				if (langattribute) {
+					if (listItem.getAttribute(langattribute) || (listItem.querySelector('a')).getAttribute(langattribute)) {
+						attributeContent = listItem.getAttribute(langattribute) || (listItem.querySelector('a')).getAttribute(langattribute);
+						console.log(attributeContent)
+					}
+				}
 
+				let target = selectionArray(viewport, `[${options.selectby}="${attributeContent}"], [data-name="${attributeContent}"]`)[0];
 				let targetIndices = deck.getIndices(target);
 
 				e.preventDefault();

@@ -170,6 +170,9 @@ Optionally, you can use `data-name` attributes instead of names, in that case yo
     </section>
 </div>
 ```
+Simplemenu will also detect if you use the Internation plugin, and correctly link the menu-links to the sections, even if the text in the links is translated.
+
+
 
 
 ## Configuration
