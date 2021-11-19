@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.0.6
+ * Version 1.0.7
  * 
  * @license 
  * MIT licensed
@@ -26,7 +26,7 @@ var Plugin = function Plugin() {
     var menus = selectionArray(viewport, ".".concat(options.menuclass));
     var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
     var slides = deck.getSlidesElement();
-    var langattribute = deck.getConfig().internation.langattribute;
+    var langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute : false;
 
     function isBefore(a, b) {
       var all = document.getElementsByTagName('*');

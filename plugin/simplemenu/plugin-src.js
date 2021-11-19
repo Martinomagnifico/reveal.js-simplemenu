@@ -12,8 +12,7 @@ const Plugin = () => {
 		let menus = selectionArray(viewport, `.${options.menuclass}`);
 		let menubars = selectionArray(viewport, `.${options.menubarclass}`);
 		let slides = deck.getSlidesElement();
-		let langattribute = deck.getConfig().internation.langattribute;
-
+		let langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute : false;
 
 		function isBefore( a, b ) {
 			var all = document.getElementsByTagName('*');
