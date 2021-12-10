@@ -8,10 +8,10 @@
     <meta name="author" content="Martinomagnifico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reset.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
 </head>
@@ -70,7 +70,7 @@
                 <section>
                     <h4>HTML Markup</h4>
                     <p class="small">Make anchors in your links to the ID's of your sections. Use the <code>#/anchor</code> notation that Reveal uses.</p>
-                    <pre><code>&lt;div class="menubar"&gt;
+                    <pre><code class="hljs html" data-line-numbers>&lt;div class="menubar"&gt;
     &lt;ul class="menu"&gt;
         &lt;li&gt;
             &lt;a href="#/firstmenuitem"&gt;First menu item&lt;/a&gt;
@@ -177,15 +177,16 @@
                     <h4>Option demos</h4>
                     <ul>
                         <li>Menu with no options set: this demo</li>
-                        <li><a href="demo-bottom.html">Menu at bottom with no options set</a></li>
-                        <li><a href="demo-name.html">Option selectby: 'name'</a></li>
-                        <li><a href="demo-auto.html">Option auto: true</a></li>
+                        <li><a href="https://martinomagnifico.github.io/reveal.js-simplemenu/demo-bottom.html">Menu at bottom with no options set</a></li>
+                        <li><a href="https://martinomagnifico.github.io/reveal.js-simplemenu/demo-name.html">Option selectby: 'name'</a></li>
+                        <li><a href="https://martinomagnifico.github.io/reveal.js-simplemenu/demo-dataname.html">Option selectby: 'data-name'</a></li>
+                        <li><a href="https://martinomagnifico.github.io/reveal.js-simplemenu/demo-auto.html">Option auto: true</a></li>
                     </ul>
                 </section>
             </section>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="../dist/reveal.js"></script>
     <script src="plugin/simplemenu/simplemenu.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
     <script>

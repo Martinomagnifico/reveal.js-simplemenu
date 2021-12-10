@@ -134,7 +134,7 @@ The top-level sections (that should be in the menu) need to have an ID:
 
 #### The auto way
 
-When using the `auto` option (see Configuration), you only need to add an empty menu, and give names to your sections.
+When using the `auto` option (see Configuration), you only need to add an empty menu, and give names to your sections. An ID is then not needed.
 
 ```html
 <div class="menubar">
