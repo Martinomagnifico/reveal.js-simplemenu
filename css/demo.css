@@ -10,23 +10,11 @@
 .reveal.ready .slides {
   opacity: 1; }
 
-.menubar {
-  top: 0;
-  margin-top: -1px; }
-
-.slides ~ .menubar {
-  bottom: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  border-bottom: none; }
-
-.slides ~ .menubar.bottom ~ .controls {
-  margin-bottom: 6vmin; }
-
 .small {
-  font-size: .7em; }
+  font-size: .6em; }
 
 .smallitalic {
-  font-size: .7em;
+  font-size: .6em;
   font-style: italic; }
 
 .reveal pre {
@@ -34,7 +22,11 @@
   margin: 0 auto;
   -webkit-box-shadow: none;
           box-shadow: none;
-  background: rgba(180, 180, 180, 0.5); }
+  background: rgba(180, 180, 180, 0.5);
+  background: #272822;
+  color: #ddd;
+  font-size: 0.5em;
+  border-radius: 6px; }
 
 p code, p kbd, ul code {
   background: rgba(180, 180, 180, 0.2);

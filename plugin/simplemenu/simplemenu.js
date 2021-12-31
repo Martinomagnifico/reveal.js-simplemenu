@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.0.7
+ * Version 1.0.8
  * 
  * @license 
  * MIT licensed
@@ -15,218 +15,275 @@
 
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.Simplemenu = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.Simplemenu = factory());
 }(this, (function () { 'use strict';
 
-	var Plugin = function Plugin() {
-	  var selectionArray = function selectionArray(container, selectors) {
-	    var selections = container.querySelectorAll(selectors);
-	    var selectionarray = Array.prototype.slice.call(selections);
-	    return selectionarray;
-	  };
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  }
 
-	  var simpleMenu = function simpleMenu(deck, options) {
-	    var viewport = deck.getRevealElement().tagName == "BODY" ? document : deck.getRevealElement();
-	    var menus = selectionArray(viewport, ".".concat(options.menuclass));
-	    var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
-	    var slides = deck.getSlidesElement();
-	    var langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute : false;
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+  }
 
-	    function isBefore(a, b) {
-	      var all = document.getElementsByTagName('*');
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
 
-	      for (var i = 0; i < all.length; ++i) {
-	        if (all[i] === a) return true;else if (all[i] === b) return false;
-	      }
-	    }
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
 
-	    if (menubars) {
-	      menubars.forEach(function (menubar) {
-	        if (isBefore(menubar, slides)) {
-	          menubar.classList.add("top");
-	        } else {
-	          menubar.classList.add("bottom");
-	        }
-	      });
-	    }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
 
-	    var chapters = selectionArray(viewport, "section[".concat(options.selectby, "]"));
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 
-	    if (options.auto == true) {
-	      if (options.selectby != 'data-name') {
-	        options.selectby = 'name';
-	      }
+    return arr2;
+  }
 
-	      var listHtml = '';
-	      chapters = options.selectby == "data-name" ? selectionArray(viewport, "section[data-name]") : selectionArray(viewport, "section[name]");
-	      chapters.forEach(function (chapter) {
-	        if (chapter.dataset.visibility != "hidden") {
-	          var name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
-	          var intlString = chapter.getAttribute(langattribute) ? " ".concat(langattribute, "=\"").concat(chapter.getAttribute(langattribute), "\"") : '';
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
 
-	          if (name) {
-	            var href = name.toLowerCase().replace(/\W/g, '');
-	            chapter.id = href;
-	            listHtml += "<li><a href=\"#/".concat(href, "\"").concat(intlString, ">").concat(name, "</a></li>");
-	          }
-	        }
-	      });
+  var Plugin = function Plugin() {
+    var simpleMenu = function simpleMenu(deck, options) {
+      var selectionArray = function selectionArray(container, selectors) {
+        var selections = container.querySelectorAll(selectors);
+        var selectionarray = Array.prototype.slice.call(selections);
+        return selectionarray;
+      };
 
-	      if (listHtml.length < 1) {
-	        console.log("There are no named top-level sections");
-	      } else {
-	        menus.forEach(function (menu) {
-	          menu.innerHTML = listHtml;
-	        });
-	      }
-	    }
+      var isStack = function isStack(section) {
+        var isStack = false;
 
-	    var listItems = selectionArray(viewport, ".".concat(options.menuclass, " ").concat(options.activeelement));
-	    listItems.forEach(function (listItem) {
-	      listItem.onclick = function (e) {
-	        var textContent = listItem.textContent || listItem.querySelector('a').textContent;
-	        var linkhref = listItem.href || listItem.querySelector('a').href;
-	        var linkID = linkhref.substr(linkhref.lastIndexOf('/') + 1);
-	        var attributeContent = options.selectby == 'name' || options.selectby == 'data-name' ? textContent : linkID;
+        for (var i = 0; i < section.childNodes.length; i++) {
+          if (section.childNodes[i].tagName == "SECTION") {
+            isStack = true;
+            break;
+          }
+        }
 
-	        if (langattribute) {
-	          if (listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute)) {
-	            attributeContent = listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute);
-	            console.log(attributeContent);
-	          }
-	        }
+        return isStack;
+      };
 
-	        var target = selectionArray(viewport, "[".concat(options.selectby, "=\"").concat(attributeContent, "\"], [data-name=\"").concat(attributeContent, "\"]"))[0];
-	        var targetIndices = deck.getIndices(target);
-	        e.preventDefault();
-	        deck.slide(targetIndices.h, 0, 0);
-	      };
-	    });
+      var viewport = deck.getRevealElement().tagName == "BODY" ? document : deck.getRevealElement();
+      var menus = selectionArray(viewport, ".".concat(options.menuclass));
+      var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
+      var slides = deck.getSlidesElement();
+      var sections = slides.querySelectorAll("section");
+      var langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute : false;
+      sections.forEach(function (section) {
+        if (!isStack(section) && section.parentNode.tagName == "SECTION") {
+          var parentAttributes = _toConsumableArray(section.parentNode.attributes);
 
-	    var checkChapter = function checkChapter(event) {
-	      var compare = function compare(eventSelector, element) {
-	        var compareThis = '';
+          parentAttributes.reduce(function (attrs, attribute) {
+            if (attribute.name == "data-name") {
+              section.setAttribute("data-simplemenuname", attribute.value);
+            } else if (attribute.name == "name" || attribute.name == "name") {
+              section.setAttribute("data-simplemenu".concat(attribute.name), attribute.value);
+            }
+          }, {});
+        }
+      });
 
-	        if (options.selectby == 'name') {
-	          compareThis = element.textContent || element.querySelector('a').textContent;
-	        } else if (options.selectby == 'data-name') {
-	          compareThis = element.textContent || element.querySelector('a').textContent;
-	        } else if (options.selectby == 'id') {
-	          var linkhref = element.href || element.querySelector('a').href;
-	          compareThis = linkhref.substr(linkhref.lastIndexOf('/') + 1);
-	        } else {
-	          console.log("Simplemenu can only use ID or name.");
-	        }
+      var isBefore = function isBefore(a, b) {
+        var all = document.getElementsByTagName('*');
 
-	        if (compareThis === eventSelector) {
-	          element.classList.add(options.activeclass);
-	        } else {
-	          element.classList.remove(options.activeclass);
-	        }
-	      };
+        for (var i = 0; i < all.length; ++i) {
+          if (all[i] === a) return true;else if (all[i] === b) return false;
+        }
+      };
 
-	      if (event && (event.type == "ready" || event.type == "slidechanged")) {
-	        var eventChapter = event.currentSlide.offsetParent.tagName == "SECTION" ? event.currentSlide.offsetParent : event.currentSlide;
-	        var eventSelector = eventChapter.getAttribute(options.selectby);
+      var compare = function compare(eventSelector, element) {
+        var compareThis = '';
 
-	        if (options.auto == true) {
-	          eventSelector = eventChapter.dataset.name ? eventChapter.dataset.name : eventChapter.getAttribute('name');
-	        }
+        if (options.selectby == 'name' || options.selectby == 'data-name') {
+          compareThis = element.textContent || element.querySelector('a').textContent;
 
-	        var arr = Array.prototype.slice.call(listItems);
-	        arr.filter(function (element) {
-	          compare(eventSelector, element);
-	        });
-	      } else {
-	        var printlistItems = selectionArray(viewport, ".".concat(options.menuclass, " li"));
+          if (deck.hasPlugin('internation') && element.hasAttribute(langattribute)) {
+            compareThis = element.getAttribute(langattribute);
+          }
+        } else if (options.selectby == 'id') {
+          var linkhref = element.href || element.querySelector('a').href;
+          compareThis = linkhref.substr(linkhref.lastIndexOf('/') + 1);
+        } else {
+          console.log("Simplemenu can only use ID, data-name or name.");
+        }
 
-	        if (printlistItems) {
-	          printlistItems.forEach(function (printlistItem) {
-	            return printlistItem.classList.remove(options.activeclass);
-	          });
-	        }
+        if (compareThis === eventSelector) {
+          element.classList.add(options.activeclass);
+        } else {
+          element.classList.remove(options.activeclass);
+        }
+      };
 
-	        var pdfPages = selectionArray(viewport, '.slides .pdf-page');
-	        pdfPages.forEach(function (pdfPage) {
-	          var section = pdfPage.closest('section') || pdfPage.querySelectorAll('section')[0];
-	          var eventSelector = section.getAttribute(options.selectby);
+      if (menubars) {
+        menubars.forEach(function (menubar) {
+          if (isBefore(menubar, slides)) {
+            menubar.classList.add("top");
+          } else {
+            menubar.classList.add("bottom");
+          }
+        });
+      }
 
-	          if (options.auto == true) {
-	            eventSelector = section.dataset.name ? section.dataset.name : section.getAttribute('name');
-	          }
+      var chapters = selectionArray(viewport, "section[".concat(options.selectby, "]"));
 
-	          if (eventSelector) {
-	            var _arr = Array.prototype.slice.call(listItems);
+      if (options.auto == true) {
+        if (options.selectby != 'name') {
+          options.selectby = 'data-name';
+        }
 
-	            _arr.filter(function (element) {
-	              compare(eventSelector, element);
-	            });
-	          }
+        var listHtml = '';
+        chapters = options.selectby == "name" ? selectionArray(viewport, "section[name]") : selectionArray(viewport, "section[data-name]");
+        chapters.forEach(function (chapter) {
+          if (chapter.dataset.visibility != "hidden") {
+            var name = options.selectby == "name" ? chapter.getAttribute('name') : chapter.dataset.name;
+            var intlString = chapter.getAttribute(langattribute) ? " ".concat(langattribute, "=\"").concat(chapter.getAttribute(langattribute), "\"") : '';
 
-	          if (menubars) {
-	            menubars.forEach(function (menubar) {
-	              var bar = menubar.cloneNode(true);
-	              pdfPage.appendChild(bar);
-	            });
-	          }
-	        });
+            if (name) {
+              var href = name.toLowerCase().replace(/\W/g, '');
+              chapter.id = href;
+              listHtml += "<li><a href=\"#/".concat(href, "\"").concat(intlString, ">").concat(name, "</a></li>");
+            }
+          }
+        });
 
-	        if (menubars) {
-	          menubars.forEach(function (menubar) {
-	            menubar.parentNode.removeChild(menubar);
-	          });
-	        }
-	      }
-	    };
+        if (listHtml.length < 1) {
+          console.log("There are no named top-level sections");
+        } else {
+          menus.forEach(function (menu) {
+            menu.innerHTML = listHtml;
+          });
+        }
+      }
 
-	    if (listItems) {
-	      deck.configure({
-	        hash: true
-	      });
+      var listItems = selectionArray(viewport, ".".concat(options.menuclass, " ").concat(options.activeelement));
+      listItems.forEach(function (listItem) {
+        listItem.onclick = function (e) {
+          var textContent = listItem.textContent || listItem.querySelector('a').textContent;
+          var linkhref = listItem.href || listItem.querySelector('a').href;
+          var linkID = linkhref.substr(linkhref.lastIndexOf('/') + 1);
+          var attributeContent = options.selectby == 'name' || options.selectby == 'data-name' ? textContent : linkID;
 
-	      if (deck.getConfig().embedded) {
-	        deck.configure({
-	          hash: false
-	        });
-	      }
+          if (langattribute) {
+            if (listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute)) {
+              attributeContent = listItem.getAttribute(langattribute) || listItem.querySelector('a').getAttribute(langattribute);
+            }
+          }
 
-	      deck.addEventListener('ready', checkChapter, false);
-	      deck.addEventListener('slidechanged', checkChapter, false);
-	      deck.addEventListener('pdf-ready', checkChapter, false);
-	    }
-	  };
+          var target = selectionArray(viewport, "[".concat(options.selectby, "=\"").concat(attributeContent, "\"], [data-name=\"").concat(attributeContent, "\"]"))[0];
+          var targetIndices = deck.getIndices(target);
+          e.preventDefault();
+          deck.slide(targetIndices.h, 0, 0);
+        };
+      });
 
-	  var init = function init(deck) {
-	    var defaultOptions = {
-	      menubarclass: 'menubar',
-	      menuclass: 'menu',
-	      activeclass: 'active',
-	      activeelement: 'li',
-	      selectby: 'id',
-	      auto: false
-	    };
+      var checkChapter = function checkChapter(event) {
+        if (event && (event.type == "ready" || event.type == "slidechanged")) {
+          var eventChapter = event.currentSlide.offsetParent.tagName == "SECTION" ? event.currentSlide.offsetParent : event.currentSlide;
+          var eventSelector = eventChapter.getAttribute(options.selectby);
 
-	    var defaults = function defaults(options, defaultOptions) {
-	      for (var i in defaultOptions) {
-	        if (!options.hasOwnProperty(i)) {
-	          options[i] = defaultOptions[i];
-	        }
-	      }
-	    };
+          if (options.auto == true) {
+            eventSelector = eventChapter.dataset.name ? eventChapter.dataset.name : eventChapter.getAttribute('name');
+          }
 
-	    var options = deck.getConfig().simplemenu || {};
-	    defaults(options, defaultOptions);
-	    simpleMenu(deck, options);
-	  };
+          var arr = Array.prototype.slice.call(listItems);
+          arr.filter(function (element) {
+            compare(eventSelector, element);
+          });
+        } else {
+          var pdfPages = selectionArray(viewport, '.slides .pdf-page');
+          pdfPages.forEach(function (pdfPage) {
+            if (options.selectby == "data-name") {
+              options.selectby = "name";
+            }
 
-	  return {
-	    id: 'simplemenu',
-	    init: init
-	  };
-	};
+            var theSection = pdfPage.getElementsByTagName('section')[0];
+            var eventSelector = theSection.getAttribute("data-simplemenu".concat(options.selectby)) ? theSection.getAttribute("data-simplemenu".concat(options.selectby)) : theSection.getAttribute("id");
 
-	return Plugin;
+            if (options.auto == true) {
+              eventSelector = theSection.getAttribute("data-simplemenuname") ? theSection.getAttribute("data-simplemenuname") : theSection.dataset.name ? theSection.dataset.name : theSection.getAttribute('name');
+            }
+
+            if (eventSelector) {
+              var _arr = Array.prototype.slice.call(listItems);
+
+              _arr.filter(function (element) {
+                compare(eventSelector, element);
+              });
+            }
+
+            if (menubars) {
+              menubars.forEach(function (menubar) {
+                var bar = menubar.cloneNode(true);
+                pdfPage.appendChild(bar);
+              });
+            }
+          });
+
+          if (menubars) {
+            menubars.forEach(function (menubar) {
+              menubar.parentNode.removeChild(menubar);
+            });
+          }
+        }
+      };
+
+      if (listItems) {
+        deck.configure({
+          hash: true
+        });
+
+        if (deck.getConfig().embedded) {
+          deck.configure({
+            hash: false
+          });
+        }
+
+        deck.addEventListener('ready', checkChapter, false);
+        deck.addEventListener('slidechanged', checkChapter, false);
+        deck.addEventListener('pdf-ready', checkChapter, false);
+      }
+    };
+
+    var init = function init(deck) {
+      var defaultOptions = {
+        menubarclass: 'menubar',
+        menuclass: 'menu',
+        activeclass: 'active',
+        activeelement: 'li',
+        selectby: 'id',
+        auto: false
+      };
+
+      var defaults = function defaults(options, defaultOptions) {
+        for (var i in defaultOptions) {
+          if (!options.hasOwnProperty(i)) {
+            options[i] = defaultOptions[i];
+          }
+        }
+      };
+
+      var options = deck.getConfig().simplemenu || {};
+      defaults(options, defaultOptions);
+      simpleMenu(deck, options);
+    };
+
+    return {
+      id: 'simplemenu',
+      init: init
+    };
+  };
+
+  return Plugin;
 
 })));

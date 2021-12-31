@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../dist/reset.css">
     <link rel="stylesheet" href="../dist/reveal.css">
     <link rel="stylesheet" href="../dist/theme/black.css">
-    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
 </head>
@@ -25,6 +25,7 @@
             <ul class="menu">
                 <li><a href="#/firstmenuitem">What it does</a></li>
                 <li><a href="#/secondmenuitem">Set it up</a></li>
+                <li><a href="#/inbetweenmenuitem">In between</a></li>
                 <li><a href="#/thirdmenuitem">Options</a></li>
             </ul>
         </div>
@@ -53,8 +54,8 @@
                     <p>It's easy to set up, but expects a few things:</p>
                     <ul class="small">
                         <li>Menu items can only be top-level sections: regular horizontal slides or vertical stacks.</li>
-                        <li>There has to be an element that will hold the links. By default this selector is the class `menu`. The selector can be changed in the Simplemenu options.</li>
-                        <li>Inside this main menu, there have to be anchors with an href. These need to point to an ID of a top-level section. Reveal uses links with hashes to navigate, so the link has to be written like that: <code>href="#/firstchapter"</code>.</li>
+                        <li>There has to be an element that will hold the links. By default this selector is the class <code>menu</code>. The selector can be changed in the Simplemenu options.</li>
+                        <li>When not using the <code>auto</code> option, you need to do some more work: Inside this main menu, there have to be anchors with an href. These need to point to an ID of a top-level section. Reveal uses links with hashes to navigate, so the link has to be written like that: <code>href="#/firstchapter"</code>.</li>
                     </ul>
                 </section>
                 <section>

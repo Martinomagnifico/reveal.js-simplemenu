@@ -4,9 +4,10 @@
   -o-transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985), -webkit-transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -webkit-transform: translateY(-101%);
-      -ms-transform: translateY(-101%);
-          transform: translateY(-101%);
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+  margin-top: -1px;
   z-index: 2;
   padding: .3em;
   position: absolute;
@@ -23,9 +24,9 @@
   line-height: 1;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
   .menubar.bottom {
-    -webkit-transform: translateY(101%);
-        -ms-transform: translateY(101%);
-            transform: translateY(101%); }
+    -webkit-transform: translateY(100%);
+        -ms-transform: translateY(100%);
+            transform: translateY(100%); }
   body:not(.hide-menubar) .reveal.ready:not(.hide-menubar) .menubar {
     -webkit-transform: translateY(0);
         -ms-transform: translateY(0);
@@ -35,13 +36,13 @@
         -ms-transform: translateY(0);
             transform: translateY(0); }
   [data-state="hide-menubar"] + .menubar {
-    -webkit-transform: translateY(-101%);
-        -ms-transform: translateY(-101%);
-            transform: translateY(-101%); }
+    -webkit-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+            transform: translateY(-100%); }
     [data-state="hide-menubar"] + .menubar.bottom {
-      -webkit-transform: translateY(101%);
-          -ms-transform: translateY(101%);
-              transform: translateY(101%); }
+      -webkit-transform: translateY(100%);
+          -ms-transform: translateY(100%);
+              transform: translateY(100%); }
   .menubar > * {
     padding: .4em .6em; }
     .menubar > *:first-child, .menubar > *:last-child {
@@ -94,11 +95,13 @@
       -webkit-font-smoothing: subpixel-antialiased;
       -moz-osx-font-smoothing: grayscale; }
 
-.slides + .menubar, .menubar.bottom {
+.slides ~ .menubar, .menubar.bottom {
   top: auto;
   bottom: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
-  border-bottom: none; }
+  border-bottom: none;
+  margin-top: 0;
+  margin-bottom: -1px; }
 
-.slides + .menubar ~ .controls {
+.slides ~ .menubar ~ .controls {
   margin-bottom: 6vmin; }

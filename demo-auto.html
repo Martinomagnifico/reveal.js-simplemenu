@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../dist/reset.css">
     <link rel="stylesheet" href="../dist/reveal.css">
     <link rel="stylesheet" href="../dist/theme/black.css">
-    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
 </head>
@@ -25,58 +25,43 @@
             <ul class="menu"></ul>
         </div>
         <div class="slides">
-            <section class="center" data-transition="fade" name="Start">
+            <section class="center" data-transition="fade" data-name="Start">
                 <h1>Simplemenu</h1>
                 <h3>for Reveal.js</h3>
                 <p class="smaller">Option <code>auto: true</code></p>
             </section>
-            <section name="What it does">
+            <section data-name="What it does">
                 <section class="center">
                     <h2>What it does</h2>
                 </section>
                 <section class="center">
-                    <p>Simplemenu can simplify HTML editing by letting authors just set a name to the sections, and autogenerate a menu from that.</p>
+                    <p>Simplemenu can simplify HTML editing by letting authors just set a (data-)name to the sections, and autogenerate a menu from that.</p>
                 </section>
             </section>
-            <section name="Set it up">
+            <section data-name="Set it up">
                 <section>
                     <h4>JavaScript</h4>
-                    <p>Set the auto-option to true.</p>
+                    <p class="small">Set the auto-option to true. This will assume that the sections have <code>data-name</code>s.</p>
                     <pre><code class="hljs javascript" data-line-numbers>&hellip;
 Reveal.initialize({
 	simplemenu: {
 		auto: true
 	},
 	plugins: [ Simplemenu ]</code></pre>
-                    <p class="small">Optionally, choose <code>data-name</code> instead of <code>name</code>.</p>
+                </section>
+                <section>
+                    <p class="small">Optionally, choose <code>name</code> instead of <code>data-name</code>.</p>
                     <pre><code class="hljs javascript" data-line-numbers>&hellip;
 Reveal.initialize({
 	simplemenu: {
 		auto: true,
-		selectby: 'data-name'
+		selectby: 'name'
 	},
 	plugins: [ Simplemenu ]</code></pre>
                 </section>
                 <section>
                     <h4>HTML Markup</h4>
-                    <p>Give your sections a <code>name</code>, and add an empty menu.</p>
-                    <pre><code>&lt;div class="menubar"&gt;
-    &lt;ul class="menu"&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="slides"&gt;
-    &lt;section name="Start"&gt;
-        //...
-    &lt;/section&gt;
-    &lt;section name="What it does"&gt;
-        //...
-    &lt;/section&gt;
-    &lt;section name="Setup"&gt;
-        //...
-    &lt;/section&gt;
-&lt;/div&gt;</code></pre>
-                </section>
-                <section>
-                    <p>When having set the 'select-by' option to <code>data-name</code>, you should also use that in the markup. </p>
+                    <p class="small">Give your sections a <code>data-name</code>, and add an empty menu.</p>
                     <pre><code>&lt;div class="menubar"&gt;
     &lt;ul class="menu"&gt;&lt;/ul&gt;
 &lt;/div&gt;
@@ -88,6 +73,23 @@ Reveal.initialize({
         //...
     &lt;/section&gt;
     &lt;section data-name="Setup"&gt;
+        //...
+    &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+                </section>
+                <section>
+                    <p class="small">When having set the 'select-by' option to <code>name</code> instead of <code>data-name</code>, you should also use that in the markup. </p>
+                    <pre><code>&lt;div class="menubar"&gt;
+    &lt;ul class="menu"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="slides"&gt;
+    &lt;section name="Start"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section name="What it does"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section name="Setup"&gt;
         //...
     &lt;/section&gt;
 &lt;/div&gt;</code></pre>

@@ -1,20 +1,45 @@
 const Plugin = () => {
 
-	const selectionArray = function (container, selectors) {
-		let selections = container.querySelectorAll(selectors);
-		let selectionarray = Array.prototype.slice.call(selections);
-		return selectionarray
-	};
-
 	const simpleMenu = function (deck, options) {
+
+		const selectionArray = function (container, selectors) {
+			let selections = container.querySelectorAll(selectors);
+			let selectionarray = Array.prototype.slice.call(selections);
+			return selectionarray
+		};
+
+		const isStack = function (section) {
+			let isStack = false;
+			for (let i = 0; i < section.childNodes.length; i++) {
+				if (section.childNodes[i].tagName == "SECTION") {
+					isStack = true
+					break;
+				}
+			}
+			return isStack;
+		};
 
 		let viewport = (deck.getRevealElement()).tagName == "BODY" ? document : deck.getRevealElement();
 		let menus = selectionArray(viewport, `.${options.menuclass}`);
 		let menubars = selectionArray(viewport, `.${options.menubarclass}`);
 		let slides = deck.getSlidesElement();
+		let sections = slides.querySelectorAll("section");
 		let langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute : false;
 
-		function isBefore( a, b ) {
+		sections.forEach(section => {
+			if (!isStack(section) && section.parentNode.tagName == "SECTION") {
+				const parentAttributes = [...section.parentNode.attributes];
+				parentAttributes.reduce((attrs, attribute) => {
+					if (attribute.name == "data-name" ) {
+						section.setAttribute(`data-simplemenuname`, attribute.value)
+					} else if (attribute.name == "name" || attribute.name == "name"  ) {
+						section.setAttribute(`data-simplemenu${attribute.name}`, attribute.value)
+					}
+				  }, {});
+			}
+		})
+		
+		const isBefore = function( a, b ) {
 			var all = document.getElementsByTagName('*');
 		
 			for( var i = 0; i < all.length; ++i ) {
@@ -22,6 +47,30 @@ const Plugin = () => {
 					return true;  
 				else if( all[i] === b )
 					return false;
+			}
+		}
+
+		const compare = function (eventSelector, element) {
+			let compareThis = '';
+
+			if (options.selectby == 'name' || options.selectby == 'data-name') {
+				compareThis = element.textContent || (element.querySelector('a').textContent);
+
+				if (deck.hasPlugin( 'internation' ) && element.hasAttribute(langattribute)) {
+					compareThis = element.getAttribute(langattribute);
+				}
+			}
+			else if (options.selectby == 'id') {
+				let linkhref = element.href || (element.querySelector('a')).href;
+				compareThis = linkhref.substr(linkhref.lastIndexOf('/') + 1);
+			} else {
+				console.log("Simplemenu can only use ID, data-name or name.")
+			}
+			
+			if (compareThis === eventSelector) {
+				element.classList.add(options.activeclass);
+			} else {
+				element.classList.remove(options.activeclass);
 			}
 		}
 
@@ -39,18 +88,19 @@ const Plugin = () => {
 
 		if (options.auto == true) {
 
-			if (options.selectby != 'data-name') {
-				options.selectby = 'name'
+			if (options.selectby != 'name') {
+				options.selectby = 'data-name'
 			}
 
 			let listHtml = '';
 
-			chapters = options.selectby == "data-name" ? selectionArray(viewport, `section[data-name]`) : selectionArray(viewport, `section[name]`);
+			chapters = options.selectby == "name" ?selectionArray(viewport, `section[name]`) :  selectionArray(viewport, `section[data-name]`);
 
 			chapters.forEach(chapter => {
 
 				if ( chapter.dataset.visibility != "hidden" ) {
-					let name = options.selectby == "data-name" ? chapter.dataset.name : chapter.getAttribute('name');
+					let name = options.selectby == "name" ? chapter.getAttribute('name') : chapter.dataset.name;
+
 					let intlString = chapter.getAttribute(langattribute) ? ` ${langattribute}="${chapter.getAttribute(langattribute)}"` : '';
 
 					if (name) {
@@ -83,7 +133,6 @@ const Plugin = () => {
 				if (langattribute) {
 					if (listItem.getAttribute(langattribute) || (listItem.querySelector('a')).getAttribute(langattribute)) {
 						attributeContent = listItem.getAttribute(langattribute) || (listItem.querySelector('a')).getAttribute(langattribute);
-						console.log(attributeContent)
 					}
 				}
 
@@ -97,30 +146,6 @@ const Plugin = () => {
 
 
 		const checkChapter = function (event) {
-
-			const compare = function (eventSelector, element) {
-				let compareThis = '';
-
-				if (options.selectby == 'name') {
-					compareThis = element.textContent || (element.querySelector('a').textContent);
-				}
-				else if (options.selectby == 'data-name') {
-					compareThis = element.textContent || (element.querySelector('a').textContent);
-				}
-				else if (options.selectby == 'id') {
-					let linkhref = element.href || (element.querySelector('a')).href;
-					compareThis = linkhref.substr(linkhref.lastIndexOf('/') + 1);
-				} else {
-					console.log("Simplemenu can only use ID or name.")
-				}
-				
-				if (compareThis === eventSelector) {
-					element.classList.add(options.activeclass);
-				} else {
-					element.classList.remove(options.activeclass);
-				}
-			}
-
 
 			if ( event && (event.type == "ready" || event.type == "slidechanged")) {
 
@@ -140,21 +165,21 @@ const Plugin = () => {
 
 			} else {
 
-				let printlistItems = selectionArray(viewport, `.${options.menuclass} li`);
-
-				if (printlistItems) {
-					printlistItems.forEach( printlistItem => printlistItem.classList.remove(options.activeclass));
-				}
 
 				let pdfPages = selectionArray(viewport, '.slides .pdf-page');
 
 				pdfPages.forEach( pdfPage => {
 
-					let section = pdfPage.closest('section') || pdfPage.querySelectorAll('section')[0];
-					let eventSelector = section.getAttribute(options.selectby);
+					if (options.selectby == "data-name") {
+						options.selectby = "name"
+					}
+
+					let theSection = pdfPage.getElementsByTagName('section')[0]
+
+					let eventSelector = theSection.getAttribute(`data-simplemenu${options.selectby}`) ? theSection.getAttribute(`data-simplemenu${options.selectby}`) : theSection.getAttribute(`id`);
 
 					if (options.auto == true ) {
-						eventSelector = section.dataset.name ? section.dataset.name : section.getAttribute('name');
+						eventSelector = theSection.getAttribute(`data-simplemenuname`) ? theSection.getAttribute(`data-simplemenuname`) : theSection.dataset.name ? theSection.dataset.name : theSection.getAttribute('name');
 					}
 
 					if (eventSelector) {
