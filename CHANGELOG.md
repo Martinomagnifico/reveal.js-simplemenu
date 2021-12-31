@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.9] - 2021-12-23
+### Changed
+- Fixed omission of ID's for print-pdf
+
 
 
 ## [1.0.8] - 2021-12-23
