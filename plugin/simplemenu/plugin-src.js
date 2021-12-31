@@ -32,10 +32,10 @@ const Plugin = () => {
 				parentAttributes.reduce((attrs, attribute) => {
 					if (attribute.name == "data-name" ) {
 						section.setAttribute(`data-simplemenuname`, attribute.value)
-					} else if (attribute.name == "name" || attribute.name == "name"  ) {
+					} else if (attribute.name == "id" || attribute.name == "name" || attribute.name == "name"  ) {
 						section.setAttribute(`data-simplemenu${attribute.name}`, attribute.value)
 					}
-				  }, {});
+				}, {});
 			}
 		})
 		

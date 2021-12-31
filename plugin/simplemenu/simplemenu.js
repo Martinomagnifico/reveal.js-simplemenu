@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.0.8
+ * Version 1.0.9
  * 
  * @license 
  * MIT licensed
@@ -87,7 +87,7 @@
           parentAttributes.reduce(function (attrs, attribute) {
             if (attribute.name == "data-name") {
               section.setAttribute("data-simplemenuname", attribute.value);
-            } else if (attribute.name == "name" || attribute.name == "name") {
+            } else if (attribute.name == "id" || attribute.name == "name" || attribute.name == "name") {
               section.setAttribute("data-simplemenu".concat(attribute.name), attribute.value);
             }
           }, {});
