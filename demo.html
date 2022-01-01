@@ -44,7 +44,7 @@
                         <li>Make menu items of your vertical stacks (top-level sections).</li>
                         <li>Moving to another vertical stack (by whatever navigation) will automatically update the current menu item.</li>
                         <li>Clicking an item in the menu will open the first section in the corresponding vertical stack.</li>
-                        <li>Simplemenu can auto-generate the menu, using section names. See the option 'auto' in <a href="#/thirdmenuitem">options</a></li>
+                        <li>Simplemenu can auto-generate the menu, using section <code>data-name</code>s. See the option 'auto' in <a href="#/thirdmenuitem">options</a></li>
                     </ul>
                 </section>
             </section>
@@ -86,7 +86,7 @@
                 </section>
                 <section>
                     <h4>That's it! </h4>
-                    <p class="small">The setup above is the default way of linking the menu with the sections. But you can <em>simplify it a lot</em> by using named sections in combination with an auto-generated menu. See the <a href="#/3/0">options</a>.</p>
+                    <p class="small">The setup above is the default way of linking the menu with the sections. But you can <em>simplify it a lot</em> by using an auto-generated menu. See the <a href="#/3/0">options</a>.</p>
                 </section>
             </section>
             <section id="thirdmenuitem">
@@ -170,7 +170,7 @@
 	},
 	plugins: [ Simplemenu ]
 </code></pre>
-                    <p class="small">This will override any <code>selectby</code> option to 'name'. Make sure your sections have names.</p>
+                    <p class="small">This will assume that the sections have <code>data-name</code>s.</p>
                     <p class="small">Then you will only need to supply an empty OL or UL with class 'menu' (or something else if set through the <code>menuclass</code> option). Simplemenu will generate the menu-items from the names of the sections.</p>
                 </section>
                 <section class="center">
