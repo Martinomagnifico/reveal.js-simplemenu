@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.0.9
+ * Version 1.1.0
  * 
  * @license 
  * MIT licensed
@@ -137,7 +137,9 @@ var Plugin = function Plugin() {
       }
 
       var listHtml = '';
-      chapters = options.selectby == "name" ? selectionArray(viewport, "section[name]") : selectionArray(viewport, "section[data-name]");
+      chapters = options.selectby == "name" ? selectionArray(viewport, "section[name]") : selectionArray(viewport, "section[data-name]").filter(function (chapter) {
+        return chapter.parentNode.tagName != "SECTION";
+      });
       chapters.forEach(function (chapter) {
         if (chapter.dataset.visibility != "hidden") {
           var name = options.selectby == "name" ? chapter.getAttribute('name') : chapter.dataset.name;

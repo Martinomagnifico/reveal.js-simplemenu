@@ -94,7 +94,9 @@ const Plugin = () => {
 
 			let listHtml = '';
 
-			chapters = options.selectby == "name" ?selectionArray(viewport, `section[name]`) :  selectionArray(viewport, `section[data-name]`);
+			chapters = options.selectby == "name" ? selectionArray(viewport, "section[name]") : selectionArray(viewport, "section[data-name]").filter(function(chapter){ 
+				return chapter.parentNode.tagName != "SECTION";
+			});
 
 			chapters.forEach(chapter => {
 
