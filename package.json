@@ -8,9 +8,9 @@
         "type": "git",
         "url": "https://github.com/Martinomagnifico/reveal.js-simplemenu.git"
     },
+    "author": "Martijn De Jongh",
+    "license": "MIT, Copyright (C) 2022 Martijn De Jongh",
     "peerDependencies": {
         "reveal.js": "^4.2"
-    },
-    "author": "Martijn De Jongh",
-    "license": "MIT, Copyright (C) 2021 Martijn De Jongh"
+    }
 }

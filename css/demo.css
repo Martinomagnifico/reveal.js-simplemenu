@@ -1,21 +1,26 @@
 .backgrounds {
-  background: #1a1626; }
+  background: #1a1626;
+}
 
 .slides {
   opacity: 0;
-  -webkit-transition: opacity .5s ease;
-  -o-transition: opacity .5s ease;
-  transition: opacity .5s ease; }
+  -webkit-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
 
 .reveal.ready .slides {
-  opacity: 1; }
+  opacity: 1;
+}
 
 .small {
-  font-size: .6em; }
+  font-size: 0.6em;
+}
 
 .smallitalic {
-  font-size: .6em;
-  font-style: italic; }
+  font-size: 0.6em;
+  font-style: italic;
+}
 
 .reveal pre {
   width: 100%;
@@ -26,19 +31,23 @@
   background: #272822;
   color: #ddd;
   font-size: 0.5em;
-  border-radius: 6px; }
+  border-radius: 6px;
+}
 
 p code, p kbd, ul code {
   background: rgba(180, 180, 180, 0.2);
   font-size: 0.8em;
   padding: 5px 10px;
-  border-radius: 4px; }
+  border-radius: 4px;
+}
 
 p kbd, ul kbd {
-  font-family: monospace; }
+  font-family: monospace;
+}
 
 section ul li + li {
-  margin-top: 1rem; }
+  margin-top: 1rem;
+}
 
 a.github-corner {
   position: absolute;
@@ -46,10 +55,13 @@ a.github-corner {
   top: 0;
   width: clamp(50px, 8vmax, 80px);
   line-height: 0;
-  color: rgba(255, 255, 255, 0.5); }
-  a.github-corner.bottom {
-    top: auto;
-    bottom: 3px; }
+  color: rgba(255, 255, 255, 0.5);
+}
+a.github-corner.bottom {
+  top: auto;
+  bottom: 3px;
+}
 
 a.github-corner:hover {
-  color: white; }
+  color: white;
+}

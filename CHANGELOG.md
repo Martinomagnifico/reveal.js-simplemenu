@@ -1,9 +1,17 @@
 # Changelog
 
+## [1.1.1] - 2022-09-04
+### Changed
+- Rewrite some code
+
+## [1.1.0] - 2022-03-16
+### Changed
+- Fix check of parentnode of tested slide
+
+
 ## [1.0.9] - 2021-12-23
 ### Changed
 - Fixed omission of ID's for print-pdf
-
 
 
 ## [1.0.8] - 2021-12-23

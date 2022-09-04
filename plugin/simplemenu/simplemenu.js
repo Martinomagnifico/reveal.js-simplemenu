@@ -17,8 +17,8 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Simplemenu = factory());
-}(this, (function () { 'use strict';
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Simplemenu = factory());
+})(this, (function () { 'use strict';
 
   function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
@@ -29,7 +29,7 @@
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
 
   function _unsupportedIterableToArray(o, minLen) {
@@ -54,26 +54,34 @@
   }
 
   var Plugin = function Plugin() {
-    var simpleMenu = function simpleMenu(deck, options) {
-      var selectionArray = function selectionArray(container, selectors) {
-        var selections = container.querySelectorAll(selectors);
-        var selectionarray = Array.prototype.slice.call(selections);
-        return selectionarray;
-      };
+    var selectionArray = function selectionArray(container, selectors) {
+      var selections = container.querySelectorAll(selectors);
+      var selectionarray = Array.prototype.slice.call(selections);
+      return selectionarray;
+    };
 
-      var isStack = function isStack(section) {
-        var isStack = false;
+    var isBefore = function isBefore(a, b) {
+      var all = document.getElementsByTagName('*');
 
-        for (var i = 0; i < section.childNodes.length; i++) {
-          if (section.childNodes[i].tagName == "SECTION") {
-            isStack = true;
-            break;
-          }
+      for (var i = 0; i < all.length; ++i) {
+        if (all[i] === a) return true;else if (all[i] === b) return false;
+      }
+    };
+
+    var isStack = function isStack(section) {
+      var isStack = false;
+
+      for (var i = 0; i < section.childNodes.length; i++) {
+        if (section.childNodes[i].tagName == "SECTION") {
+          isStack = true;
+          break;
         }
+      }
 
-        return isStack;
-      };
+      return isStack;
+    };
 
+    var simpleMenu = function simpleMenu(deck, options) {
       var viewport = deck.getRevealElement().tagName == "BODY" ? document : deck.getRevealElement();
       var menus = selectionArray(viewport, ".".concat(options.menuclass));
       var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
@@ -87,20 +95,12 @@
           parentAttributes.reduce(function (attrs, attribute) {
             if (attribute.name == "data-name") {
               section.setAttribute("data-simplemenuname", attribute.value);
-            } else if (attribute.name == "id" || attribute.name == "name" || attribute.name == "name") {
+            } else if (attribute.name == "id" || attribute.name == "name") {
               section.setAttribute("data-simplemenu".concat(attribute.name), attribute.value);
             }
           }, {});
         }
       });
-
-      var isBefore = function isBefore(a, b) {
-        var all = document.getElementsByTagName('*');
-
-        for (var i = 0; i < all.length; ++i) {
-          if (all[i] === a) return true;else if (all[i] === b) return false;
-        }
-      };
 
       var compare = function compare(eventSelector, element) {
         var compareThis = '';
@@ -288,4 +288,4 @@
 
   return Plugin;
 
-})));
+}));

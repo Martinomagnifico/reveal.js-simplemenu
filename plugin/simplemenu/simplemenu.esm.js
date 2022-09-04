@@ -23,7 +23,7 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -48,26 +48,34 @@ function _nonIterableSpread() {
 }
 
 var Plugin = function Plugin() {
-  var simpleMenu = function simpleMenu(deck, options) {
-    var selectionArray = function selectionArray(container, selectors) {
-      var selections = container.querySelectorAll(selectors);
-      var selectionarray = Array.prototype.slice.call(selections);
-      return selectionarray;
-    };
+  var selectionArray = function selectionArray(container, selectors) {
+    var selections = container.querySelectorAll(selectors);
+    var selectionarray = Array.prototype.slice.call(selections);
+    return selectionarray;
+  };
 
-    var isStack = function isStack(section) {
-      var isStack = false;
+  var isBefore = function isBefore(a, b) {
+    var all = document.getElementsByTagName('*');
 
-      for (var i = 0; i < section.childNodes.length; i++) {
-        if (section.childNodes[i].tagName == "SECTION") {
-          isStack = true;
-          break;
-        }
+    for (var i = 0; i < all.length; ++i) {
+      if (all[i] === a) return true;else if (all[i] === b) return false;
+    }
+  };
+
+  var isStack = function isStack(section) {
+    var isStack = false;
+
+    for (var i = 0; i < section.childNodes.length; i++) {
+      if (section.childNodes[i].tagName == "SECTION") {
+        isStack = true;
+        break;
       }
+    }
 
-      return isStack;
-    };
+    return isStack;
+  };
 
+  var simpleMenu = function simpleMenu(deck, options) {
     var viewport = deck.getRevealElement().tagName == "BODY" ? document : deck.getRevealElement();
     var menus = selectionArray(viewport, ".".concat(options.menuclass));
     var menubars = selectionArray(viewport, ".".concat(options.menubarclass));
@@ -81,20 +89,12 @@ var Plugin = function Plugin() {
         parentAttributes.reduce(function (attrs, attribute) {
           if (attribute.name == "data-name") {
             section.setAttribute("data-simplemenuname", attribute.value);
-          } else if (attribute.name == "id" || attribute.name == "name" || attribute.name == "name") {
+          } else if (attribute.name == "id" || attribute.name == "name") {
             section.setAttribute("data-simplemenu".concat(attribute.name), attribute.value);
           }
         }, {});
       }
     });
-
-    var isBefore = function isBefore(a, b) {
-      var all = document.getElementsByTagName('*');
-
-      for (var i = 0; i < all.length; ++i) {
-        if (all[i] === a) return true;else if (all[i] === b) return false;
-      }
-    };
 
     var compare = function compare(eventSelector, element) {
       var compareThis = '';
@@ -280,4 +280,4 @@ var Plugin = function Plugin() {
   };
 };
 
-export default Plugin;
+export { Plugin as default };

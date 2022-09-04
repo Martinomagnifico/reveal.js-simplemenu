@@ -1,23 +1,34 @@
 const Plugin = () => {
 
-	const simpleMenu = function (deck, options) {
+	const selectionArray = function (container, selectors) {
+		let selections = container.querySelectorAll(selectors);
+		let selectionarray = Array.prototype.slice.call(selections);
+		return selectionarray
+	};
 
-		const selectionArray = function (container, selectors) {
-			let selections = container.querySelectorAll(selectors);
-			let selectionarray = Array.prototype.slice.call(selections);
-			return selectionarray
-		};
+	const isBefore = function( a, b ) {
+		var all = document.getElementsByTagName('*');
+	
+		for( var i = 0; i < all.length; ++i ) {
+			if( all[i] === a )
+				return true;  
+			else if( all[i] === b )
+				return false;
+		}
+	}
 
-		const isStack = function (section) {
-			let isStack = false;
-			for (let i = 0; i < section.childNodes.length; i++) {
-				if (section.childNodes[i].tagName == "SECTION") {
-					isStack = true
-					break;
-				}
+	const isStack = function (section) {
+		let isStack = false;
+		for (let i = 0; i < section.childNodes.length; i++) {
+			if (section.childNodes[i].tagName == "SECTION") {
+				isStack = true
+				break;
 			}
-			return isStack;
-		};
+		}
+		return isStack;
+	};
+
+	const simpleMenu = function (deck, options) {
 
 		let viewport = (deck.getRevealElement()).tagName == "BODY" ? document : deck.getRevealElement();
 		let menus = selectionArray(viewport, `.${options.menuclass}`);
@@ -28,27 +39,19 @@ const Plugin = () => {
 
 		sections.forEach(section => {
 			if (!isStack(section) && section.parentNode.tagName == "SECTION") {
+
 				const parentAttributes = [...section.parentNode.attributes];
 				parentAttributes.reduce((attrs, attribute) => {
 					if (attribute.name == "data-name" ) {
 						section.setAttribute(`data-simplemenuname`, attribute.value)
-					} else if (attribute.name == "id" || attribute.name == "name" || attribute.name == "name"  ) {
+					} else if (attribute.name == "id" || attribute.name == "name" ) {
 						section.setAttribute(`data-simplemenu${attribute.name}`, attribute.value)
 					}
 				}, {});
 			}
 		})
 		
-		const isBefore = function( a, b ) {
-			var all = document.getElementsByTagName('*');
-		
-			for( var i = 0; i < all.length; ++i ) {
-				if( all[i] === a )
-					return true;  
-				else if( all[i] === b )
-					return false;
-			}
-		}
+
 
 		const compare = function (eventSelector, element) {
 			let compareThis = '';
@@ -248,7 +251,6 @@ const Plugin = () => {
 		let options = deck.getConfig().simplemenu || {};
 
 		defaults(options, defaultOptions);
-
 		simpleMenu(deck, options);
 
 	};
