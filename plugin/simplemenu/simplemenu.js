@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 1.1.1
+ * Version 1.1.2
  * 
  * @license 
  * MIT licensed

@@ -39,12 +39,12 @@ body:not(.hide-menubar) .reveal.ready:not(.hide-menubar) .menubar {
       -ms-transform: translateY(0);
           transform: translateY(0);
 }
-[data-state=hide-menubar] + .menubar {
+[data-state=hide-menubar] ~ .menubar {
   -webkit-transform: translateY(-100%);
       -ms-transform: translateY(-100%);
           transform: translateY(-100%);
 }
-[data-state=hide-menubar] + .menubar.bottom {
+[data-state=hide-menubar] ~ .menubar.bottom {
   -webkit-transform: translateY(100%);
       -ms-transform: translateY(100%);
           transform: translateY(100%);

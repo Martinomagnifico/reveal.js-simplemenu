@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.2] - 2022-10-09
+### Fixed
+- Fix visible menu when slidenumber is displayed
+
+
 ## [1.1.1] - 2022-09-04
 ### Changed
 - Rewrite some code
