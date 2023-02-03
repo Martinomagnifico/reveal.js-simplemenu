@@ -1,6 +1,8 @@
 {
     "name": "reveal.js-simplemenu",
     "version": "2.0.0",
+    "main": "plugin/simplemenu/simplemenu.js",
+    "module": "plugin/simplemenu/simplemenu.esm.js",
     "description": "A simple menu for Reveal.js",
     "keywords": "reveal, reveal.js, reveal-plugin, plugin, menu, header, logo, portfolio",
     "homepage": "https://github.com/Martinomagnifico/reveal.js-simplemenu",
@@ -9,7 +11,7 @@
         "url": "https://github.com/Martinomagnifico/reveal.js-simplemenu.git"
     },
     "author": "Martijn De Jongh",
-    "license": "MIT, Copyright (C) 2022 Martijn De Jongh",
+    "license": "MIT, Copyright (C) 2023 Martijn De Jongh",
     "peerDependencies": {
         "reveal.js": "^4.2"
     }
