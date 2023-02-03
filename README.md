@@ -36,7 +36,7 @@ However, if you add a menu (in either a menubar or a standalone TOC menu), and m
 
 ### Presentation structure
 
-![Setup](https://martinomagnifico.github.io/reveal.js-simplemenu/img/simplemenusetup.png)
+![Setup](img/simplemenusetup.png)
 
 Simplemenu uses top-level slides for the menu item names. Nested slides in vertical stacks will then also use the name of the whole stack. This way you get chapters through which the user can navigate.
 
@@ -260,7 +260,7 @@ Reveal.initialize({
 });
 ```
 
-### Using the flat option
+### Using the flat option {#using-the-flat-option}
 
 Sometimes you'll want to limit your presentation to horizontal slides only. To still use 'chapters' with several slides, you can use the `flat` option. By default, it is set to `false`, but you can set it to `true`. Then, when a data-name is set for a slide, any following slides will keep that menu name. Whenever a slide is encountered with `data-sm="false"`, the inheritance will stop.
 
