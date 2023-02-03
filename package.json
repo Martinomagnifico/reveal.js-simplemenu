@@ -1,8 +1,8 @@
 {
     "name": "reveal.js-simplemenu",
-    "version": "1.1.2",
+    "version": "2.0.0",
     "description": "A simple menu for Reveal.js",
-    "keywords": "reveal, reveal.js, reveal-plugin, plugin, menu",
+    "keywords": "reveal, reveal.js, reveal-plugin, plugin, menu, header, logo, portfolio",
     "homepage": "https://github.com/Martinomagnifico/reveal.js-simplemenu",
     "repository": {
         "type": "git",

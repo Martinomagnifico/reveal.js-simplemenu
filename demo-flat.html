@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simplemenu for Reveal.js, flat navigation</title>
+    <meta name="description" content="">
+    <meta name="author" content="Martinomagnifico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
+    <style>
+        :root {
+            --r-background-color: #1a1626;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal"><a class="github-corner bottom" href="https://github.com/Martinomagnifico/reveal.js-simplemenu" target="blank" title="View source on GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55">
+                <path fill="currentColor" d="M27.5 11.2a16.3 16.3 0 0 0-5.1 31.7c.8.2 1.1-.3 1.1-.7v-2.8c-4.5 1-5.5-2.2-5.5-2.2-.7-1.9-1.8-2.4-1.8-2.4-1.5-1 .1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.2-1 .6-1.8 1-2.2-3.5-.4-7.3-1.8-7.3-8 0-1.8.6-3.3 1.6-4.4-.1-.5-.7-2.1.2-4.4 0 0 1.4-.4 4.5 1.7a15.6 15.6 0 0 1 8.1 0c3.1-2 4.5-1.7 4.5-1.7.9 2.3.3 4 .2 4.4 1 1 1.6 2.6 1.6 4.3 0 6.3-3.8 7.7-7.4 8 .6.6 1.1 1.6 1.1 3v4.6c0 .4.3.9 1.1.7a16.3 16.3 0 0 0-5.2-31.7"></path>
+            </svg></a>
+        <div class="slides">
+            <section class="center" data-transition="fade" data-state="hide-menubar">
+                <h1>Simplemenu</h1>
+                <h3>for Reveal.js</h3>
+                <p>Flat navigation</p>
+            </section>
+            <section data-name="Why?">
+                <h3>Why?</h3>
+            </section>
+            <section>
+                <p>Sometimes viewers don’t understand the whole concept of vertical navigation for nested slides.</p>
+                <p>A solution would be to limit your presentation to horizontal slides only, but you might still want to use ‘chapters’. </p>
+            </section>
+            <section>
+                <p>Simplemenu has a solution for that. Make your presentation in a flat structure (no nested sections) and turn the <code>flat</code> option to <code>true</code>. Then, if a data-name is set for a slide, any following slides will keep that menu name.</p>
+                <p class="small">Of course, you can set it to stop inheriting the name as well.</p>
+            </section>
+            <section data-name="Set it up">
+                <section>
+                    <h3>Set it up</h3>
+                </section>
+            </section>
+            <section>
+                <p class="small">Set the flat option to <code>true</code>:</p>
+                <pre><code class="hljs javascript" data-line-numbers="4">&hellip;
+Reveal.initialize({
+    simplemenu: {
+        flat: true
+    },
+    plugins: [ Simplemenu ]
+</code></pre>
+            </section>
+            <section>
+                <h4>HTML Markup</h4>
+                <p class="small">Build your presentation in a flat way (no nested slides). <br>Then give your sections a <code>data-name</code>:</p>
+                <pre><code class="hljs html" data-line-numbers>&lt;div class="slides"&gt;
+    &lt;section data-name="Chapter 1"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section&gt;
+        //... The 'Chapter 1' menu-item will be active for this slide
+    &lt;/section&gt;
+    &lt;section&gt;
+        //... The 'Chapter 1' menu-item will be active for this slide
+    &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </section>
+            <section>
+                <p>Any slides following a slide with a data-name will keep that menu name.</p>
+            </section>
+            <section class="center" data-sm="false">
+                <p>To stop inheriting the previous slide menu name, start a new named section, or add <code>data-sm="false"</code> to your slide.</p>
+                <pre><code class="hljs html" data-line-numbers="8-10">&lt;div class="slides"&gt;
+    &lt;section data-name="Chapter 1"&gt;
+        //...
+    &lt;/section&gt;
+    &lt;section&gt;
+        //... The 'Chapter 1' menu-item will be active for this slide
+    &lt;/section&gt;
+    &lt;section data-sm="false"&gt;
+        //... No menu-item will be active for this slide
+    &lt;/section&gt;
+&lt;/div&gt;
+</code></pre>
+            </section>
+            <section class="center" data-state="hide-menubar">
+                <h2>That’s it!</h2>
+            </section>
+        </div>
+    </div>
+    <script src="../dist/reveal.js"></script>
+    <script src="plugin/simplemenu/simplemenu.js"></script>
+    <script src="../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            simplemenu: {
+                flat: true,
+                barhtml: {
+                    header: "<div class='menubar'><ul class='menu'></ul><div>"
+                }
+            },
+            plugins: [
+                Simplemenu,
+                RevealHighlight
+            ]
+        });
+    </script>
+</body>
+
+</html>

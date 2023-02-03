@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Simplemenu for Reveal.js, select by name </title>
+    <title>Simplemenu for Reveal.js, manual linking to data-name</title>
     <meta name="description" content="">
     <meta name="author" content="Martinomagnifico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="../dist/theme/black.css">
     <link rel="stylesheet" href="../plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
+    <style>
+        :root {
+            --r-background-color: #1a1626;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,40 +26,50 @@
                 <path fill="currentColor" d="M27.5 11.2a16.3 16.3 0 0 0-5.1 31.7c.8.2 1.1-.3 1.1-.7v-2.8c-4.5 1-5.5-2.2-5.5-2.2-.7-1.9-1.8-2.4-1.8-2.4-1.5-1 .1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.2-1 .6-1.8 1-2.2-3.5-.4-7.3-1.8-7.3-8 0-1.8.6-3.3 1.6-4.4-.1-.5-.7-2.1.2-4.4 0 0 1.4-.4 4.5 1.7a15.6 15.6 0 0 1 8.1 0c3.1-2 4.5-1.7 4.5-1.7.9 2.3.3 4 .2 4.4 1 1 1.6 2.6 1.6 4.3 0 6.3-3.8 7.7-7.4 8 .6.6 1.1 1.6 1.1 3v4.6c0 .4.3.9 1.1.7a16.3 16.3 0 0 0-5.2-31.7"></path>
             </svg></a>
         <div class="menubar">
-            <ul class="menu">
-                <li><a href="#/firstchapter">Start</a></li>
-                <li><a href="#/secondchapter">What it does</a></li>
-                <li><a href="#/thirdchapter">Set it up</a></li>
+            <ul class="menu top">
+                <li><a href="#">Why?</a></li>
+                <li><a href="#">Set it up</a></li>
             </ul>
         </div>
         <div class="slides">
-            <section class="center" data-transition="fade" name="Start">
+            <section class="center" data-transition="fade" data-state="hide-menubar">
                 <h1>Simplemenu</h1>
                 <h3>for Reveal.js</h3>
-                <p class="smaller">Option <code>selectby: 'name'</code></p>
+                <p class="smaller">Manual menu, linking to <code>data-name</code></p>
             </section>
-            <section name="What it does">
+            <section data-name="Why?">
                 <section class="center">
-                    <h2>What it does</h2>
-                </section>
-                <section class="center">
-                    <p class="small">Simplemenu links sections to the menu by an attribute, which is defined by <code>selectby</code>. By default it is 'id', but you can also set it to 'name' as in this example.</p>
+                    <h4>Why?</h4>
+                    <p>Sometimes manually linking the menu is needed. Simplemenu can do that too.</p>
+                    <p class="small">Manually linking can be done through <code>id</code> and <code>data-name</code>. <br>These slides explain the use of <code>data-name</code>.</p>
                 </section>
             </section>
-            <section name="Set it up">
+            <section data-name="Set it up">
+                <section class="center">
+                    <h4>It's easy to set up, but expects a few things:</h4>
+                    <ul class="small">
+                        <li>Menu items can only be top-level sections: regular horizontal slides or vertical stacks.</li>
+                        <li>Create an element that will hold the links. </li>
+                        <li>Inside this menu, there have to be anchors. The href will be ignored, so it can stay empty: <code>&lt;a href="#"&gt;</code>.</li>
+                        <li>The textcontent of each link has to be the same as the <code>data-name</code> of each linked section. This text-content is used to create a data-attribute for each link which is then used for matching. This way, any changes to the text of the link (for example, when it is translated) have no effect on the linking.</li>
+                    </ul>
+                </section>
                 <section>
                     <h4>JavaScript</h4>
-                    <p class="small">Set the selectby option to 'name'.</p>
-                    <pre><code class="hljs javascript" data-line-numbers>&hellip;
-Reveal.initialize({
-	simplemenu: {
-		selectby: 'name',
-	},
-	plugins: [ Simplemenu ]</code></pre>
+                    <p class="small">Load the Simplemenu script and make a reference to it in the Reveal plugin options. Add the selectby option and set it to <code>data-name</code>.</p><br>
+                    <pre><code class="hljs html" data-line-numbers>&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    Reveal.initialize({
+        simplemenu: {
+            selectby: "data-name"
+        }
+        plugins: [ Simplemenu ]
+    });
+&lt;script&gt;</code></pre>
                 </section>
                 <section>
                     <h4>HTML Markup</h4>
-                    <p class="small">Make sure that the text content of your links is the same as the 'name' attribute of your sections. In the example below it is literally "Put some text here".</p>
+                    <p class="small">Make sure that the text content of your links is the same as the <code>data-name</code> attribute of your sections. In the example below it is literally "Put some text here".</p>
                     <pre><code>&lt;div class="menubar"&gt;
     &lt;ul class="menu"&gt;
         &lt;li&gt;
@@ -64,14 +78,14 @@ Reveal.initialize({
     &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="slides"&gt;
-    &lt;section name="Put some text here"&gt;
+    &lt;section data-name="Put some text here"&gt;
         //...
     &lt;/section&gt;
         //...
 &lt;/div&gt;</code></pre>
                 </section>
                 <section>
-                    <h4>That's it!</h4>
+                    <h4>That’s it!</h4>
                 </section>
             </section>
         </div>
@@ -83,7 +97,7 @@ Reveal.initialize({
         Reveal.initialize({
             transition: "slide",
             simplemenu: {
-                selectby: "name"
+                selectby: "data-name"
             },
             plugins: [
                 Simplemenu,

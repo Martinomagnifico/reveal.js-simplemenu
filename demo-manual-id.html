@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Simplemenu for Reveal.js, select by data-name </title>
+    <title>Simplemenu for Reveal.js, manual linking to id</title>
     <meta name="description" content="">
     <meta name="author" content="Martinomagnifico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="../dist/theme/black.css">
     <link rel="stylesheet" href="../plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="plugin/simplemenu/simplemenu.css">
+    <style>
+        :root {
+            --r-background-color: #1a1626;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,55 +27,62 @@
             </svg></a>
         <div class="menubar">
             <ul class="menu">
-                <li><a href="#/firstchapter">Start</a></li>
-                <li><a href="#/secondchapter">What it does</a></li>
-                <li><a href="#/thirdchapter">Set it up</a></li>
+                <li><a href="#/firstmenuitem">Why?</a></li>
+                <li><a href="#/secondmenuitem">Set it up</a></li>
             </ul>
         </div>
         <div class="slides">
-            <section class="center" data-transition="fade" data-name="Start">
+            <section class="center" data-transition="fade" data-state="hide-menubar">
                 <h1>Simplemenu</h1>
                 <h3>for Reveal.js</h3>
-                <p class="smaller">Option <code>selectby: 'data-name'</code></p>
+                <p class="smaller">Manual menu, linking to <code>id</code></p>
             </section>
-            <section data-name="What it does">
+            <section id="firstmenuitem">
                 <section class="center">
-                    <h2>What it does</h2>
-                </section>
-                <section class="center">
-                    <p class="small">Simplemenu links sections to the menu by an attribute, which is defined by <code>selectby</code>. By default it is 'id', but you can also set it to 'data-name' as in this example.</p>
+                    <h4>Why?</h4>
+                    <p>Sometimes manually linking the menu is needed. Simplemenu can do that too.</p>
+                    <p class="small">Manually linking can be done through <code>id</code> and <code>data-name</code>. <br>These slides explain the use of <code>id</code>.</p>
                 </section>
             </section>
-            <section data-name="Set it up">
+            <section id="secondmenuitem">
+                <section class="center">
+                    <h4>It's easy to set up, but expects a few things:</h4>
+                    <ul class="small">
+                        <li>Menu items can only be top-level sections: regular horizontal slides or vertical stacks.</li>
+                        <li>Create an element that will hold the links. </li>
+                        <li>Inside this main menu, there have to be anchors with an href.</li>
+                        <li>These need to point to an ID of a top-level section. </li>
+                    </ul>
+                </section>
                 <section>
                     <h4>JavaScript</h4>
-                    <p class="small">Set the selectby option to 'data-name'.</p>
-                    <pre><code class="hljs javascript" data-line-numbers>&hellip;
-Reveal.initialize({
-	simplemenu: {
-		selectby: 'data-name',
-	},
-	plugins: [ Simplemenu ]</code></pre>
+                    <p class="small">Load the Simplemenu script and make a reference to it in the Reveal plugin options.</p><br>
+                    <pre><code class="hljs html" data-line-numbers>&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+	Reveal.initialize({
+		plugins: [ Simplemenu ]
+	});
+&lt;script&gt;</code></pre>
                 </section>
                 <section>
                     <h4>HTML Markup</h4>
-                    <p class="small">Make sure that the text content of your links is the same as the 'data-name' attribute of your sections. In the example below it is literally "Put some text here".</p>
-                    <pre><code>&lt;div class="menubar"&gt;
+                    <p class="small">Make anchors in your links to the ID's of your sections. Use the <code>#/anchor</code> notation that Reveal uses.</p>
+                    <pre><code class="hljs html" data-line-numbers>&lt;div class="menubar"&gt;
     &lt;ul class="menu"&gt;
         &lt;li&gt;
-            &lt;a href="#"&gt;Put some text here&lt;/a&gt;
+            &lt;a href="#/firstmenuitem"&gt;First menu item&lt;/a&gt;
         &lt;/li&gt;
     &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="slides"&gt;
-    &lt;section data-name="Put some text here"&gt;
+    &lt;section id="firstmenuitem"&gt;
         //...
     &lt;/section&gt;
         //...
 &lt;/div&gt;</code></pre>
                 </section>
                 <section>
-                    <h4>That's it!</h4>
+                    <h4>That’s it!</h4>
                 </section>
             </section>
         </div>
@@ -82,9 +93,6 @@ Reveal.initialize({
     <script>
         Reveal.initialize({
             transition: "slide",
-            simplemenu: {
-                selectby: "data-name"
-            },
             plugins: [
                 Simplemenu,
                 RevealHighlight

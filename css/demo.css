@@ -1,20 +1,28 @@
-.backgrounds {
-  background: #1a1626;
+:root {
+  --r-heading-text-transform: none ;
 }
 
 .slides {
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  -o-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 2s ease;
+  -o-transition: opacity 2s ease;
+  transition: opacity 2s ease;
 }
 
 .reveal.ready .slides {
   opacity: 1;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.reveal ul ul {
+  margin-top: 1rem;
+}
+
 .small {
-  font-size: 0.6em;
+  font-size: 66%;
 }
 
 .smallitalic {
@@ -45,6 +53,10 @@ p kbd, ul kbd {
   font-family: monospace;
 }
 
+.reveal .code-wrapper, pre, pre code {
+  white-space: pre-wrap !important;
+}
+
 section ul li + li {
   margin-top: 1rem;
 }
@@ -55,7 +67,7 @@ a.github-corner {
   top: 0;
   width: clamp(50px, 8vmax, 80px);
   line-height: 0;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.3);
 }
 a.github-corner.bottom {
   top: auto;
@@ -64,4 +76,43 @@ a.github-corner.bottom {
 
 a.github-corner:hover {
   color: white;
+}
+
+.centerblock {
+  height: 100%;
+  min-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: auto;
+}
+
+ol.twocol {
+  padding: 0;
+  margin: 0 auto;
+  list-style: none;
+  counter-reset: item;
+  width: 80%;
+  -webkit-column-count: 2;
+     -moz-column-count: 2;
+          column-count: 2;
+  -webkit-column-gap: 20px;
+     -moz-column-gap: 20px;
+          column-gap: 20px;
+}
+ol.twocol li {
+  counter-increment: item;
+  padding-left: 1.7em;
+}
+ol.twocol li:before {
+  content: counter(item) ".";
+  margin-left: -1.7em;
+  margin-right: 0.5em;
+  display: inline-block;
+  width: 1.2em;
+  text-align: right;
 }
