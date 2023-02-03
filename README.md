@@ -260,7 +260,7 @@ Reveal.initialize({
 });
 ```
 
-### Using the flat option {#using-the-flat-option}
+### Using the flat option
 
 Sometimes you'll want to limit your presentation to horizontal slides only. To still use 'chapters' with several slides, you can use the `flat` option. By default, it is set to `false`, but you can set it to `true`. Then, when a data-name is set for a slide, any following slides will keep that menu name. Whenever a slide is encountered with `data-sm="false"`, the inheritance will stop.
 
