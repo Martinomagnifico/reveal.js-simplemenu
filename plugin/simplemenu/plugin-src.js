@@ -303,8 +303,9 @@ const Plugin = () => {
 
 		let menus = menuArray();
 
-		if (!menus) {
+		if (!menus || (menus && !menus.automenus)) {
 			console.log("There are no menus. Please add one or more menus manually or through the 'barhtml' option.")
+			return
 		}
 
 		if (menus.automenus.length >= 1 && (sections.namedvisible).length >= 1) {

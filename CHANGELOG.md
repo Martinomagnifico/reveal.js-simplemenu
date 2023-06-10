@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2023-06-10
+### Changed
+- Simplemenu will now not stop of no menu is present at all (manual or via options)
+
 
 ## [2.0.0] - 2022-12-22
 ### Added

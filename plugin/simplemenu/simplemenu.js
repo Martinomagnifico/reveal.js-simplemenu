@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 2.0.0
+ * Version 2.0.1
  * 
  * @license 
  * MIT licensed
@@ -12,6 +12,7 @@
  * Thanks to:
  *  - Hakim El Hattab, Reveal.js 
  ******************************************************************/
+
 
 
 (function (global, factory) {
@@ -362,8 +363,9 @@
 	    debugLog("Preparing menus");
 	    let menus = menuArray();
 
-	    if (!menus) {
+	    if (!menus || menus && !menus.automenus) {
 	      console.log("There are no menus. Please add one or more menus manually or through the 'barhtml' option.");
+	      return;
 	    }
 
 	    if (menus.automenus.length >= 1 && sections.namedvisible.length >= 1) {
