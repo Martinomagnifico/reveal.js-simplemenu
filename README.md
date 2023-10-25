@@ -12,7 +12,7 @@ In Powerpoint you can make slides with a nice bottom- or top bar in which ***the
 -   [Demo with bar on bottom](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-bottom.html)
 -   [Demo with Markdown](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-markdown.html)
 -   [Demo, custom styling, including a logo](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-custom.html)
--   [Demo, flat chapter navigation](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-flatchapters.html)
+-   [Demo, flat chapter navigation](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-flat.html)
 -   [Demo, manual setup, select by id](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-manual-id.html)
 -   [Demo, manual setup, select by data-name](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-manual-dataname.html)
 
