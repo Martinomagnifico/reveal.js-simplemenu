@@ -1,6 +1,6 @@
 {
     "name": "reveal.js-simplemenu",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "main": "plugin/simplemenu/simplemenu.js",
     "module": "plugin/simplemenu/simplemenu.esm.js",
     "description": "A simple Reveal.js plugin for a menubar or a header or footer with an auto-generated menu.",
@@ -11,8 +11,5 @@
         "url": "https://github.com/Martinomagnifico/reveal.js-simplemenu.git"
     },
     "author": "Martijn De Jongh",
-    "license": "MIT, Copyright (C) 2023 Martijn De Jongh",
-    "peerDependencies": {
-        "reveal.js": "^4.2"
-    }
+    "license": "MIT, Copyright (C) 2024 Martijn De Jongh"
 }

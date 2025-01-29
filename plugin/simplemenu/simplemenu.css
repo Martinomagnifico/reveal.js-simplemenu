@@ -4,7 +4,6 @@
   display: flex;
   -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: -webkit-transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -o-transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985), -webkit-transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -webkit-transform: translateY(-100%);
@@ -12,7 +11,7 @@
           transform: translateY(-100%);
   color: inherit;
   z-index: 2;
-  position: absolute;
+  position: fixed;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-box-pack: justify;
@@ -33,7 +32,6 @@ html:not(.print-pdf) body:not(.hide-menubar) .reveal.ready:not(.hide-menubar) .m
 }
 body.hide-menubar .reveal.ready .menubar a {
   -webkit-transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -o-transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
 }
 .menubar.bottom {
@@ -71,7 +69,6 @@ body.hide-menubar .reveal.ready .menubar a {
 }
 .menubar a {
   -webkit-transition: opacity 0.2s ease-in-out;
-  -o-transition: opacity 0.2s ease-in-out;
   transition: opacity 0.2s ease-in-out;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -82,7 +79,6 @@ body.hide-menubar .reveal.ready .menubar a {
 }
 .menubar > ul {
   -webkit-transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -o-transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
   display: -webkit-box;
   display: -ms-flexbox;

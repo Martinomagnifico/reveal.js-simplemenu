@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.2] - 2025-01-29
+### Changed
+- Removed (version 4) peer dependency on Reveal.js.
+
 ## [2.0.1] - 2023-06-10
 ### Changed
 - Simplemenu will now not stop of no menu is present at all (manual or via options)

@@ -5,7 +5,6 @@
 .slides {
   opacity: 0;
   -webkit-transition: opacity 2s ease;
-  -o-transition: opacity 2s ease;
   transition: opacity 2s ease;
 }
 
@@ -62,8 +61,8 @@ section ul li + li {
 }
 
 a.github-corner {
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: 2;
   top: 0;
   width: clamp(50px, 8vmax, 80px);
   line-height: 0;
