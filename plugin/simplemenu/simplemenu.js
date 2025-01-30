@@ -211,14 +211,14 @@
 	      // If the (named) section is not a stack and does not have an ID, we need to give it one.
 	      if (!isStack(namedsection) && !namedsection.id) {
 	        // Note: Quarto will already have assigned an ID, but it may also have been done manually.
-	        namedsection.id = match.toLowerCase().replace(/\W/g, '');
+	        namedsection.id = match.toLowerCase().replace(/\s/g, '');
 	      } else if (isStack(namedsection)) {
 	        // Find the first (visible) section inside a stack.
 	        let allsects = selectionArray(namedsection, `section`);
 	        let allVisibleSects = allsects.filter(section => section.dataset.visibility != "hidden");
 	        let firstChildSection = allVisibleSects[0];
 	        if (firstChildSection && !firstChildSection.id) {
-	          firstChildSection.id = match.toLowerCase().replace(/\W/g, '');
+	          firstChildSection.id = match.toLowerCase().replace(/\s/g, '');
 	          if (namedsection.id == firstChildSection.id) {
 	            namedsection.removeAttribute('id');
 	          }
@@ -331,7 +331,7 @@
 	      const autoMenuLinks = sections.namedvisible.map(section => {
 	        let match = section.dataset[vars.matchString];
 	        let name = section.dataset.name || section.getAttribute(`name`) || section.id;
-	        let id = section.id || name.toLowerCase().replace(/\W/g, '');
+	        let id = section.id || name.toLowerCase().replace(/\s/g, '');
 	        idArray.push(id);
 	        if (vars.quarto) {
 	          id = mainArray.find(item => item.match === match).id;
@@ -361,7 +361,7 @@
 	        let linker = listItem.tagName == "a" ? listItem : listItem.querySelector('a');
 	        let linkhref = linker.getAttribute('href');
 	        if (linkhref === "#") {
-	          let newLink = listItem.dataset[vars.matchString].toLowerCase().replace(/\W/g, '');
+	          let newLink = listItem.dataset[vars.matchString].toLowerCase().replace(/\s/g, '');
 	          linker.href = `#/${newLink}`;
 	        }
 	      });
