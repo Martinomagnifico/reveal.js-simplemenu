@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.3] - 2025-01-31
+### Changed
+- Changed regex to allow for Unicode characters in the `data-name` attribute.
+
 ## [2.0.2] - 2025-01-29
 ### Changed
 - Removed (version 4) peer dependency on Reveal.js.

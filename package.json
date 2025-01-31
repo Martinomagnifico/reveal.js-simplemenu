@@ -1,6 +1,6 @@
 {
     "name": "reveal.js-simplemenu",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "main": "plugin/simplemenu/simplemenu.js",
     "module": "plugin/simplemenu/simplemenu.esm.js",
     "description": "A simple Reveal.js plugin for a menubar or a header or footer with an auto-generated menu.",
