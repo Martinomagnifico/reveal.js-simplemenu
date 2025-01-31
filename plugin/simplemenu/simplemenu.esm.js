@@ -4,7 +4,7 @@
  * https://github.com/Martinomagnifico
  *
  * Simplemenu.js for Reveal.js 
- * Version 2.0.2
+ * Version 2.0.3
  * 
  * @license 
  * MIT licensed
@@ -74,7 +74,7 @@ const Plugin = () => {
   const isStack = section => {
     let isStack = false;
     for (let i = 0; i < section.childNodes.length; i++) {
-      if (section.childNodes[i].tagName == "SECTION") {
+      if (section.childNodes[i].tagName === "SECTION") {
         isStack = true;
         break;
       }
@@ -164,9 +164,10 @@ const Plugin = () => {
     });
   };
   function copyDataAttributes(source, target) {
-    [...source.attributes].filter(attr => attr.nodeName.indexOf('data') > -1).forEach(attr => {
+    const filteredAttrs = [...source.attributes].filter(attr => attr.nodeName.indexOf('data') > -1);
+    for (const attr of filteredAttrs) {
       target.setAttribute(attr.nodeName, attr.nodeValue);
-    });
+    }
   }
   const prepareSlides = () => {
     debugLog("Preparing slides");
@@ -205,14 +206,14 @@ const Plugin = () => {
       // If the (named) section is not a stack and does not have an ID, we need to give it one.
       if (!isStack(namedsection) && !namedsection.id) {
         // Note: Quarto will already have assigned an ID, but it may also have been done manually.
-        namedsection.id = match.toLowerCase().replace(/\W/g, '');
+        namedsection.id = match.toLowerCase().replace(/\s+/g, '').replace(/[^\p{L}\p{N}-]/gu, '');
       } else if (isStack(namedsection)) {
         // Find the first (visible) section inside a stack.
         let allsects = selectionArray(namedsection, `section`);
         let allVisibleSects = allsects.filter(section => section.dataset.visibility != "hidden");
         let firstChildSection = allVisibleSects[0];
         if (firstChildSection && !firstChildSection.id) {
-          firstChildSection.id = match.toLowerCase().replace(/\W/g, '');
+          firstChildSection.id = match.toLowerCase().replace(/\s+/g, '').replace(/[^\p{L}\p{N}-]/gu, '');
           if (namedsection.id == firstChildSection.id) {
             namedsection.removeAttribute('id');
           }
@@ -325,7 +326,7 @@ const Plugin = () => {
       const autoMenuLinks = sections.namedvisible.map(section => {
         let match = section.dataset[vars.matchString];
         let name = section.dataset.name || section.getAttribute(`name`) || section.id;
-        let id = section.id || name.toLowerCase().replace(/\W/g, '');
+        let id = section.id || name.toLowerCase().replace(/\s+/g, '').replace(/[^\p{L}\p{N}-]/gu, '');
         idArray.push(id);
         if (vars.quarto) {
           id = mainArray.find(item => item.match === match).id;
@@ -355,7 +356,7 @@ const Plugin = () => {
         let linker = listItem.tagName == "a" ? listItem : listItem.querySelector('a');
         let linkhref = linker.getAttribute('href');
         if (linkhref === "#") {
-          let newLink = listItem.dataset[vars.matchString].toLowerCase().replace(/\W/g, '');
+          let newLink = listItem.dataset[vars.matchString].toLowerCase().replace(/\s+/g, '').replace(/[^\p{L}\p{N}-]/gu, '');
           linker.href = `#/${newLink}`;
         }
       });
@@ -502,11 +503,11 @@ const Plugin = () => {
       hash: true
     });
     vars.deck = deck;
-    vars.viewport = deck.getRevealElement().tagName == "BODY" ? document : deck.getRevealElement();
+    vars.viewport = deck.getRevealElement().tagName === "BODY" ? document : deck.getRevealElement();
     vars.slides = deck.getSlidesElement();
     vars.langattribute = deck.getConfig().internation ? deck.getConfig().internation.langattribute ? deck.getConfig().internation.langattribute : "data-i18n" : false;
     vars.rtl = deck.getConfig().rtl;
-    vars.quarto = document.querySelector('[name=generator]') && document.querySelector('[name=generator]').content.includes("quarto") ? true : false;
+    vars.quarto = !!(document.querySelector('[name=generator]') && document.querySelector('[name=generator]').content.includes("quarto"));
     vars.matchString = "sm";
     vars.userScale = options.scale;
     deck.addEventListener('ready', chapterize, false);
