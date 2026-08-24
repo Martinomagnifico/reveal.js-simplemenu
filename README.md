@@ -4,7 +4,7 @@
 
 A simple menu for [Reveal.js](https://revealjs.com)
 
-[![Screenshot](https://martinomagnifico.github.io/reveal.js-simplemenu/screenshot.png)](https://martinomagnifico.github.io/reveal.js-simplemenu/demo.html)
+[![Screenshot](https://martinomagnifico.github.io/reveal.js-simplemenu/screenshot.png)](https://martinomagnifico.github.io/reveal.js-simplemenu/demo/demo.html)
 
 In Powerpoint you can make slides with a nice bottom- or top bar in which ***the active menu item is highlighted***. This menu works in the same way, but automatically. Simplemenu now also supports the Markdown syntax. Combined with the `barhtml` option, you don't have to edit the template in HTML at all.
 
