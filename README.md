@@ -36,7 +36,7 @@ However, if you add a menu (in either a menubar or a standalone TOC menu), and m
 
 ### Presentation structure
 
-![Setup](img/simplemenusetup.png)
+![Setup](https://martinomagnifico.github.io/reveal.js-simplemenu/demo/assets/img/simplemenusetup.png)
 
 Simplemenu uses top-level slides for the menu item names. Nested slides in vertical stacks will then also use the name of the whole stack. This way you get chapters through which the user can navigate.
 
