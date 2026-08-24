@@ -103,6 +103,16 @@ The styling of Simplemenu is automatically inserted from the included CSS styles
 
 If you want to change the Simplemenu style, you can simply make your own style and use that stylesheet instead. Linking to your custom style can be managed through the `csspath` option of Simplemenu. See [Custom styling](https://martinomagnifico.github.io/reveal.js-simplemenu/demo-custom.html) for an example.
 
+#### Custom CSS
+If and when you decide to create your own CSS file, make sure that you also include the following CSS variable, that is used by the plugin to avoid loading the CSS multiple times, and to avoid using the autoloading feature when using modules:
+
+```css
+:root {
+    --cssimported-simplemenu: true;
+}
+```
+
+
 ### HTML
 
 It is easy to set up your HTML structure for Simplemenu. To keep the Simplemenu on every slide, put it outside of the `.slides`. Simplemenu can automatically do this for you if you use the `barhtml` option, so that you do not need to edit the template.
@@ -125,7 +135,9 @@ Start by giving `data-name`s to your sections:
 </div>
 ```
 
-Now add a menubar with an empty menu. You can do this through the options like this (yes, even when you use Markdown, you have to write a small piece of HTML here):
+That is already enough for a menubar: Simplemenu adds a header bar with an empty menu in it, and fills that menu with links to your sections.
+
+If you want a different bar, you can set your own through the options like this (yes, even when you use Markdown, you have to write a small piece of HTML here):
 
 ``` javascript
 Reveal.initialize({
@@ -133,7 +145,7 @@ Reveal.initialize({
     simplemenu: {
         // ...
         barhtml: {
-            header: "<div class='menubar'><ul class='menu'></ul><div>",
+            header: "<nav class='menubar'><ul class='menu'></ul></nav>",
             footer: ""
         }
     },
@@ -144,9 +156,9 @@ Reveal.initialize({
 ...or manually in your markup like this:
 
 ``` html
-<div class="menubar">
+<nav class="menubar">
     <ul class="menu"></ul> <!-- Keep this empty -->
-</div>
+</nav>
 <div class="slides">
     <section data-name="Menu item one">
         //...
@@ -160,17 +172,21 @@ Reveal.initialize({
 </div>
 ```
 
+A bar you supply yourself is recognised, and Simplemenu then does not add one of its own. It counts as yours when it carries the `menubarclass`, or when it holds a menu for Simplemenu to fill. A menu inside the slides is read as a table of contents rather than a bar, so it is still filled with section links, and the menubar stays as well.
+
+A bar that Simplemenu generates gets an id: `simplemenu-headerbar` for the header, `simplemenu-footerbar` for the footer. A bar you write yourself keeps the id you gave it, and an id in your own `barhtml` is kept too.
+
 #### The manual way
 
 ``` html
-<div class="menubar">
+<nav class="menubar">
     <ul class="menu">
         <!-- Here's the menu -->
         <li><a href="#/firstchapter">First chapter</a></li>
         <li><a href="#/secondchapter">Second chapter</a></li>
         <li><a href="#/thirdchapter">Third chapter</a></li>
     </ul>
-</div>
+</nav>
 <div class="slides">
     ...
 </div>
@@ -180,7 +196,7 @@ The top-level sections (that should be in the menu) need to have an ID:
 
 ``` html
 <div class="slides">
-    <section id="firstchapter" name="First chapter">
+    <section id="firstchapter">
         <section>
             <h2>This is 1</h2>
         </section>
@@ -188,10 +204,10 @@ The top-level sections (that should be in the menu) need to have an ID:
             <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
         </section>
     </section>
-    <section id="secondchapter" name="Second chapter">
+    <section id="secondchapter">
         <h2>This is 2, no child slides</h2>
     </section>
-    <section id="thirdchapter" name="My third chapter">
+    <section id="thirdchapter">
         <section>
             <h2>This is 3</h2>
         </section>
@@ -252,7 +268,7 @@ Reveal.initialize({
     simplemenu: {
         // ...
         barhtml: {
-            header: "<div class='menubar'><ul class='menu'></ul><div class='slide-number'></div><div>",
+            header: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>",
             footer: ""
         }
     },
@@ -265,9 +281,9 @@ Reveal.initialize({
 Sometimes you'll want to limit your presentation to horizontal slides only. To still use 'chapters' with several slides, you can use the `flat` option. By default, it is set to `false`, but you can set it to `true`. Then, when a data-name is set for a slide, any following slides will keep that menu name. Whenever a slide is encountered with `data-sm="false"`, the inheritance will stop.
 
 ``` html
-<div class="menubar">
+<nav class="menubar">
     <ul class="menu"></ul> <!-- Keep this empty -->
-</div>
+</nav>
 <div class="slides">
     <section data-name="Chapter 1">
         //... (Chapter 1 will be active)
@@ -295,32 +311,37 @@ There are a few options that you can change from the Reveal.js options. The valu
 Reveal.initialize({
     // ...
     simplemenu: {
+        menubarclass: "menubar",
         menuclass: "menu",
         activeclass: "active",
         activeelement: "li",
         selectby: "id",
         barhtml: {
-            header: "",
+            header: "<nav class='menubar'><ul class='menu'></ul></nav>",
             footer: ""
         },
         flat: false,
         scale: 0.67,
+        cssautoload: true,
         csspath: ""
    },
     plugins: [ Simplemenu ]
 });
 ```
 
+-   **`menubarclass`**: This option sets the classname of menubars. It is also how Simplemenu recognises a bar you supplied yourself.
 -   **`menuclass`**: This option sets the classname of the menu.
 -   **`activeclass`**: This option is the class an active menuitem gets.
 -   **`activeelement`**: This option sets the element that gets the active class. Change it if you directly want to style the `a`, for example.
 -   **`selectby`**: This option is only needed when adding a menu manually. You then need to link sections to the menu items. The selectby option finds the active slide or stack by this. By default, it selects by ID, but it can also be set to `data-name`. In that case, Simplemenu will compare the text content of your links to the data-name of the section. This only will work if you disable the auto-generation of the menu by adding the menu and menu-items manually.
 -   **`barhtml`**:
-    -   **`header`**: Here you can add the HTML for the header. If you include an empty menu in it, that will be populated with actual links. You might also add a logo here, or anything else you like.
-    -   **`footer`**: Here you can add the HTML for the footer. If you include an empty menu in it, that will be populated with actual links. You might also add a logo here, or anything else you like.
+    -   **`header`**: Here you can add the HTML for the header. If you include an empty menu in it, that will be populated with actual links. You might also add a logo here, or anything else you like. A header bar is added by default, so if you would rather have no bar at all, you can set this to an empty string. If you give the bar an id, that id is kept.
+    -   **`footer`**: Here you can add the HTML for the footer. If you include an empty menu in it, that will be populated with actual links. You might also add a logo here, or anything else you like. There is no footer by default.
 -   **`flat`**: This turns the `flat` option on or off. See the description above.
 -   **`scale`**: When you have a lot of subjects/chapters in your menubar, they might not all fit in a row. To avoid the need to adjust the CSS for each presentation, you can tweak the scale in the options. It is set to be two-thirds of the main scaling.
+-   **`cssautoload`**: Simplemenu loads its own stylesheet when this is on. If you bundle Simplemenu, or import its CSS yourself, it works this out and does not load a second copy, so this normally does not need setting. If you do want it to autoload in a bundled deck, then setting it to `true` yourself turns it back on.
 -   **`csspath`**: Simplemenu will automatically load the styling for the menubar and the menu items. If you want to customise the styling, you can link to your own CSS file here. You can also set `csspath: false` if you define the styling of your menu through some other CSS file that is already loaded.
+-   **`rtl`**: Menu items in a menubar are reversed for right-to-left presentations. Reveal's own `rtl` setting is followed, so this only needs setting if you want something else than what Reveal does. A menu inside your slides keeps its document order either way.
 
 ## Like it?
 

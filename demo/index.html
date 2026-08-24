@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Simplemenu demo list</title>
+    <meta name="author" content="Martijn De Jongh (Martino)">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="assets/css/demo.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <ul class="menu">
+            <li><a href="demo.html">Demo with bar on top</a></li>
+            <li><a href="demo-bottom.html">Demo with bar on bottom</a></li>
+            <li><a href="demo-markdown.html">Demo with markdown</a></li>
+            <li><a href="demo-custom.html">Demo, custom styling, including a logo</a></li>
+            <li><a href="demo-flat.html">Demo, flat chapter navigation</a></li>
+            <li><a href="demo-manual-id.html">Demo, manual setup, select by id</a></li>
+            <li><a href="demo-manual-dataname.html">Demo, manual setup, select by data-name</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="./plugin/simplemenu/simplemenu.js"></script>
+    <script>
+      Reveal.initialize({
+      	plugins: [ Simplemenu ]
+      });
+    </script>
+  </body>
+</html>

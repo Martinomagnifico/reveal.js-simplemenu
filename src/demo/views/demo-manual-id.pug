@@ -1,0 +1,40 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Using manual id"
+
+block beforeslides
+	nav.menubar
+		ul.menu
+			li: a(href="#/firstmenuitem") Why
+			li: a(href="#/secondmenuitem") Setup
+
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+block slides
+	include slides/_slides-manual-id
+
+block append scripts
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					selectby: "id"
+				}
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				history: false,
+				simplemenu: {
+					cssautoload: false,
+					selectby: "id",
+					debug: true
+				}
+			});

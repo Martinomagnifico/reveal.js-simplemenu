@@ -1,0 +1,42 @@
+section.center(data-transition="fade", data-state="hide-menubar")
+	h1 Simplemenu
+	h3 for Reveal.js
+	p Menu on the bottom
+
+section(data-name="First menu item")
+	section.center
+		h3 You can place the menu on the bottom.
+	section.center
+		p Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+section(data-name="Setup")
+	section
+		h3 Setup
+	section
+		p.small Add the HTML of your bottom bar to the #[code barhtml] footer option.
+		pre
+			code.hljs.javascript(data-line-numbers="4-7").
+				Reveal.initialize({
+					//...
+					simplemenu: {
+					    barhtml: { 
+					        header: "",
+					        footer: "&lt;nav class='menubar'&gt;&lt;ul class='menu'&gt;&lt;/ul&gt;&lt;/nav&gt;"
+					    }
+					},
+					plugins: [ Simplemenu ]
+	section
+		p.small You can include the slide number as well, like in this presentation.
+		pre
+			code.hljs.javascript(data-line-numbers="4-7").
+				Reveal.initialize({
+					//...
+					simplemenu: {
+					    barhtml: { 
+					        header: "",
+					        footer: "&lt;nav class='menubar'&gt;&lt;ul class='menu'&gt;&lt;/ul&gt;&lt;div class='slide-number'&gt;&lt;/div&gt;&lt;/nav&gt;"
+					    }
+					},
+					plugins: [ Simplemenu ]
+	section
+		h4 That’s it!

@@ -1,0 +1,32 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title
+
+block slides
+	include slides/_slides-markdown
+
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+block append scripts
+	+revealsrc("script", "dist/plugin/markdown.js")
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`./plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ]
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu],
+				simplemenu: {
+					cssautoload: false,
+					debug: true
+				}
+			});
+

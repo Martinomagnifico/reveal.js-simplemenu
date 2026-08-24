@@ -1,0 +1,67 @@
+section.center(data-transition="fade", data-state="hide-menubar")
+	h1 Simplemenu
+	h3 for Reveal.js
+	p Flat navigation
+
+section(data-name="Why?")
+	h3 Why?
+
+section
+	p Sometimes viewers don’t understand the whole concept of vertical navigation for nested slides.
+	p A solution would be to limit your presentation to horizontal slides only, but you might still want to use ‘chapters’. 
+
+section
+	p Simplemenu has a solution for that. Make your presentation in a flat structure (no nested sections) and turn the #[code flat] option to #[code true]. Then, if a data-name is set for a slide, any following slides will keep that menu name.
+	p.small Of course, you can set it to stop inheriting the name as well.
+
+section(data-name="Set it up")
+	h3 Set it up
+
+section
+	p.small Set the flat option to #[code true]:
+	pre
+		code.hljs.javascript(data-line-numbers="4").
+			&hellip;
+			Reveal.initialize({
+			    simplemenu: {
+			        flat: true
+			    },
+			    plugins: [ Simplemenu ]
+
+section
+	h4 HTML Markup
+	p.small Build your presentation in a flat way (no nested slides). #[br]Then give your sections a #[code data-name]:
+	pre
+		code.hljs.html(data-line-numbers).
+			&lt;div class="slides"&gt;
+			    &lt;section data-name="Chapter 1"&gt;
+			        //...
+			    &lt;/section&gt;
+			    &lt;section&gt;
+			        //... The 'Chapter 1' menu-item will be active for this slide
+			    &lt;/section&gt;
+			    &lt;section&gt;
+			        //... The 'Chapter 1' menu-item will be active for this slide
+			    &lt;/section&gt;
+			&lt;/div&gt;
+section
+	p Any slides following a slide with a data-name will keep that menu name.
+
+section.center(data-sm="false")
+	p To stop inheriting the previous slide menu name, start a new named section, or add #[code data-sm="false"] to your slide.
+	pre
+		code.hljs.html(data-line-numbers="8-10").
+			&lt;div class="slides"&gt;
+			    &lt;section data-name="Chapter 1"&gt;
+			        //...
+			    &lt;/section&gt;
+			    &lt;section&gt;
+			        //... The 'Chapter 1' menu-item will be active for this slide
+			    &lt;/section&gt;
+			    &lt;section data-sm="false"&gt;
+			        //... No menu-item will be active for this slide
+			    &lt;/section&gt;
+			&lt;/div&gt;
+
+section.center(data-state="hide-menubar")
+	h2 That’s it!

@@ -1,0 +1,30 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " list"
+
+block slides
+	section
+		ul.menu
+			li: a(href="demo.html") Demo with bar on top
+			li: a(href="demo-bottom.html") Demo with bar on bottom
+			li: a(href="demo-markdown.html") Demo with markdown
+			li: a(href="demo-custom.html") Demo, custom styling, including a logo
+			li: a(href="demo-flat.html") Demo, flat chapter navigation
+			li: a(href="demo-manual-id.html") Demo, manual setup, select by id
+			li: a(href="demo-manual-dataname.html") Demo, manual setup, select by data-name
+
+block append scripts
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`./plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ Simplemenu ]
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ Simplemenu ]
+			});

@@ -1,0 +1,39 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Menu on the bottom"
+
+block slides
+	include slides/_slides-bottom
+
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'top')
+
+block append scripts
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					barhtml: {
+						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				slideNumber: 'c/t',
+				simplemenu: {
+					cssautoload: false,
+					debug: true,
+					barhtml: {
+						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});

@@ -1,0 +1,51 @@
+section.center#firstslide(data-transition="fade", data-state="hide-menubar")
+	h1 Simplemenu
+	h3 for Reveal.js
+	p.smaller Manual menu, linking to #[code id]
+
+section#firstmenuitem.center
+	h4 Why?
+	p Sometimes manually linking the menu is needed. Simplemenu can do that too.
+	p.small Manually linking can be done through #[code id] and #[code data-name]. #[br]These slides explain the use of #[code id].
+
+section#secondmenuitem.center
+	section
+		h4 It's easy to set up, but expects a few things:
+		ul.small
+			li Menu items can only be top-level sections: regular horizontal slides or vertical stacks.
+			li Create an element that will hold the links. 
+			li Inside this main menu, there have to be anchors with an href.
+			li These need to point to an ID of a regular slide, a stack or the first slide in a stack.
+
+	section
+		h4 JavaScript
+		p.small Load the Simplemenu script and make a reference to it in the Reveal plugin options.
+		br
+		pre
+				code.hljs.html(data-line-numbers).
+					&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
+					&lt;script&gt;
+						Reveal.initialize({
+							plugins: [ Simplemenu ]
+						});
+					&lt;script&gt;
+	section
+		h4 HTML Markup
+		p.small Make anchors in your links to the ID's of your sections. Use the #[code #/anchor] notation that Reveal uses.
+		pre
+			code.hljs.html(data-line-numbers).
+				&lt;nav class="menubar"&gt;
+				    &lt;ul class="menu"&gt;
+				        &lt;li&gt;
+				            &lt;a href="#/firstmenuitem"&gt;First menu item&lt;/a&gt;
+				        &lt;/li&gt;
+				    &lt;/ul&gt;
+				&lt;/nav&gt;
+				&lt;div class="slides"&gt;
+				    &lt;section id="firstmenuitem"&gt;
+				        //...
+				    &lt;/section&gt;
+				        //...
+				&lt;/div&gt;
+	section
+		h4 That’s it!

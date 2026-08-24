@@ -1,0 +1,35 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Flat chapter navigation"
+
+block slides
+	include slides/_slides-flatchapters
+
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+
+block append scripts
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					flat: true
+				}
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					flat: true,
+					cssautoload: false,
+					debug: true
+				}
+			});

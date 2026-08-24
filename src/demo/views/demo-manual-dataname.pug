@@ -1,0 +1,47 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Using data-name"
+
+block beforereveal
+	nav.menubar
+		ul.menu
+			li
+				a(href="#") Why?
+			li
+				a(href="#") Set it up
+
+
+block slides
+	include slides/_slides-manual-dataname
+	
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+block append scripts
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					selectby: "data-name"
+				}
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					selectby: "data-name",
+					//- Matches how Portfolio configures it: the active class goes on the
+					//- anchor rather than the li. Previously untested, and the combination
+					//- that used to crash.
+					activeelement: "a",
+					cssautoload: false,
+					debug: true
+				}
+			});

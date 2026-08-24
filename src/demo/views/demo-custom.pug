@@ -1,0 +1,44 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Using custom styling"
+
+block slides
+	section(data-markdown="custom.md", data-separator="^\r?\n---\r?\n", data-separator-vertical="^\r?\n----\r?\n", data-charset="utf-8")
+
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+block append scripts
+	+revealsrc("script", "dist/plugin/markdown.js")
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ],
+				slideNumber: 'c/t',
+				simplemenu: {
+					cssautoload: true,
+					csspath: "assets/css/mycustomstyle.css",
+					barhtml: {
+						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ],
+				slideNumber: 'c/t',
+				simplemenu: {
+					debug: true,
+					cssautoload: true,
+					csspath: "assets/css/mycustomstyle.css",
+					barhtml: {
+						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
