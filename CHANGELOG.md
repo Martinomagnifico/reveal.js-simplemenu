@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [2.1.0] - 2026-08-25
 ### Breaking
 - The default `barhtml.header` is no longer empty. Simplemenu now ships a default header bar (`<nav class='menubar'><ul class='menu'></ul></nav>`) and creates it for you, where 2.0.3 made no bar at all unless you set `barhtml.header` yourself. Presentations that supply their own bar are detected and left alone (see below), but to restore the old behaviour explicitly, set:
 
@@ -16,6 +16,9 @@
   }
   ```
 
+- The module build is `plugin/simplemenu/simplemenu.mjs`. 2.0.3 shipped it as `simplemenu.esm.js`, and that name is gone. An `exports` alias keeps the old specifier working, so `import Simplemenu from 'reveal.js-simplemenu/plugin/simplemenu/simplemenu.esm.js'` still resolves; a `<script src="plugin/simplemenu/simplemenu.esm.js">` does not, because that reads a real file off disk rather than going through the package. If you load the module by path, then point it at `simplemenu.mjs`.
+- `plugin/simplemenu/plugin-src.js` is no longer published. 2.0.3 shipped the unminified source next to the build; the full source now lives in the repository instead.
+
 ### Added
 - Simplemenu no longer adds a header bar when the presentation already provides one. A bar counts as yours when it carries the `menubarclass`, or when it holds a menu for Simplemenu to fill. A menu inside the slides is treated as a table of contents rather than a bar, so it still gets its section links filled without suppressing the menubar.
 - `rtl` is a Simplemenu option now. Reveal's own `rtl` is still the default, but if you set `simplemenu.rtl`, that wins.
@@ -27,7 +30,6 @@
 - Rebuilt with Vite and Vituum, matching the other plugins, and updated for Reveal.js 6, which ships its plugins in `dist/plugin` rather than a top-level `plugin` folder. Dependencies updated along with it (Vite, Vituum, TypeScript, Biome, sass).
 - Adopted `reveal.js-plugintoolkit` for plugin setup, config merging, CSS autoloading and debug logging. This replaces the hand-rolled equivalents and adds the `cssautoload` option, and it fixes the bug where `Function("return import.meta")()` does not work: `import.meta` is now referenced directly so each output format can handle it, with `document.currentScript` standing in for the UMD build. The stylesheet sets `--cssimported-simplemenu`, which the toolkit reads so that it does not autoload a second copy of CSS you have already imported.
 - Menu links are built as elements and appended, where 2.0.3 wrote the whole menu as one HTML string into `innerHTML`.
-- The Internation `langattribute` falls back to `data-i18n` whether or not Internation is configured. In 2.0.3 it was only read when an `internation` config block was present, so a deck that used `data-i18n` without one got no translation attributes on its menu links.
 - Menubar positioning and the `ready` state are handled in CSS (`.slides ~ .menubar`, `.reveal.ready &`) rather than by assigning classes and inline styles per bar from JavaScript.
 
 ### Deprecated

@@ -64,7 +64,7 @@ The Simplemenu plugin folder can then be referenced from `node_modules/reveal.js
 
 Simplemenu works in setups with multiple Reveal instances.
 
-There are two JavaScript files for Simplemenu, a regular one, `simplemenu.js`, and a module one, `simplemenu.esm.js`. You only need one of them:
+There are two JavaScript files for Simplemenu, a regular one, `simplemenu.js`, and a module one, `simplemenu.mjs`. You only need one of them:
 
 #### Regular
 
