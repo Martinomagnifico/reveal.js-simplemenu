@@ -3,7 +3,7 @@
 ## [2.1.1]
 ### Added
 - CSS variables for the whole stylesheet, 50-plus of them. The list is in the [readme](https://github.com/martinomagnifico/reveal.js-simplemenu#css-variables).
-- An optional marker under the current chapter. Not visible unless you set `--simplemenu-marker-thickness` to something other than 0.
+- An optional marker under the current chapter. Not visible unless you set `--simplemenu-marker-thickness` to something other than 0. A marker/tab thing was already used in the custom styling example, but now it can be done in an easier way.
 - An optional background on a menu item, for its normal, hover and active states.
 - `--simplemenu-item-align`, for when the marker does not line up with the edge of the bar.
 - `--simplemenu-bar-hidden-transform` and `--simplemenu-bar-hidden-opacity`. If you set the transform to `none` and the opacity to `0`, then the bar fades instead of sliding. Some people may like that.
