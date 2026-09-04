@@ -1,44 +1,149 @@
 # Changelog
 
-## [2.1.0] - 2026-08-25
-### Breaking
-- The default `barhtml.header` is no longer empty. Simplemenu now ships a default header bar (`<nav class='menubar'><ul class='menu'></ul></nav>`) and creates it for you, where 2.0.3 made no bar at all unless you set `barhtml.header` yourself. Presentations that supply their own bar are detected and left alone (see below), but to restore the old behaviour explicitly, set:
-
-  ```js
-  simplemenu: { barhtml: { header: "" } }
-  ```
-
-- Generated menubars now get a fixed id: `simplemenu-headerbar` for the header and `simplemenu-footerbar` for the footer. 2.0.3 derived the id from `menubarclass` and the bar's position (`menubartop` / `menubarbottom`), and only when the bar had no id of its own. Bars you write yourself keep their own id and are never renamed.
-
-  ```js
-  simplemenu: {
-    barhtml: { header: "<nav id='menubartop' class='menubar'><ul class='menu'></ul></nav>" }
-  }
-  ```
-
-- The module build is `plugin/simplemenu/simplemenu.mjs`. 2.0.3 shipped it as `simplemenu.esm.js`, and that name is gone. An `exports` alias keeps the old specifier working, so `import Simplemenu from 'reveal.js-simplemenu/plugin/simplemenu/simplemenu.esm.js'` still resolves; a `<script src="plugin/simplemenu/simplemenu.esm.js">` does not, because that reads a real file off disk rather than going through the package. If you load the module by path, then point it at `simplemenu.mjs`.
-- `plugin/simplemenu/plugin-src.js` is no longer published. 2.0.3 shipped the unminified source next to the build; the full source now lives in the repository instead.
-
+## [2.1.1]
 ### Added
-- Simplemenu no longer adds a header bar when the presentation already provides one. A bar counts as yours when it carries the `menubarclass`, or when it holds a menu for Simplemenu to fill. A menu inside the slides is treated as a table of contents rather than a bar, so it still gets its section links filled without suppressing the menubar.
-- `rtl` is a Simplemenu option now. Reveal's own `rtl` is still the default, but if you set `simplemenu.rtl`, that wins.
-- An id in your `barhtml` is kept. 2.0.3 only named a bar that had no id, and that behaviour is back, so a bar you name yourself is left as you wrote it.
-
-### Changed
-- `--simplemenu-bar-padding` now defaults to `0`, as in 2.0.3. It briefly defaulted to `min(0.3em, 14px) 2vmin`, which stopped a menu item's border meeting the bar's own edge — the tab look most menubars use. Set the variable if you want the bar's contents inset.
-
-- Rebuilt with Vite and Vituum, matching the other plugins, and updated for Reveal.js 6, which ships its plugins in `dist/plugin` rather than a top-level `plugin` folder. Dependencies updated along with it (Vite, Vituum, TypeScript, Biome, sass).
-- Adopted `reveal.js-plugintoolkit` for plugin setup, config merging, CSS autoloading and debug logging. This replaces the hand-rolled equivalents and adds the `cssautoload` option, and it fixes the bug where `Function("return import.meta")()` does not work: `import.meta` is now referenced directly so each output format can handle it, with `document.currentScript` standing in for the UMD build. The stylesheet sets `--cssimported-simplemenu`, which the toolkit reads so that it does not autoload a second copy of CSS you have already imported.
-- Menu links are built as elements and appended, where 2.0.3 wrote the whole menu as one HTML string into `innerHTML`.
-- Menubar positioning and the `ready` state are handled in CSS (`.slides ~ .menubar`, `.reveal.ready &`) rather than by assigning classes and inline styles per bar from JavaScript.
-
-### Deprecated
-- The plain `name` attribute on a section is no longer documented or demoed — use `data-name`. It still works, and `selectby: "name"` is still honoured, but a deck using either now prints a one-time `console.warn` naming `data-name` as the replacement. `name` is not a valid attribute on `<section>`, and support for it can go in a future version. The "manual setup, select by name" demo page has been removed; the "select by data-name" demo covers the same ground.
+- CSS variables for the whole stylesheet, 50-plus of them. The list is in the [readme](https://github.com/martinomagnifico/reveal.js-simplemenu#css-variables).
+- An optional marker under the current chapter. Not visible unless you set `--simplemenu-marker-thickness` to something other than 0.
+- An optional background on a menu item, for its normal, hover and active states.
+- `--simplemenu-item-align`, for when the marker does not line up with the edge of the bar.
+- `--simplemenu-bar-hidden-transform` and `--simplemenu-bar-hidden-opacity`. If you set the transform to `none` and the opacity to `0`, then the bar fades instead of sliding. Some people may like that.
+- `simplemenu-bar` and `simplemenu-menu` are used as identifiers for the bar and menu, in case  `menubarclass` and `menuclass` are changed. Helps to avoid a clash with another plugin and keep the styling.
 
 ### Fixed
-- A slide number moved into a menubar stays in the bar under Quarto. Quarto's `quarto-support/footer.css` positions `.reveal .slide-number` absolutely and matches at the same two-class weight as Simplemenu's own rule, but loads after it, so it won the tie and pulled the number out of the bar. The rule now carries a third class.
+- Menu gets has its own `--simplemenu-menu-duration` and `--simplemenu-menu-easing`.
+- Now only a slide number in the menubar gets restyled.
+- A stack gets now always gets the resolved `data-name`.
+- A renamed `menuclass` or `menubarclass` no longer leaves you with an empty bar. The default `barhtml` is built from those two options, where it used to hold the default names.
+- The marker on a `.bottom` bar sits on the top edge again. Its rule had the same weight as the one it was there to beat, so it never won.
+- The menubar border will no longer overlap or underlap (if that is possible) the optional marker in the menu item.
+- Fix for menu fade if hide-menu.
 
-- A manual menu with `activeelement: "a"` and `selectby: "id"` now navigates through Simplemenu itself. The anchor was looked up with `menuItem.querySelector('a')`, but with `activeelement: "a"` the item already *is* the anchor, so no slide matched, `preventDefault()` never ran and the click fell through to the browser. Reveal's own hash routing covered that up for links written as `href="#/some-id"`, but Simplemenu's scroll-view handling was skipped and a menu written with `href="#"` cleared the hash. This is the last of the case-sensitivity bugs from 2.0.3, where the guard read `listItem.tagName == "a"` — `tagName` is uppercase, so it never matched and `activeelement: "a"` threw on a null anchor.
-- Right-to-left no longer reverses a menu outside a menubar, so a table of contents in your slides keeps its document order. 2.0.3 reversed every generated menu.
-- `build-plugin` referred to `vite.lib.config.js` while the file on disk is `vite.lib.config.ts`, so the plugin build did not run.
-- The demo build only picked up `demo*.pug`, so `index.pug` and `packagetest.pug` were never built.
+
+
+## [2.1.0] - 2026-08-25
+### Breaking
+- Simplemenu ships a default header bar and adds it for you. If you want no bar, then set `barhtml: { header: "" }`.
+- Generated menubars get a fixed id, `simplemenu-headerbar` or `simplemenu-footerbar`. A bar you write yourself keeps its own id.
+- The module build is `plugin/simplemenu/simplemenu.mjs`, where 2.0.3 had `simplemenu.esm.js`. An `exports` alias keeps the old specifier working, but a `<script src>` to the old path does not.
+- `plugin/simplemenu/plugin-src.js` is no longer published. The source is in the repository.
+
+### Added
+- Simplemenu adds no bar if your presentation already has one. A bar counts as yours when it has the `menubarclass`, or when there is a menu inside it to fill.
+- `rtl` is a Simplemenu option now. Reveal's own setting is still the default.
+- An id in your `barhtml` is kept.
+
+### Changed
+- `--simplemenu-bar-padding` defaults to `0` again, as in 2.0.3.
+- Rebuilt with Vite and Vituum, and updated for Reveal.js 6, which ships its plugins in `dist/plugin`.
+- Adopted `reveal.js-plugintoolkit` for setup, config merging, CSS autoloading and debug logging. This adds the `cssautoload` option and fixes the `import.meta` bug in the UMD build.
+- Menu links are built as elements, where 2.0.3 wrote the menu as one HTML string.
+- Menubar positioning and the `ready` state are handled in CSS instead of from JavaScript.
+
+### Deprecated
+- The plain `name` attribute on a section. Use `data-name`. It still works, and now prints a one-time warning. The "select by name" demo page is gone; "select by data-name" covers it.
+
+### Fixed
+- A slide number moved into a menubar stays there under Quarto, which loaded a rule of the same weight after Simplemenu's.
+- A manual menu with `activeelement: "a"` and `selectby: "id"` navigates through Simplemenu again.
+- Right-to-left no longer reverses a menu outside a menubar, so a table of contents keeps its order.
+- `build-plugin` pointed at a `.js` config file that is a `.ts` file, so the plugin build did not run.
+- The demo build skipped `index.pug` and `packagetest.pug`.
+
+
+
+## [2.0.3] - 2025-01-31
+### Changed
+- Changed regex to allow for Unicode characters in the `data-name` attribute.
+
+
+
+## [2.0.2] - 2025-01-29
+### Changed
+- Removed (version 4) peer dependency on Reveal.js.
+
+
+
+## [2.0.1] - 2023-06-10
+### Changed
+- Simplemenu will now not stop of no menu is present at all (manual or via options)
+
+
+
+## [2.0.0] - 2022-12-22
+### Added
+- Autoload the CSS styling.
+- Added a new `csspath` option if the user wants to override the autoloading of the included styles. For example, to customise the styling.
+- Added a new `barhtml` option so that the user can easily add a header or footer through the options.
+- Added Markdown support for regular Markdown and Quarto.
+- Added a `scale` option.
+- Added `rtl` behaviour. When set to true in the Reveal.js options, autogenerated menus will also display right-to-left.
+- Added possibility to move slide numbers and/or controls into the menubar. The user needs to add a div with the corresponding name into the menubar, the element will then move there.
+### Changed
+- Automode is removed, Simplemenu will adjust the behaviour on the existence of menu-items in the menus.
+- Allow same data-names
+
+
+
+## [1.1.2] - 2022-10-09
+### Fixed
+- Fix visible menu when slidenumber is displayed
+
+
+
+## [1.1.1] - 2022-09-04
+### Changed
+- Rewrite some code
+
+
+
+## [1.1.0] - 2022-03-16
+### Changed
+- Fix check of parentnode of tested slide
+
+
+
+## [1.0.9] - 2021-12-23
+### Changed
+- Fixed omission of ID's for print-pdf
+
+
+
+## [1.0.8] - 2021-12-23
+### Added
+- Started keeping the changelog.
+
+### Changed
+- Fixed menu items that should be active for `print-pdf` pages, introduced by Reveal version 4.1.1
+
+
+
+## [1.0.7] - 2021-11-19
+### Changed
+- Bugfix where there was a check for the Internation plugin setting
+
+
+
+## [1.0.6] - 2021-11-19
+### Added
+- Added detection of the Internation plugin to correctly link translated menu-items as well in auto mode.
+
+
+
+## [1.0.4] - 2021-10-23
+### Added
+- Added a possibility to use 'data-name' instead of 'name'.
+
+### Changed
+- This fixes the issue where a comment in the .slides div would break the links.
+
+
+
+## [1.0.3] - 2020-06-16
+### Added
+- Added compatibility with the new Reveal.js 4 that changes the way plugins work.
+
+
+
+## [1.0.2] - 2020-06-09
+### Added
+- This version is compatible with Reveal 3.

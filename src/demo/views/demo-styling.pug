@@ -1,0 +1,89 @@
+extends templates/layouts/_reveal.pug
+
+append variables
+	- presentation.title = presentation.title + " - Styling with CSS variables"
+	- presentation.theme = "white"
+
+block append styles
+	//- Simplemenu's own stylesheet stays in place. Every Simplemenu line below is
+	//- a variable.
+	style.
+		.slides a {
+			text-decoration: underline;
+		}
+
+		:root {
+			--r-background-color: #cddddd;
+			--r-main-color: #004444;
+			--r-heading-color: #008080;
+			--r-link-color: #006666;
+			--r-link-color-hover: #009090;
+			--r-main-font-size: 36px;
+			--code-full-bg: #004444;
+
+			/* demo.scss paints the GitHub badge with this. */
+			--c-theme-color: var(--r-main-color);
+		}
+
+		:root {
+			/* The bar and its line both use --r-main-color. */
+			--simplemenu-bar-background: transparent;
+			--simplemenu-bar-padding: 0;
+			--simplemenu-bar-z: 1000;
+			--simplemenu-rule-width: 1px;
+			--simplemenu-rule-color: currentColor;
+			--simplemenu-rule-opacity: 0.3;
+			--simplemenu-item-align: stretch;
+			--simplemenu-link-padding: 0;
+			--simplemenu-item-padding: 0.5em 1em;
+			--simplemenu-item-color: currentColor;
+			--simplemenu-item-opacity: 0.33;
+			--simplemenu-item-opacity-hover: 0.75;
+			--simplemenu-item-opacity-active: 1;
+			--simplemenu-marker-thickness: 0.2em;
+			--simplemenu-marker-color: var(--r-heading-color);
+
+			/* The logo and the slide number, both put in the bar by barhtml. */
+			--simplemenu-logo-width: 4em;
+			--simplemenu-logo-maxwidth: 100%;
+			--simplemenu-logo-padding: 0.25em 0.5em;
+			--simplemenu-slidenumber-opacity: 0.33;
+		}
+
+block slides
+	section(data-markdown="styling.md", data-separator="^\r?\n---\r?\n", data-separator-vertical="^\r?\n----\r?\n", data-charset="utf-8")
+
+block beforeslides
+	+badge(plugin.name.toLowerCase(), 'bottom')
+
+block append scripts
+	+revealsrc("script", "dist/plugin/markdown.js")
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ],
+				slideNumber: 'c/t',
+				simplemenu: {
+					barhtml: {
+						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
+	else
+		script(type="module").
+			import "/src/plugin/css/index.scss";
+			import Simplemenu from '@/plugin/js/index';
+			Reveal.initialize({
+				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ],
+				slideNumber: 'c/t',
+				simplemenu: {
+					cssautoload: false,
+					debug: true,
+					barhtml: {
+						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});

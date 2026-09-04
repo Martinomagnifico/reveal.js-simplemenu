@@ -93,7 +93,7 @@ Reveal.initialize({
           </section>
           <section>
             <h4>HTML Markup</h4>
-            <p class="small">Simplemenu will automatically add a (header) menubar with the below default HTML. Any empty menu in it will be filled. You can add <code>barhtml</code> to your configuration, and change the default one.</p>
+            <p class="small">If your deck has no menubar, then Simplemenu adds one with the markup below, and fills any empty menu in it. If you add <code>barhtml</code> to your configuration, then yours is used instead.</p>
             <pre><code class="hljs javascript" data-line-numbers="3-6">Reveal.initialize({
     simplemenu: {
         barhtml: {
@@ -203,13 +203,28 @@ Reveal.initialize({
           </section>
           <section>
             <h4>Option 3: barhtml</h4>
-            <p class="small">Simplemenu will automatically add a (header) menubar with the below HTML. Any empty menu in it will be filled. If you add <code>barhtml</code> to your configuration, that will override the default one.</p>
+            <p class="small">If your deck has no menubar, then Simplemenu adds one and fills any empty menu in it. The default markup below uses your <code>menubarclass</code> and <code>menuclass</code>.</p>
             <pre><code class="hljs javascript" data-line-numbers="4-7">Reveal.initialize({
   //...
   simplemenu: {
     barhtml: { 
       header: "&lt;nav class='menubar'&gt;&lt;ul class='menu'&gt;&lt;/ul&gt;&lt;/nav&gt;",
       footer: ""
+    }
+  },
+  plugins: [ Simplemenu ]
+})</code></pre>
+          </section>
+          <section>
+            <h4>Option 3: barhtml (continued)</h4>
+            <p class="small">If you write your own <code>barhtml</code>, then Simplemenu uses it exactly as it is. The classes in it have to be the ones you set.</p>
+            <pre><code class="hljs javascript" data-line-numbers="4-9">Reveal.initialize({
+  //...
+  simplemenu: {
+    menubarclass: "sm-bar",
+    menuclass: "sm-menu",
+    barhtml: {
+      header: "&lt;nav class='sm-bar'&gt;&lt;ul class='sm-menu'&gt;&lt;/ul&gt;&lt;/nav&gt;"
     }
   },
   plugins: [ Simplemenu ]
@@ -243,15 +258,15 @@ Reveal.initialize({
           </section>
           <section>
             <h4>Option 5: csspath</h4>
-            <p class="small">Simplemenu will automatically load some styling for the menubar and the links. <br>It is likely that you will want to change it. You can link to your own CSS file with the <code>csspath</code> option.</p>
+            <p class="small">Simplemenu finds and loads its own stylesheet. If it cannot find it, then <code>csspath</code> is how you say where it is.</p>
             <pre><code class="hljs javascript" data-line-numbers="4">Reveal.initialize({
 	//...
 	simplemenu: {
-	    csspath: "mycustomstyle.css"
+	    csspath: "plugin/simplemenu/simplemenu.css"
 	},
 	plugins: [ Simplemenu ]
 })</code></pre>
-            <p class="small">You can also set <code>csspath: false</code> if you define the styling of your menu through some other CSS file that is already loaded.</p>
+            <p class="small">If you import the stylesheet yourself, then set <code>csspath: false</code>. To change how the menubar looks, use the CSS variables.</p>
           </section>
           <section>
             <h4>Option 6: flat</h4>
@@ -267,7 +282,7 @@ Reveal.initialize({
           </section>
           <section>
             <h4>Option 7: menubarclass</h4>
-            <p class="small">The menubarclass option sets the classname of menubars. </p>
+            <p class="small">The menubarclass option sets the classname of menubars. Change it if another plugin already uses that name. Simplemenu still styles the bar, because it writes <code>simplemenu-bar</code> onto it as well.</p>
             <pre><code class="hljs javascript" data-line-numbers="4">Reveal.initialize({
 	//...
 	simplemenu: {
@@ -279,7 +294,7 @@ Reveal.initialize({
           </section>
           <section>
             <h4>Option 8: menuclass</h4>
-            <p class="small">The menuclass option sets the classname of the menu. </p>
+            <p class="small">The menuclass option sets the classname of the menu. Change it if another plugin already uses that name. Simplemenu still styles the menu, because it writes <code>simplemenu-menu</code> onto it as well.</p>
             <pre><code class="hljs javascript" data-line-numbers="4">Reveal.initialize({
 	//...
 	simplemenu: {

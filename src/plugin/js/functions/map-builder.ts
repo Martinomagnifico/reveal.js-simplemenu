@@ -1,6 +1,6 @@
-import type { Deck, SlideMapItem } from "../types";
-import { PLUGIN_ID } from "../config";
 import { pluginDebug as debug, textTools, warnOnce } from "reveal.js-plugintoolkit";
+import { PLUGIN_ID } from "../config";
+import type { Deck, SlideMapItem } from "../types";
 
 // A plain `name` on a section is not valid HTML and is no longer documented or demoed. It keeps working, so a deck that uses one is told what to write instead rather than losing its menu.
 const LEGACY_NAME_NOTICE =
@@ -88,6 +88,11 @@ export const buildBaseMap = (deck: Deck, options: { flat: boolean }): Map<number
 
 		// Check for a name on the section or the first child
 		mapItem.name = getEffectiveName(section);
+
+		// A stack is not something an author can address in Markdown: Reveal builds it around the slides, so `data-stack-name` has to be written on the first vertical slide instead. Copy the resolved name onto the stack itself, so the finished DOM is the same however the deck was authored, and so anything that asks a stack about itself — Internation keys its dictionary on `data-name` — has something to read.
+		if (mapItem.name && !section.dataset.name && section.querySelector(":scope > section")) {
+			section.dataset.name = mapItem.name;
+		}
 
 		// Check for a lang attribute on the section or the first child
 		const langattr =

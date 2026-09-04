@@ -1,7 +1,7 @@
  /*****************************************************************
  *
  * reveal.js-simplemenu for Reveal.js 
- * Version 2.1.0
+ * Version 2.1.1
  * 
  * @link
  * https://github.com/martinomagnifico/reveal.js-simplemenu
@@ -17,5 +17,229 @@
  ******************************************************************/
 
 
-:root{--cssimported-simplemenu:true}.menubar{color:var(--r-main-color,#fff);font-family:var(--r-main-font);z-index:2;box-sizing:border-box;width:100%;padding:var(--simplemenu-bar-padding,0);font-size:clamp(16px, var(--slide-scale,1) * var(--r-main-font-size) * var(--simplemenu-scale), 80px);justify-content:space-between;line-height:1;transition:transform .8s cubic-bezier(.26,.86,.44,.985);display:none;position:fixed;top:0;transform:translateY(-100%)}.menubar.bottom{top:auto;bottom:0;transform:translateY(100%)}.reveal.ready .menubar,.simplemenu-ready .menubar{display:flex}html:not(.print-pdf) body:not(.hide-menubar) .reveal-viewport:not(.hide-menubar) .menubar,html:not(.print-pdf) body.reveal-viewport:not(.hide-menubar) .menubar{transform:translateY(0)}.print-pdf .pdf-page:not(.hide-menubar) .menubar{visibility:visible;position:absolute;transform:translateY(0)}.menubar:before,.menubar:after{content:"";opacity:.3;border-bottom:1px solid;position:absolute;left:0;right:0}.menubar:before{top:0}.menubar:after{bottom:0}.menubar:before,.menubar.bottom:after{opacity:0}.menubar.bottom:before{opacity:.3}.menubar a{color:currentColor;-webkit-font-smoothing:subpixel-antialiased;-moz-osx-font-smoothing:grayscale;padding:.4em 0;text-decoration:none;transition:opacity .2s ease-in-out;display:flex;position:relative}.menubar a:hover{opacity:.75;color:currentColor}.menubar>ul{color:inherit;flex-wrap:wrap;justify-content:center;align-items:center;margin:0 auto;padding:0;list-style:none;transition:opacity .8s cubic-bezier(.26,.86,.44,.985);display:flex}.menubar>ul li{box-sizing:border-box;margin:0;transition:opacity .2s ease-in-out;display:flex}.menubar>ul li:not(:has(a)){opacity:.33;padding:.5em 1em}.menubar>ul li:not(:has(a)).active{opacity:1}.menubar>ul li a{white-space:nowrap;opacity:.33;flex:0;padding:.5em 1em}.menubar>ul li a:hover{opacity:.75}.menubar>ul li a:focus-visible{opacity:.75;outline:none}.menubar>ul li a:focus-visible:before{content:"";border:2px solid;border-radius:.2em;width:calc(100% - 1em);height:calc(100% - .5em - 4px);display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.menubar>ul li+li{margin:0}.menubar>ul li a.active,.menubar>ul li.active a{opacity:1}.menubar *{box-sizing:border-box}.hide-menu .menu,[data-state=hide-menu] .menu{opacity:0}.slides~.menubar,.menubar.bottom{top:auto;bottom:0}.slides~.menubar~.controls{margin-bottom:clamp(16px, 2.5 * var(--slide-scale,1) * var(--r-main-font-size) * var(--simplemenu-scale), 80px)}.reveal .slide-number,.menubar .slide-number{color:inherit;background:0 0;font-family:inherit}.reveal .slide-number a,.menubar .slide-number a{opacity:.33;padding:0}.reveal .slide-number a:hover,.menubar .slide-number a:hover{opacity:.75}.reveal .menubar .slide-number,.menubar .slide-number{flex-direction:row;justify-content:flex-end;align-items:center;min-width:4em;padding-right:1em;font-size:.75em;position:relative;inset:auto;display:flex!important}section.center ul{display:inline-block}.print-pdf .reveal>:not(.slides){display:none}.print-pdf .menubar ul{display:flex}.print-pdf .menubar ul li{margin:0}.print-pdf .pdf-page .menubar{position:absolute;overflow:hidden}.print-pdf a{pointer-events:none}
-/*$vite$:1*/
+:root {
+  --cssimported-simplemenu: true;
+}
+
+.simplemenu-bar {
+  display: none;
+  position: fixed;
+  top: 0;
+  color: var(--r-main-color, #fff);
+  font-family: var(--r-main-font);
+  background: var(--simplemenu-bar-background, transparent);
+  z-index: var(--simplemenu-bar-z, 2);
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: var(--simplemenu-bar-align, stretch);
+  padding: var(--simplemenu-bar-padding, 0);
+  border-bottom: var(--simplemenu-rule-width, 1px) solid transparent;
+  font-size: clamp(var(--simplemenu-font-min, 16px), var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67), var(--simplemenu-font-max, 80px));
+  line-height: var(--simplemenu-line-height, 1);
+  transform: var(--simplemenu-bar-hidden-transform, translateY(-100%));
+  opacity: var(--simplemenu-bar-hidden-opacity, 1);
+  pointer-events: none;
+  transition: transform var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985)), opacity var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985));
+}
+.simplemenu-bar.bottom {
+  top: auto;
+  bottom: 0;
+  transform: var(--simplemenu-bar-hidden-transform, translateY(100%));
+  border-bottom: 0;
+  border-top: var(--simplemenu-rule-width, 1px) solid transparent;
+}
+.simplemenu-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(-1 * var(--simplemenu-rule-width, 1px));
+  border-bottom: var(--simplemenu-rule-width, 1px) solid var(--simplemenu-rule-color, currentColor);
+  opacity: var(--simplemenu-rule-opacity, 0.3);
+}
+.simplemenu-bar.bottom::after {
+  bottom: auto;
+  top: calc(-1 * var(--simplemenu-rule-width, 1px));
+}
+.reveal.ready .simplemenu-bar, .simplemenu-ready .simplemenu-bar {
+  display: flex;
+}
+html:not(.print-pdf) body:not(.hide-menubar) .reveal-viewport:not(.hide-menubar) .simplemenu-bar, html:not(.print-pdf) body.reveal-viewport:not(.hide-menubar) .simplemenu-bar {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.print-pdf .pdf-page:not(.hide-menubar) .simplemenu-bar {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  position: absolute;
+}
+.simplemenu-bar .logo {
+  display: flex;
+  align-items: center;
+  width: var(--simplemenu-logo-width, auto);
+  padding: var(--simplemenu-logo-padding, 0.4em 0);
+}
+.simplemenu-bar .logo img, .simplemenu-bar .logo svg {
+  display: block;
+  max-width: var(--simplemenu-logo-maxwidth, none);
+  max-height: var(--simplemenu-logo-maxheight, 1.8em);
+  margin: var(--simplemenu-logo-margin, 0);
+}
+.simplemenu-bar a {
+  display: flex;
+  padding: var(--simplemenu-link-padding, 0.4em 0);
+  position: relative;
+  text-decoration: none;
+  color: var(--simplemenu-item-color, currentColor);
+  transition: opacity var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out), color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out), background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.simplemenu-bar a:hover {
+  opacity: var(--simplemenu-item-opacity-hover, 0.75);
+  color: var(--simplemenu-item-color-hover, var(--simplemenu-item-color, currentColor));
+}
+.simplemenu-bar .simplemenu-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: var(--simplemenu-menu-justify, center);
+  align-items: var(--simplemenu-item-align, center);
+  list-style: none;
+  padding: 0;
+  margin: var(--simplemenu-menu-margin, 0 auto);
+  gap: var(--simplemenu-item-gap, 0);
+  color: inherit;
+  will-change: opacity;
+  transition: opacity var(--simplemenu-menu-duration, 0.2s) var(--simplemenu-menu-easing, ease-in-out);
+}
+.simplemenu-bar .simplemenu-menu li {
+  display: flex;
+  margin: 0;
+  flex-grow: var(--simplemenu-item-grow, 0);
+  transition: opacity var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out), color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out), background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+}
+.simplemenu-bar .simplemenu-menu li:not(:has(a)), .simplemenu-bar .simplemenu-menu li a {
+  padding: var(--simplemenu-item-padding, 0.5em 1em);
+  opacity: var(--simplemenu-item-opacity, 0.33);
+  color: var(--simplemenu-item-color, currentColor);
+  background: var(--simplemenu-item-background, transparent);
+  border-radius: var(--simplemenu-item-radius, 0);
+}
+.simplemenu-bar .simplemenu-menu li a {
+  flex: 0;
+  flex-grow: var(--simplemenu-item-grow, 0);
+  white-space: nowrap;
+  text-decoration: var(--simplemenu-item-decoration, none);
+  align-items: center;
+  justify-content: center;
+}
+.simplemenu-bar .simplemenu-menu li a:hover {
+  opacity: var(--simplemenu-item-opacity-hover, 0.75);
+  background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
+  text-decoration: var(--simplemenu-item-decoration-hover, var(--simplemenu-item-decoration, none));
+}
+.simplemenu-bar .simplemenu-menu li a:focus-visible {
+  opacity: var(--simplemenu-item-opacity-hover, 0.75);
+  background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
+  outline: none;
+}
+.simplemenu-bar .simplemenu-menu li a:focus-visible::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: calc(100% - 1em);
+  height: calc(100% - 0.5em - 4px);
+  transform: translate(-50%, -50%);
+  border: var(--simplemenu-focus-width, 2px) solid var(--simplemenu-focus-color, currentColor);
+  border-radius: var(--simplemenu-focus-radius, 0.2em);
+}
+.simplemenu-bar .simplemenu-menu li:not(:has(a)).active, .simplemenu-bar .simplemenu-menu li a.active, .simplemenu-bar .simplemenu-menu li.active a {
+  opacity: var(--simplemenu-item-opacity-active, 1);
+  color: var(--simplemenu-item-color-active, var(--simplemenu-item-color, currentColor));
+  background: var(--simplemenu-item-background-active, var(--simplemenu-item-background, transparent));
+}
+.simplemenu-bar .simplemenu-menu li a::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--simplemenu-marker-margin-x, 0);
+  inset-block: var(--simplemenu-marker-edge, auto 0);
+  block-size: var(--simplemenu-marker-thickness, 0);
+  border-radius: var(--simplemenu-marker-radius, 0);
+  background: transparent;
+  transition: background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+}
+.simplemenu-bar.bottom .simplemenu-menu li a::after {
+  inset-block: var(--simplemenu-marker-edge, 0 auto);
+}
+
+.simplemenu-bar .simplemenu-menu li a.active::after, .simplemenu-bar .simplemenu-menu li.active a::after {
+  background: var(--simplemenu-marker-color, currentColor);
+}
+.simplemenu-bar * {
+  box-sizing: border-box;
+}
+
+.hide-menu .simplemenu-menu {
+  opacity: 0;
+}
+
+.slides ~ .simplemenu-bar, .simplemenu-bar.bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.slides ~ .simplemenu-bar ~ .controls {
+  margin-bottom: clamp(16px, 2.5 * var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67), 80px);
+}
+
+.reveal .simplemenu-bar .slide-number,
+.simplemenu-bar .slide-number {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  font-size: var(--simplemenu-slidenumber-size, 0.75em);
+  min-width: var(--simplemenu-slidenumber-minwidth, 4em);
+  position: relative;
+  padding: var(--simplemenu-slidenumber-padding, 0 1em 0 0);
+  inset: auto;
+}
+.reveal .simplemenu-bar .slide-number a,
+.simplemenu-bar .slide-number a {
+  padding: 0;
+  opacity: var(--simplemenu-slidenumber-opacity, var(--simplemenu-item-opacity, 0.75));
+}
+.reveal .simplemenu-bar .slide-number a:hover,
+.simplemenu-bar .slide-number a:hover {
+  opacity: var(--simplemenu-slidenumber-opacity-hover, var(--simplemenu-item-opacity-hover, 1));
+}
+
+section.center .simplemenu-menu {
+  display: inline-block;
+}
+
+.print-pdf .reveal > *:not(.slides) {
+  display: none;
+}
+.print-pdf .simplemenu-bar ul {
+  display: flex;
+}
+.print-pdf .simplemenu-bar ul li {
+  margin: 0;
+}
+.print-pdf .pdf-page .simplemenu-bar {
+  position: absolute;
+  overflow: hidden;
+}
+.print-pdf .simplemenu-bar a {
+  pointer-events: none;
+}

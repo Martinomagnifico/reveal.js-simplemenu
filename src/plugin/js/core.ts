@@ -1,17 +1,16 @@
-import { eventTools, pluginDebug as debug, type RevealInstance } from "reveal.js-plugintoolkit";
-import type { Deck, RevealSlideEvent, SlideMapItem } from "./types";
+import { pluginDebug as debug, eventTools, type RevealInstance } from "reveal.js-plugintoolkit";
 import type { Config } from "./config";
-
-import { updateMenus, updateStates } from "./functions/update-menus";
-import { handleClick } from "./functions/click-handler";
-import { prepareMenubars } from "./functions/setup-auto-menus";
-import { handlePdfMode } from "./functions/pdf-mode";
+import { BAR_CLASS, MENU_CLASS } from "./config";
 import { applyIds } from "./functions/apply-ids";
-import { fixLastItem } from "./functions/last-item-fix";
-import { getRevealUI } from "./functions/get-reveal-ui";
-
 import { isAutoMode } from "./functions/check-auto-mode";
+import { handleClick } from "./functions/click-handler";
+import { getRevealUI } from "./functions/get-reveal-ui";
+import { fixLastItem } from "./functions/last-item-fix";
 import { buildBaseMap } from "./functions/map-builder";
+import { handlePdfMode } from "./functions/pdf-mode";
+import { prepareMenubars } from "./functions/setup-auto-menus";
+import { updateMenus, updateStates } from "./functions/update-menus";
+import type { Deck, RevealSlideEvent, SlideMapItem } from "./types";
 
 export class SimpleMenu {
 	private readonly deck: Deck;
@@ -48,13 +47,10 @@ export class SimpleMenu {
 			}
 		}
 
-		if (this.options.debug) {
-			console.log(
-				`Mode: ${this.auto ? "auto" : "manual"}, flat navigation: ${this.options.flat}`
-			);
-			console.log("Map of all slides:");
-			console.dir([...this.slideMap], { depth: null });
-		}
+		// One switch, not two: the toolkit's debug is already off unless the deck asked for it, so there is no need to test the option here as well.
+		debug.log(`Mode: ${this.auto ? "auto" : "manual"}, flat navigation: ${this.options.flat}`);
+		debug.log("Map of all slides:");
+		debug.dir([...this.slideMap], { depth: null });
 	}
 
 	static async create(deck: Deck, options: Config): Promise<SimpleMenu> {
@@ -76,7 +72,19 @@ export class SimpleMenu {
 		applyIds(this.deck, this.slideMap);
 		fixLastItem(this.deck, this.viewport);
 
+		this.markElements();
+
 		this.viewport.style.setProperty("--simplemenu-scale", this.options.scale.toString());
+	}
+
+	// The stylesheet keys on these, never on `menubarclass` or `menuclass`. Those two say what to look for, which is a deck's business when another plugin already owns a name like `menu`. What to style is not, so it gets a name nobody can change.
+	private markElements(): void {
+		for (const menu of this.menus) {
+			menu.classList.add(MENU_CLASS);
+		}
+		for (const bar of this.viewport.querySelectorAll(`.${this.options.menubarclass}`)) {
+			bar.classList.add(BAR_CLASS);
+		}
 	}
 
 	private setupEventListeners(): void {

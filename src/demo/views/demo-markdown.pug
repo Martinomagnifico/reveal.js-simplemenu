@@ -4,7 +4,8 @@ append variables
 	- presentation.title = presentation.title
 
 block slides
-	include slides/_slides-markdown
+	section(data-markdown="markdown.md", data-separator="^\r?\n---\r?\n", data-separator-vertical="^\r?\n----\r?\n", data-charset="utf-8")
+
 
 block beforeslides
 	+badge(plugin.name.toLowerCase(), 'bottom')
@@ -21,6 +22,7 @@ block append scripts
 			});
 	else
 		script(type="module").
+			import "/src/plugin/css/index.scss";
 			import Simplemenu from '@/plugin/js/index';
 			Reveal.initialize({
 				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu],

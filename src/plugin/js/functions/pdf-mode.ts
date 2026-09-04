@@ -1,7 +1,8 @@
-import type { Deck, SlideMapItem } from "../types";
 import type { Config } from "../config";
-import { moveRevealUI } from "./get-reveal-ui";
+import { BAR_CLASS } from "../config";
+import type { Deck, SlideMapItem } from "../types";
 import { activateMenuItem } from "./activate-menu-item";
+import { moveRevealUI } from "./get-reveal-ui";
 
 const cloneMenubarsToPage = (page: Element, menubars: HTMLElement[]): void => {
 	for (const menubar of menubars) {
@@ -38,7 +39,7 @@ export const handlePdfMode = (
 	const slides = deck.getSlidesElement();
 	const pdfPages = slides.querySelectorAll(".pdf-page");
 	const menubars = Array.from(
-		deck.getViewportElement().querySelectorAll<HTMLElement>(".menubar")
+		deck.getViewportElement().querySelectorAll<HTMLElement>(`.${BAR_CLASS}`)
 	);
 
 	Array.from(pdfPages).forEach((page, pageIndex) => {

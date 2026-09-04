@@ -85,7 +85,7 @@ section(data-name="Set it up")
 
 	section
 		h4 HTML Markup
-		p.small Simplemenu will automatically add a (header) menubar with the below default HTML. Any empty menu in it will be filled. You can add #[code barhtml] to your configuration, and change the default one.
+		p.small If your deck has no menubar, then Simplemenu adds one with the markup below, and fills any empty menu in it. If you add #[code barhtml] to your configuration, then yours is used instead.
 		pre
 			code.hljs.javascript(data-line-numbers="3-6").
 				Reveal.initialize({
@@ -214,7 +214,7 @@ section(data-name="Options").center
 
 	section
 		h4 Option #{optionnr}: barhtml
-		p.small Simplemenu will automatically add a (header) menubar with the below HTML. Any empty menu in it will be filled. If you add #[code barhtml] to your configuration, that will override the default one.
+		p.small If your deck has no menubar, then Simplemenu adds one and fills any empty menu in it. The default markup below uses your #[code menubarclass] and #[code menuclass].
 		pre
 			code.hljs.javascript(data-line-numbers="4-7").
 				Reveal.initialize({
@@ -223,6 +223,24 @@ section(data-name="Options").center
 				    barhtml: { 
 				      header: "&lt;nav class='menubar'&gt;&lt;ul class='menu'&gt;&lt;/ul&gt;&lt;/nav&gt;",
 				      footer: ""
+				    }
+				  },
+				  plugins: [ Simplemenu ]
+				})
+		//-
+
+	section
+		h4 Option #{optionnr}: barhtml (continued)
+		p.small If you write your own #[code barhtml], then Simplemenu uses it exactly as it is. The classes in it have to be the ones you set.
+		pre
+			code.hljs.javascript(data-line-numbers="4-9").
+				Reveal.initialize({
+				  //...
+				  simplemenu: {
+				    menubarclass: "sm-bar",
+				    menuclass: "sm-menu",
+				    barhtml: {
+				      header: "&lt;nav class='sm-bar'&gt;&lt;ul class='sm-menu'&gt;&lt;/ul&gt;&lt;/nav&gt;"
 				    }
 				  },
 				  plugins: [ Simplemenu ]
@@ -264,18 +282,18 @@ section(data-name="Options").center
 
 	section
 		h4 Option #{optionnr++}: csspath
-		p.small Simplemenu will automatically load some styling for the menubar and the links. #[br]It is likely that you will want to change it. You can link to your own CSS file with the #[code csspath] option.
+		p.small Simplemenu finds and loads its own stylesheet. If it cannot find it, then #[code csspath] is how you say where it is.
 		pre
 			code.hljs.javascript(data-line-numbers="4").
 				Reveal.initialize({
 					//...
 					simplemenu: {
-					    csspath: "mycustomstyle.css"
+					    csspath: "plugin/simplemenu/simplemenu.css"
 					},
 					plugins: [ Simplemenu ]
 				})
 		//-
-		p.small You can also set #[code csspath: false] if you define the styling of your menu through some other CSS file that is already loaded.
+		p.small If you import the stylesheet yourself, then set #[code csspath: false]. To change how the menubar looks, use the CSS variables.
 
 	section
 		h4 Option #{optionnr++}: flat
@@ -294,7 +312,7 @@ section(data-name="Options").center
 
 	section
 		h4 Option #{optionnr++}: menubarclass
-		p.small The menubarclass option sets the classname of menubars. 
+		p.small The menubarclass option sets the classname of menubars. Change it if another plugin already uses that name. Simplemenu still styles the bar, because it writes #[code simplemenu-bar] onto it as well.
 		pre
 			code.hljs.javascript(data-line-numbers="4").
 				Reveal.initialize({
@@ -309,7 +327,7 @@ section(data-name="Options").center
 
 	section
 		h4 Option #{optionnr++}: menuclass
-		p.small The menuclass option sets the classname of the menu. 
+		p.small The menuclass option sets the classname of the menu. Change it if another plugin already uses that name. Simplemenu still styles the menu, because it writes #[code simplemenu-menu] onto it as well.
 		pre
 			code.hljs.javascript(data-line-numbers="4").
 				Reveal.initialize({

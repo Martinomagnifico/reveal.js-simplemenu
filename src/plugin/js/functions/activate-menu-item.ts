@@ -1,5 +1,5 @@
-import type { Deck, SlideMapItem } from "../types";
 import type { Config } from "../config";
+import type { SlideMapItem } from "../types";
 
 export const activateMenuItem = (
 	menu: Element,

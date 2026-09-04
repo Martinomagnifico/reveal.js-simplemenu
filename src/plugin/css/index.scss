@@ -1,33 +1,64 @@
 :root {
-    --cssimported-simplemenu: true;
+	--cssimported-simplemenu: true;
 }
 
-.menubar {
+// Written once, so links and items without links animate at the same speed.
+$item-transition:
+	opacity var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out),
+	color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out),
+	background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+
+.simplemenu-bar {
 	// SimpleMenu bar styles
 	display: none;
 	position: fixed;
 	top: 0;
 	color: var(--r-main-color, #fff);
 	font-family: var(--r-main-font);
-	z-index: 2;
+	background: var(--simplemenu-bar-background, transparent);
+	z-index: var(--simplemenu-bar-z, 2);
 	width: 100%;
 	box-sizing: border-box;
 	justify-content: space-between;
-
-	// No inset by default, as in 2.0.3: menu items are commonly styled as tabs,
-	// and their border has to meet the bar's own edge rather than stopping short
-	// of it. Set --simplemenu-bar-padding to inset the bar's contents.
+	align-items: var(--simplemenu-bar-align, stretch);
 	padding: var(--simplemenu-bar-padding, 0);
-	font-size: clamp(16px, calc(var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale)), 80px);
-	line-height: 1;
+	// Reserves the strip the line is drawn in, so nothing in the bar sits on it.
+	border-bottom: var(--simplemenu-rule-width, 1px) solid transparent;
 
-	transform: translateY(-100%);
-	transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+	font-size: clamp(var(--simplemenu-font-min, 16px), calc(var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67)), var(--simplemenu-font-max, 80px));
+	line-height: var(--simplemenu-line-height, 1);
+
+	// Hidden at rest. For a fade instead, set the transform none and opacity 0.
+	transform: var(--simplemenu-bar-hidden-transform, translateY(-100%));
+	opacity: var(--simplemenu-bar-hidden-opacity, 1);
+	// A faded bar still lies over the slide, so a hidden bar takes no clicks.
+	pointer-events: none;
+	transition:
+		transform var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985)),
+		opacity var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985));
 
 	&.bottom {
 		top: auto;
 		bottom: 0;
-		transform: translateY(100%);
+		transform: var(--simplemenu-bar-hidden-transform, translateY(100%));
+		border-bottom: 0;
+		border-top: var(--simplemenu-rule-width, 1px) solid transparent;
+	}
+
+	// The line itself. Painted by a pseudo-element, not by that border, because Safari antialiases a border on a box whose height does not land on a whole pixel, and snaps an absolutely positioned box instead.
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: calc(-1 * var(--simplemenu-rule-width, 1px));
+		border-bottom: var(--simplemenu-rule-width, 1px) solid var(--simplemenu-rule-color, currentColor);
+		opacity: var(--simplemenu-rule-opacity, 0.3);
+	}
+
+	&.bottom::after {
+		bottom: auto;
+		top: calc(-1 * var(--simplemenu-rule-width, 1px));
 	}
 
 	.reveal.ready &, .simplemenu-ready & {
@@ -37,97 +68,108 @@
 	html:not(.print-pdf) body:not(.hide-menubar) .reveal-viewport:not(.hide-menubar) &,
 	html:not(.print-pdf) body.reveal-viewport:not(.hide-menubar) & {
 		transform: translateY(0);
+		opacity: 1;
+		pointer-events: auto;
 	}
 
 	.print-pdf .pdf-page:not(.hide-menubar) & {
 		transform: translateY(0);
+		opacity: 1;
+		pointer-events: auto;
 		visibility: visible;
 		position: absolute;
 	}
 
-	// Decorative borders
-	&:before, &:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		border-bottom: 1px solid currentColor;
-		opacity: 0.3;
+
+	// Optional, and your own markup. This stops a big image making the bar tall.
+	.logo {
+		display: flex;
+		align-items: center;
+		width: var(--simplemenu-logo-width, auto);
+		padding: var(--simplemenu-logo-padding, 0.4em 0);
 	}
-	&:before {
-		top: 0;
-	}
-	&:after {
-		bottom: 0;
-	}
-	&:before {
-		opacity: 0;
-	}
-	&.bottom:after {
-		opacity: 0;
-	}
-	&.bottom:before {
-		opacity: 0.3;
+
+	.logo img, .logo svg {
+		display: block;
+		max-width: var(--simplemenu-logo-maxwidth, none);
+		max-height: var(--simplemenu-logo-maxheight, 1.8em);
+		margin: var(--simplemenu-logo-margin, 0);
 	}
 
 	// Links
 	a {
 		display: flex;
-		padding: 0.4em 0;
+		padding: var(--simplemenu-link-padding, 0.4em 0);
 		position: relative;
 		text-decoration: none;
-		color: currentColor;
-		transition: opacity 0.2s ease-in-out;
+		color: var(--simplemenu-item-color, currentColor);
+		transition: $item-transition;
 		-webkit-font-smoothing: subpixel-antialiased;
 		-moz-osx-font-smoothing: grayscale;
 
+		// Sets the colour here too, because this rule beats the item rule below.
 		&:hover {
-			opacity: 0.75;
-			color: currentColor;
+			opacity: var(--simplemenu-item-opacity-hover, 0.75);
+			color: var(--simplemenu-item-color-hover, var(--simplemenu-item-color, currentColor));
 		}
 	}
 
 	// Menu list
-	> ul {
+	.simplemenu-menu {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
-		align-items: center;
+		justify-content: var(--simplemenu-menu-justify, center);
+		// `stretch` makes the item as tall as the bar, so the marker sits on its edge.
+		align-items: var(--simplemenu-item-align, center);
 		list-style: none;
 		padding: 0;
-		margin: 0 auto;
+		// Moves the menu. `--simplemenu-menu-justify` moves the items inside it.
+		margin: var(--simplemenu-menu-margin, 0 auto);
+		gap: var(--simplemenu-item-gap, 0);
 		color: inherit;
-		transition: opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+
+		// Without its own layer, the fade can stall and then jump to the end.
+		will-change: opacity;
+		// Not the bar's easing: that curve makes a fade look like a snap.
+		transition: opacity var(--simplemenu-menu-duration, 0.2s) var(--simplemenu-menu-easing, ease-in-out);
 
 		li {
 			display: flex;
-			box-sizing: border-box;
 			margin: 0;
-			transition: opacity 0.2s ease-in-out;
+			flex-grow: var(--simplemenu-item-grow, 0);
+			transition: $item-transition;
 
-			&:not(:has(a)) {
-				padding: 0.5em 1em;
-				opacity: 0.33;
-
-				&.active {
-					opacity: 1;
-				}
+			// A chapter with no id has no link inside it, so the item gets these instead.
+			&:not(:has(a)), a {
+				padding: var(--simplemenu-item-padding, 0.5em 1em);
+				opacity: var(--simplemenu-item-opacity, 0.33);
+				color: var(--simplemenu-item-color, currentColor);
+				background: var(--simplemenu-item-background, transparent);
+				border-radius: var(--simplemenu-item-radius, 0);
 			}
 
+			// The link only: its box, its label, and its hover and focus states.
 			a {
 				flex: 0;
-				padding: 0.5em 1em;
+				// Grows with its item, or the marker only underlines part of it.
+				flex-grow: var(--simplemenu-item-grow, 0);
 				white-space: nowrap;
-				opacity: 0.33;
+				text-decoration: var(--simplemenu-item-decoration, none);
+				// Keeps the label centred when the link is made wider or taller.
+				align-items: center;
+				justify-content: center;
 
 				&:hover {
-					opacity: 0.75;
+					opacity: var(--simplemenu-item-opacity-hover, 0.75);
+					background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
+					text-decoration: var(--simplemenu-item-decoration-hover, var(--simplemenu-item-decoration, none));
 				}
 				&:focus-visible {
-					opacity: 0.75;
+					opacity: var(--simplemenu-item-opacity-hover, 0.75);
+					background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
 					outline: none;
 				}
-				&:focus-visible:before {
+				&:focus-visible::before {
 					content: '';
 					position: absolute;
 					left: 50%;
@@ -136,94 +178,115 @@
 					width: calc(100% - 1em);
 					height: calc(100% - 0.5em - 4px);
 					transform: translate(-50%, -50%);
-					border: 2px solid currentColor;
-					border-radius: 0.2em;
+					border: var(--simplemenu-focus-width, 2px) solid var(--simplemenu-focus-color, currentColor);
+					border-radius: var(--simplemenu-focus-radius, 0.2em);
 				}
 			}
 
-			& + li { margin: 0; }
+			// Last of the three, so the current item does not dim when you hover it.
+			&:not(:has(a)).active, a.active, &.active a {
+				opacity: var(--simplemenu-item-opacity-active, 1);
+				color: var(--simplemenu-item-color-active, var(--simplemenu-item-color, currentColor));
+				background: var(--simplemenu-item-background-active, var(--simplemenu-item-background, transparent));
+			}
 
-			a.active, &.active a {
-				opacity: 1;
+			// The marker under the current item. Hidden until you give it a thickness.
+			a::after {
+				content: '';
+				position: absolute;
+				// Space on each side of the marker, so a bigger value is a shorter marker.
+				inset-inline: var(--simplemenu-marker-margin-x, 0);
+				inset-block: var(--simplemenu-marker-edge, auto 0);
+				block-size: var(--simplemenu-marker-thickness, 0);
+				border-radius: var(--simplemenu-marker-radius, 0);
+				background: transparent;
+				transition: background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+			}
+
+			// Flips to the top edge. Needs the menu class to beat the rule above.
+			@at-root .simplemenu-bar.bottom .simplemenu-menu li a::after {
+				inset-block: var(--simplemenu-marker-edge, 0 auto);
+			}
+
+			a.active::after, &.active a::after {
+				background: var(--simplemenu-marker-color, currentColor);
 			}
 		}
 	}
 
 	* {
-	box-sizing: border-box;
+		box-sizing: border-box;
 	}
 }
 
-.hide-menu .menu, [data-state="hide-menu"] .menu {
+// Only the menu fades. The items keep their own timing.
+.hide-menu .simplemenu-menu {
 	opacity: 0;
 }
 
-.slides ~ .menubar, .menubar.bottom {
+.slides ~ .simplemenu-bar, .simplemenu-bar.bottom {
 	top: auto;
 	bottom: 0;
 }
 
-.slides ~ .menubar ~ .controls {
-	margin-bottom: clamp(16px, calc(2.5 * var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale)), 80px);
+.slides ~ .simplemenu-bar ~ .controls {
+	margin-bottom: clamp(16px, calc(2.5 * var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67)), 80px);
 }
 
-.reveal .slide-number, .menubar .slide-number {
-	background: none;
-	font-family: inherit;
-	color: inherit;
-
-	a {
-	padding: 0;
-	opacity: 0.33;
-
-	&:hover {
-		opacity: 0.75;
-	}
-	}
-}
-
-// `.reveal` is carried for specificity, not for scoping. A slide number inside a
-// menubar has to sit in the flex row, but Reveal and Quarto both place the deck's
-// own one absolutely, and Quarto's `quarto-support/footer.css` matches
-// `.reveal .slide-number` — the same two-class weight as `.menubar .slide-number`,
-// loaded after this file, so a plain rule loses the tie and the number floats out
-// of the bar. Three classes settles it whatever the order.
-.reveal .menubar .slide-number,
-.menubar .slide-number {
+// Only a number moved into the bar. `.reveal` is there to beat Quarto's rule.
+.reveal .simplemenu-bar .slide-number,
+.simplemenu-bar .slide-number {
 	display: flex !important;
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
-	font-size: 0.75em;
-	min-width: 4em; // Prevent jumps when slide number changes
+	background: none;
+	font-family: inherit;
+	color: inherit;
+	font-size: var(--simplemenu-slidenumber-size, 0.75em);
+	min-width: var(--simplemenu-slidenumber-minwidth, 4em); // Prevent jumps when slide number changes
 	position: relative;
-	padding-right: 1em;
+	// All four sides, so one variable sets them all.
+	padding: var(--simplemenu-slidenumber-padding, 0 1em 0 0);
 	inset: auto;
+
+	// Unset, so it uses the item's value and matches a restyled menu on its own.
+	a {
+		padding: 0;
+		opacity: var(--simplemenu-slidenumber-opacity, var(--simplemenu-item-opacity, 0.75));
+
+		&:hover {
+			opacity: var(--simplemenu-slidenumber-opacity-hover, var(--simplemenu-item-opacity-hover, 1));
+		}
+	}
 }
 
-section.center ul {
+// Simplemenu's own list. Other lists on a centred slide are yours.
+section.center .simplemenu-menu {
 	display: inline-block;
 }
 
 .print-pdf {
+	// Print mode clones one into each `.pdf-page`.
 	.reveal > *:not(.slides) {
 		display: none;
 	}
 
-	.menubar ul {
+	.simplemenu-bar ul {
 		display: flex;
 	}
 
-	.menubar ul li {
+	.simplemenu-bar ul li {
 		margin: 0;
 	}
 
-	.pdf-page .menubar {
+	.pdf-page .simplemenu-bar {
 		position: absolute;
 		overflow: hidden;
 	}
 
-	a {
+	// The bar's own links only. Your slide links keep working.
+	.simplemenu-bar a {
 		pointer-events: none;
 	}
 }

@@ -1,6 +1,6 @@
-import type { Deck, SlideMapItem } from "../types";
-import type { Config } from "../config.ts";
 import { textTools } from "reveal.js-plugintoolkit";
+import type { Config } from "../config.ts";
+import type { Deck, SlideMapItem } from "../types";
 
 export const prepareMenubars = (
 	deck: Deck,
@@ -91,7 +91,7 @@ const fillMenu = (
 	}
 
 	// If RTL and menu is in a horizontal menubar, reverse the order
-	if (config.rtl && menu.closest(".menubar")) {
+	if (config.rtl && menu.closest(`.${config.menubarclass}`)) {
 		menuItems.reverse();
 	}
 

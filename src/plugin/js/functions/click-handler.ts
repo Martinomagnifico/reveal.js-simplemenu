@@ -1,6 +1,6 @@
-import type { Deck, SlideMapItem } from "../types";
-import type { Config } from "../config";
 import { pluginDebug as debug } from "reveal.js-plugintoolkit";
+import type { Config } from "../config";
+import type { Deck, SlideMapItem } from "../types";
 
 export const findMenuItemConnection = (
 	menuItem: HTMLElement,

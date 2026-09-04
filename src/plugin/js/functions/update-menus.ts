@@ -1,6 +1,5 @@
-import type { SlideMapItem } from "../types";
 import type { Config } from "../config";
-import { pluginDebug as debug } from "reveal.js-plugintoolkit";
+import type { SlideMapItem } from "../types";
 import { activateMenuItem } from "./activate-menu-item";
 
 let currentStates: string[] = [];
