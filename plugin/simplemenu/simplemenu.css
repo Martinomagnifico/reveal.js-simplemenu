@@ -189,6 +189,14 @@ html:not(.print-pdf) body:not(.hide-menubar) .reveal-viewport:not(.hide-menubar)
   opacity: 0;
 }
 
+.hide-menubar .simplemenu-bar .simplemenu-menu li a::after {
+  transition-duration: var(--simplemenu-bar-duration, 0.8s);
+}
+
+.hide-menu .simplemenu-bar .simplemenu-menu li a::after {
+  transition-duration: var(--simplemenu-menu-duration, 0.2s);
+}
+
 .slides ~ .simplemenu-bar, .simplemenu-bar.bottom {
   top: auto;
   bottom: 0;

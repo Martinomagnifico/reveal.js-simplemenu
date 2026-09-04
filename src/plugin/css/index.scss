@@ -224,6 +224,15 @@ $item-transition:
 	opacity: 0;
 }
 
+// The marker leaves with whatever is hiding it, so it does not switch off in front of a bar that is still on its way out. Only the marker: the label goes back to its resting opacity on the item's own clock, as it does on any other slide.
+.hide-menubar .simplemenu-bar .simplemenu-menu li a::after {
+	transition-duration: var(--simplemenu-bar-duration, 0.8s);
+}
+
+.hide-menu .simplemenu-bar .simplemenu-menu li a::after {
+	transition-duration: var(--simplemenu-menu-duration, 0.2s);
+}
+
 .slides ~ .simplemenu-bar, .simplemenu-bar.bottom {
 	top: auto;
 	bottom: 0;
