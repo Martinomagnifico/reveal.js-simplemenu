@@ -40,11 +40,17 @@
             <h4>What Simplemenu does</h4>
             <ul>
               <li>Generates a menu of your sections and stacks</li>
-              <li>Puts the menu in a header or footer</li>
+              <li>Puts the menu in a top or bottom menubar</li>
               <li>And/or on any slide as an agenda or TOC</li>
               <li>Use the menu to navigate</li>
-              <li>Update the menu state during navigation</li>
+              <li>Highlights the active menu item</li>
+              <li>Adapts the menubar to the slide background colour</li>
             </ul>
+          </section>
+          <section class="center" data-background-color="#fff">
+            <h4>On a slide like this</h4>
+            <p class="small">The bar uses the colour of your text, so it changes with a slide whose background goes the other way round.</p>
+            <p class="small">If you want it to use a different colour, then see the <a href="demo-styling.html">Styling</a> demo.</p>
           </section>
           <section class="center">
             <p class="small">Menu items can only be regular horizontal slides or vertical stacks.</p><img data-src="assets/img/simplemenusetup.png">
@@ -59,7 +65,7 @@
           <section>
             <h4>JavaScript</h4>
             <p class="small">Download the plugin folder and make a reference to it in the Reveal plugin options:</p>
-            <p class="small">(The CSS file is autoloaded, but you can also load it manually if you want to changeit.)</p>
+            <p class="small">(The CSS file is autoloaded, but you can also load it manually if you want to change it.)</p>
             <pre><code class="hljs html" data-line-numbers>&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
 &lt;script&gt;
     Reveal.initialize({
@@ -306,16 +312,16 @@ Reveal.initialize({
           </section>
           <section>
             <h4>Option 9: rtl</h4>
-            <p class="small">When rtl (right-to-left) is set in the Reveal.js options, any automatic menu-items in menubars will inherit that, and have a reversed order. If you do not like that behaviour, you can set it to <code>false</code> in the Simplemenu options.</p>
+            <p class="small">When rtl (right-to-left) is set in the Reveal.js options, the menubar follows it: the menu items start on the right, and anything else in the bar changes sides with them. If you want something else than what Reveal does, then set it in the Simplemenu options.</p>
             <pre><code class="hljs javascript" data-line-numbers="5">Reveal.initialize({
 	//...
 	rtl: true,
 	simplemenu: {
-	    rtl: true
+	    rtl: false
 	},
 	plugins: [ Simplemenu ]
 })</code></pre>
-            <p class="small">It is set to be two-thirds of the main scaling.</p>
+            <p class="small">A bar that is given its own <code>rtl</code> keeps that direction, also when a plugin such as Internation changes the language while the deck runs.</p>
           </section>
           <section>
             <h4>Option 10: scale</h4>
@@ -339,7 +345,7 @@ Reveal.initialize({
 	},
 	plugins: [ Simplemenu ]
 })</code></pre>
-            <p class="small">By default it is 'id', but can also be set to 'data-name'. If set to data-name, Simplemenu will compare the text content of the link to the section. Then <code>&lt;a(href="#")&gt;What it does&lt;/a&gt;</code> will link to <code>&lt;section(data-name="What it does")&gt;&lt;/section&gt;</code>.</p>
+            <p class="small">By default it is 'id', but can also be set to 'data-name'. If set to data-name, Simplemenu will compare the text content of the link to the section. Then <code>&lt;a href="#"&gt;What it does&lt;/a&gt;</code> will link to <code>&lt;section data-name="What it does"&gt;&lt;/section&gt;</code>.</p>
           </section>
         </section>
         <section class="center" data-name="Demos">

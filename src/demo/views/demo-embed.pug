@@ -1,0 +1,75 @@
+extends templates/layouts/_reveal-embed.pug
+
+append variables
+	- presentation.title = presentation.title + " - Embedded"
+
+//- Deck one has the default menubar on top, deck two has one on the bottom, so
+//- both placements are on the page at once.
+block slides
+	include slides/_slides
+
+block slidestwo
+	include slides/_slides-bottom
+
+append styles
+	style.
+		body { background: var(--r-background-color); }
+
+block append scripts
+	+revealsrc("script", "dist/plugin/highlight.js")
+
+	if process.env.NODE_ENV === 'production'
+		script(src=`plugin/${plugin.name}/${plugin.name}.js`)
+		script.
+			const deck1 = new Reveal(document.querySelector("#deck1"), {
+				embedded: true,
+				keyboardCondition: "focused",
+				controlsTutorial: false,
+				plugins: [ Simplemenu, RevealHighlight ]
+			});
+
+			const deck2 = new Reveal(document.querySelector("#deck2"), {
+				embedded: true,
+				keyboardCondition: "focused",
+				controlsTutorial: false,
+				slideNumber: "c/t",
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					barhtml: {
+						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
+
+			deck1.initialize();
+			deck2.initialize();
+	else
+		script(type="module").
+			import Simplemenu from '@/plugin/js/index';
+
+			const deck1 = new Reveal(document.querySelector("#deck1"), {
+				embedded: true,
+				keyboardCondition: "focused",
+				controlsTutorial: false,
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					debug: true
+				}
+			});
+
+			const deck2 = new Reveal(document.querySelector("#deck2"), {
+				embedded: true,
+				keyboardCondition: "focused",
+				controlsTutorial: false,
+				slideNumber: "c/t",
+				plugins: [ Simplemenu, RevealHighlight ],
+				simplemenu: {
+					debug: true,
+					barhtml: {
+						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"
+					}
+				}
+			});
+
+			deck1.initialize();
+			deck2.initialize();

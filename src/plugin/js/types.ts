@@ -10,6 +10,8 @@ export interface SlideMapItem {
 	parentIndex?: number;
 	verticalIndex?: number;
 	langattr?: string | null;
+	/** The section this item stands for: the slide, or the stack for a chapter with vertical slides. In print, each vertical slide. */
+	element?: HTMLElement;
 }
 
 interface DirectionalEventData {

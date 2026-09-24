@@ -20,10 +20,16 @@ section(data-name="Why?")
 		h4 What Simplemenu does
 		ul
 			li Generates a menu of your sections and stacks
-			li Puts the menu in a header or footer
+			li Puts the menu in a top or bottom menubar
 			li And/or on any slide as an agenda or TOC
 			li Use the menu to navigate
-			li Update the menu state during navigation
+			li Highlights the active menu item
+			li Adapts the menubar to the slide background colour
+
+	section.center(data-background-color="#fff")
+		h4 On a slide like this
+		p.small The bar uses the colour of your text, so it changes with a slide whose background goes the other way round.
+		p.small If you want it to use a different colour, then see the #[a(href="demo-styling.html") Styling] demo.
 
 	section.center
 		p.small Menu items can only be regular horizontal slides or vertical stacks.
@@ -40,7 +46,7 @@ section(data-name="Set it up")
 	section
 		h4 JavaScript
 		p.small Download the plugin folder and make a reference to it in the Reveal plugin options:
-		p.small (The CSS file is autoloaded, but you can also load it manually if you want to changeit.)
+		p.small (The CSS file is autoloaded, but you can also load it manually if you want to change it.)
 		pre
 			code.hljs.html(data-line-numbers).
 				&lt;script src="plugin/simplemenu/simplemenu.js"&gt;&lt;/script&gt;
@@ -342,19 +348,19 @@ section(data-name="Options").center
 
 	section
 		h4 Option #{optionnr++}: rtl
-		p.small When rtl (right-to-left) is set in the Reveal.js options, any automatic menu-items in menubars will inherit that, and have a reversed order. If you do not like that behaviour, you can set it to #[code false] in the Simplemenu options.
+		p.small When rtl (right-to-left) is set in the Reveal.js options, the menubar follows it: the menu items start on the right, and anything else in the bar changes sides with them. If you want something else than what Reveal does, then set it in the Simplemenu options.
 		pre
 			code.hljs.javascript(data-line-numbers="5").
 				Reveal.initialize({
 					//...
 					rtl: true,
 					simplemenu: {
-					    rtl: true
+					    rtl: false
 					},
 					plugins: [ Simplemenu ]
 				})
 		//-
-		p.small It is set to be two-thirds of the main scaling.
+		p.small A bar that is given its own #[code rtl] keeps that direction, also when a plugin such as Internation changes the language while the deck runs.
 
 	section
 		h4 Option #{optionnr++}: scale
@@ -384,7 +390,7 @@ section(data-name="Options").center
 					plugins: [ Simplemenu ]
 				})
 		//-
-		p.small By default it is 'id', but can also be set to 'data-name'. If set to data-name, Simplemenu will compare the text content of the link to the section. Then #[code &lt;a(href="#")&gt;What it does&lt;/a&gt;] will link to #[code &lt;section(data-name="What it does")&gt;&lt;/section&gt;].
+		p.small By default it is 'id', but can also be set to 'data-name'. If set to data-name, Simplemenu will compare the text content of the link to the section. Then #[code &lt;a href="#"&gt;What it does&lt;/a&gt;] will link to #[code &lt;section data-name="What it does"&gt;&lt;/section&gt;].
 
 section.center(data-name="Demos")
 	h2 Demos

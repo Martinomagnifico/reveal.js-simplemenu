@@ -22,12 +22,10 @@ block append scripts
 			});
 	else
 		script(type="module").
-			import "/src/plugin/css/index.scss";
 			import Simplemenu from '@/plugin/js/index';
 			Reveal.initialize({
 				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu],
 				simplemenu: {
-					cssautoload: false,
 					debug: true
 				}
 			});

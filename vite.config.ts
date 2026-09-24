@@ -5,6 +5,7 @@ import vituum from "vituum";
 import pug from "@vituum/vite-plugin-pug";
 import pkg from "./package.json" with { type: "json" };
 import pluginConfig from './plugin.config.js'
+import dynamicIndex from './vite-plugins/vite-plugin-dynamic-index.ts';
 import suppressWarnings from './vite-plugins/vite-plugin-suppress-warnings.ts';
 
 export default defineConfig({
@@ -16,7 +17,6 @@ export default defineConfig({
             checks: {
                 emptyImportMeta: false,
             },
-            // Every page in views/, not just demo*.pug — index.pug is a page too and was being skipped.
             input: [
                 resolve(import.meta.dirname, "src/demo/views/*.pug"),
                 resolve(import.meta.dirname, "src/demo/style/*.scss"),
@@ -60,6 +60,7 @@ export default defineConfig({
                 pretty: true,
             },
         }),
+        dynamicIndex(),
         suppressWarnings()
     ],
     resolve: {

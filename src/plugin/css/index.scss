@@ -2,27 +2,60 @@
 	--cssimported-simplemenu: true;
 }
 
+// How far an item has moved towards its hover colour and its active colour, from 0 to 1. Registered, because only a registered property can be transitioned. See `$item-color`.
+@property --_simplemenu-hover {
+	syntax: '<number>';
+	inherits: false;
+	initial-value: 0;
+}
+
+@property --_simplemenu-active {
+	syntax: '<number>';
+	inherits: false;
+	initial-value: 0;
+}
+
+// Every rule here weighs one class: `.simplemenu-bar`, with whatever follows it wrapped in `:where()`. A state adds one more, so `:hover` and `.active` weigh two. A rule of your own with a class and an element, or with two classes, therefore wins without a fight.
+// One class is as light as it can go, because Reveal's reset styles `a`, `ul`, `li`, `nav` and `div` by element.
+// The exception is what Reveal's theme sets on every link, list and image in a deck. Those few properties are written once, near the end, with just enough weight to beat the theme.
+
+$item-duration: var(--simplemenu-item-duration, 0.2s);
+$item-easing: var(--simplemenu-item-easing, ease-in-out);
+
+// An item's colour is a mix of its resting, hover and active colours, and only the amounts in the mix are transitioned. Its resting colour is usually the bar's, and a transition on the colour itself would chase the bar's own change of colour and arrive late.
+$item-color-rest: var(--simplemenu-item-color, currentColor);
+$item-color: color-mix(in srgb,
+	var(--simplemenu-item-color-active, #{$item-color-rest}) calc(var(--_simplemenu-active) * 100%),
+	color-mix(in srgb, var(--simplemenu-item-color-hover, #{$item-color-rest}) calc(var(--_simplemenu-hover) * 100%), #{$item-color-rest}));
+
 // Written once, so links and items without links animate at the same speed.
 $item-transition:
-	opacity var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out),
-	color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out),
-	background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
+	opacity #{$item-duration} #{$item-easing},
+	background-color #{$item-duration} #{$item-easing},
+	--_simplemenu-hover #{$item-duration} #{$item-easing},
+	--_simplemenu-active #{$item-duration} #{$item-easing};
+
+// The same without the colour mix, for a box that only holds a link.
+$box-transition:
+	opacity #{$item-duration} #{$item-easing},
+	background-color #{$item-duration} #{$item-easing};
 
 .simplemenu-bar {
 	// SimpleMenu bar styles
 	display: none;
-	position: fixed;
+	// In an anchor from the toolkit, which holds the edge of what the reader sees, so the bar only sits against it.
+	position: absolute;
 	top: 0;
-	color: var(--r-main-color, #fff);
+	inset-inline: 0;
+	color: var(--simplemenu-bar-color, var(--c-theme-color, var(--r-main-color, #fff)));
 	font-family: var(--r-main-font);
 	background: var(--simplemenu-bar-background, transparent);
 	z-index: var(--simplemenu-bar-z, 2);
-	width: 100%;
 	box-sizing: border-box;
 	justify-content: space-between;
 	align-items: var(--simplemenu-bar-align, stretch);
 	padding: var(--simplemenu-bar-padding, 0);
-	// Reserves the strip the line is drawn in, so nothing in the bar sits on it.
+	// Reserves the strip the line sits in, so nothing in the bar overlaps it.
 	border-bottom: var(--simplemenu-rule-width, 1px) solid transparent;
 
 	font-size: clamp(var(--simplemenu-font-min, 16px), calc(var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67)), var(--simplemenu-font-max, 80px));
@@ -33,9 +66,11 @@ $item-transition:
 	opacity: var(--simplemenu-bar-hidden-opacity, 1);
 	// A faded bar still lies over the slide, so a hidden bar takes no clicks.
 	pointer-events: none;
+	// Only the bar changes colour on a slide that contrasts the theme. Everything in it inherits the colour as it moves, so the items, the line and the slide number arrive together.
 	transition:
 		transform var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985)),
-		opacity var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985));
+		opacity var(--simplemenu-bar-duration, 0.8s) var(--simplemenu-bar-easing, cubic-bezier(0.26, 0.86, 0.44, 0.985)),
+		color var(--simplemenu-bar-color-duration, #{$item-duration}) #{$item-easing};
 
 	&.bottom {
 		top: auto;
@@ -81,50 +116,56 @@ $item-transition:
 	}
 
 
-	// Optional, and your own markup. This stops a big image making the bar tall.
-	.logo {
+	// Optional, and your own markup. This stops a big image making the bar tall. Its padding is below the links, because a logo is usually a link.
+	:where(.logo) {
 		display: flex;
 		align-items: center;
 		width: var(--simplemenu-logo-width, auto);
-		padding: var(--simplemenu-logo-padding, 0.4em 0);
 	}
 
-	.logo img, .logo svg {
+	:where(.logo img, .logo svg) {
 		display: block;
-		max-width: var(--simplemenu-logo-maxwidth, none);
-		max-height: var(--simplemenu-logo-maxheight, 1.8em);
-		margin: var(--simplemenu-logo-margin, 0);
 	}
 
-	// Links
-	a {
+	// Optional, and your own markup. A box for your own things in the bar. Its padding is half of what a menu item gets by default, which suits a button or a chooser better than a full item's spacing. It does not follow `--simplemenu-item-padding`, so restyling the menu leaves it as it is. It is not given a width: how it shares the bar is yours to set.
+	:where(.padbox) {
+		display: flex;
+		align-items: center;
+		padding: var(--simplemenu-bar-padbox, 0.25em 0.5em);
+	}
+
+	// Links. Their colour, underline and transition are further down, with the rest of what Reveal's theme sets.
+	:where(a) {
 		display: flex;
 		padding: var(--simplemenu-link-padding, 0.4em 0);
 		position: relative;
-		text-decoration: none;
-		color: var(--simplemenu-item-color, currentColor);
-		transition: $item-transition;
 		-webkit-font-smoothing: subpixel-antialiased;
 		-moz-osx-font-smoothing: grayscale;
 
-		// Sets the colour here too, because this rule beats the item rule below.
-		&:hover {
+		// The logo is left out. It is a brand mark, not a label, so it is never dimmed.
+		&:where(:not(.logo, .logo *, :has(.logo))):hover {
 			opacity: var(--simplemenu-item-opacity-hover, 0.75);
-			color: var(--simplemenu-item-color-hover, var(--simplemenu-item-color, currentColor));
+			--_simplemenu-hover: 1;
 		}
 	}
 
+	// After the links, because a logo is usually a link and both rules weigh one class.
+	:where(.logo) {
+		padding: var(--simplemenu-logo-padding, 0.4em 0);
+	}
+
+	// In a padbox the box gives the room, so the logo gets none of its own unless you set it.
+	:where(.padbox .logo) {
+		padding: var(--simplemenu-logo-padding, 0);
+	}
+
 	// Menu list
-	.simplemenu-menu {
-		display: flex;
+	:where(.simplemenu-menu) {
 		flex-wrap: wrap;
 		justify-content: var(--simplemenu-menu-justify, center);
 		// `stretch` makes the item as tall as the bar, so the marker sits on its edge.
 		align-items: var(--simplemenu-item-align, center);
-		list-style: none;
 		padding: 0;
-		// Moves the menu. `--simplemenu-menu-justify` moves the items inside it.
-		margin: var(--simplemenu-menu-margin, 0 auto);
 		gap: var(--simplemenu-item-gap, 0);
 		color: inherit;
 
@@ -132,91 +173,142 @@ $item-transition:
 		will-change: opacity;
 		// Not the bar's easing: that curve makes a fade look like a snap.
 		transition: opacity var(--simplemenu-menu-duration, 0.2s) var(--simplemenu-menu-easing, ease-in-out);
+	}
 
-		li {
-			display: flex;
-			margin: 0;
-			flex-grow: var(--simplemenu-item-grow, 0);
-			transition: $item-transition;
+	:where(.simplemenu-menu li) {
+		display: flex;
+		margin: 0;
+		flex-grow: var(--simplemenu-item-grow, 0);
+		transition: $box-transition;
+	}
 
-			// A chapter with no id has no link inside it, so the item gets these instead.
-			&:not(:has(a)), a {
-				padding: var(--simplemenu-item-padding, 0.5em 1em);
-				opacity: var(--simplemenu-item-opacity, 0.33);
-				color: var(--simplemenu-item-color, currentColor);
-				background: var(--simplemenu-item-background, transparent);
-				border-radius: var(--simplemenu-item-radius, 0);
-			}
+	// A chapter with no id has no link inside it, so the item gets these instead.
+	// This one does change its own colour, so it gets the colour mix back.
+	:where(.simplemenu-menu li:not(:has(a))) {
+		color: $item-color;
+		transition: $item-transition;
+	}
 
-			// The link only: its box, its label, and its hover and focus states.
-			a {
-				flex: 0;
-				// Grows with its item, or the marker only underlines part of it.
-				flex-grow: var(--simplemenu-item-grow, 0);
-				white-space: nowrap;
-				text-decoration: var(--simplemenu-item-decoration, none);
-				// Keeps the label centred when the link is made wider or taller.
-				align-items: center;
-				justify-content: center;
+	:where(.simplemenu-menu li:not(:has(a)), .simplemenu-menu li a) {
+		padding: var(--simplemenu-item-padding, 0.5em 1em);
+		opacity: var(--simplemenu-item-opacity, 0.33);
+		background: var(--simplemenu-item-background, transparent);
+		border-radius: var(--simplemenu-item-radius, 0);
+	}
 
-				&:hover {
-					opacity: var(--simplemenu-item-opacity-hover, 0.75);
-					background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
-					text-decoration: var(--simplemenu-item-decoration-hover, var(--simplemenu-item-decoration, none));
-				}
-				&:focus-visible {
-					opacity: var(--simplemenu-item-opacity-hover, 0.75);
-					background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
-					outline: none;
-				}
-				&:focus-visible::before {
-					content: '';
-					position: absolute;
-					left: 50%;
-					top: 50%;
-					display: block;
-					width: calc(100% - 1em);
-					height: calc(100% - 0.5em - 4px);
-					transform: translate(-50%, -50%);
-					border: var(--simplemenu-focus-width, 2px) solid var(--simplemenu-focus-color, currentColor);
-					border-radius: var(--simplemenu-focus-radius, 0.2em);
-				}
-			}
+	// The link only: its box, its label, and its hover and focus states.
+	:where(.simplemenu-menu li a) {
+		flex: 0;
+		// Grows with its item, or the marker only underlines part of it.
+		flex-grow: var(--simplemenu-item-grow, 0);
+		white-space: nowrap;
+		--_simplemenu-decoration: var(--simplemenu-item-decoration, none);
+		// Keeps the label centred when the link is made wider or taller.
+		align-items: center;
+		justify-content: center;
 
-			// Last of the three, so the current item does not dim when you hover it.
-			&:not(:has(a)).active, a.active, &.active a {
-				opacity: var(--simplemenu-item-opacity-active, 1);
-				color: var(--simplemenu-item-color-active, var(--simplemenu-item-color, currentColor));
-				background: var(--simplemenu-item-background-active, var(--simplemenu-item-background, transparent));
-			}
-
-			// The marker under the current item. Hidden until you give it a thickness.
-			a::after {
-				content: '';
-				position: absolute;
-				// Space on each side of the marker, so a bigger value is a shorter marker.
-				inset-inline: var(--simplemenu-marker-margin-x, 0);
-				inset-block: var(--simplemenu-marker-edge, auto 0);
-				block-size: var(--simplemenu-marker-thickness, 0);
-				border-radius: var(--simplemenu-marker-radius, 0);
-				background: transparent;
-				transition: background-color var(--simplemenu-item-duration, 0.2s) var(--simplemenu-item-easing, ease-in-out);
-			}
-
-			// Flips to the top edge. Needs the menu class to beat the rule above.
-			@at-root .simplemenu-bar.bottom .simplemenu-menu li a::after {
-				inset-block: var(--simplemenu-marker-edge, 0 auto);
-			}
-
-			a.active::after, &.active a::after {
-				background: var(--simplemenu-marker-color, currentColor);
-			}
+		&:hover {
+			opacity: var(--simplemenu-item-opacity-hover, 0.75);
+			background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
+			--_simplemenu-decoration: var(--simplemenu-item-decoration-hover, var(--simplemenu-item-decoration, none));
+		}
+		&:focus-visible {
+			opacity: var(--simplemenu-item-opacity-hover, 0.75);
+			background: var(--simplemenu-item-background-hover, var(--simplemenu-item-background, transparent));
+			--_simplemenu-hover: 1;
+			outline: none;
+		}
+		&:focus-visible::before {
+			content: '';
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			display: block;
+			width: calc(100% - 1em);
+			height: calc(100% - 0.5em - 4px);
+			transform: translate(-50%, -50%);
+			border: var(--simplemenu-focus-width, 2px) solid var(--simplemenu-focus-color, currentColor);
+			border-radius: var(--simplemenu-focus-radius, 0.2em);
 		}
 	}
 
-	* {
+	// After hover and focus, and as heavy, so the current item does not dim when you hover it.
+	:where(.simplemenu-menu li:not(:has(a))).active, :where(.simplemenu-menu li a).active, :where(.simplemenu-menu li).active :where(a) {
+		opacity: var(--simplemenu-item-opacity-active, 1);
+		--_simplemenu-active: 1;
+		background: var(--simplemenu-item-background-active, var(--simplemenu-item-background, transparent));
+	}
+
+	// The marker under the current item, in the theme's heading colour. Hidden until you give it a thickness.
+	:where(.simplemenu-menu li a)::after {
+		content: '';
+		position: absolute;
+		// Space on each side of the marker, so a bigger value is a shorter marker.
+		inset-inline: var(--simplemenu-marker-margin-x, 0);
+		inset-block: var(--simplemenu-marker-edge, auto 0);
+		block-size: var(--simplemenu-marker-thickness, 0);
+		border-radius: var(--simplemenu-marker-radius, 0);
+		background: transparent;
+		transition: background-color #{$item-duration} #{$item-easing};
+	}
+
+	// Flips to the top edge.
+	&.bottom :where(.simplemenu-menu li a)::after {
+		inset-block: var(--simplemenu-marker-edge, 0 auto);
+	}
+
+	:where(.simplemenu-menu li a).active::after, :where(.simplemenu-menu li).active :where(a)::after {
+		background: var(--simplemenu-marker-color, var(--c-theme-heading-color, currentColor));
+	}
+
+	:where(*) {
 		box-sizing: border-box;
 	}
+}
+
+// What Reveal's theme sets on every link, list and image in a deck, with `.reveal a`, `.reveal a:hover`, `.reveal ul` and `.reveal img`. These rules put `.reveal` in front of the bar, which is one class more than the theme, so they beat it wherever the two stylesheets load. The variables are the way to change them.
+.reveal .simplemenu-bar {
+	:where(a), :where(a):hover {
+		color: $item-color;
+		text-decoration: var(--_simplemenu-decoration, none);
+		transition: $item-transition;
+	}
+
+	:where(.simplemenu-menu) {
+		display: flex;
+		list-style: none;
+		// Moves the menu. `--simplemenu-menu-justify` moves the items inside it.
+		margin: var(--simplemenu-menu-margin, 0 auto);
+	}
+
+	:where(.logo img, .logo svg) {
+		max-width: var(--simplemenu-logo-maxwidth, none);
+		max-height: var(--simplemenu-logo-maxheight, 1.8em);
+		// The default 0 also cancels the margin Reveal gives images in a deck.
+		margin: var(--simplemenu-logo-margin, 0);
+	}
+
+	// A logo does not take the menu's colour, its hover or its active state. `inherit` is here to stop the theme's link colour reaching it, not to give it a colour of its own: a logo drawn in `currentColor` then follows the bar and turns around with it, and a logo with colours of its own is left alone. All four shapes a logo can have, so the colour reaches it whether or not it is a link.
+	:where(.logo, a:has(.logo), .logo a), :where(.logo, a:has(.logo), .logo a):hover {
+		color: var(--simplemenu-logo-color, inherit);
+	}
+}
+
+// A slide with a background that contrasts the theme, so light on a dark deck or the other way round. The bar already follows through --c-theme-color; these are here so a deck can pick its own colours for that case. Everything else in the bar is currentColor, so the items and the line come along on their own.
+.c-theme-inverted .simplemenu-bar {
+	color: var(--simplemenu-bar-color-inverted, var(--c-theme-color, currentColor));
+}
+
+// The marker is the one part a deck usually gives a colour of its own, and a colour picked for the theme's own background can be wrong once the background turns around.
+.c-theme-inverted .simplemenu-bar :where(.simplemenu-menu li a).active::after,
+.c-theme-inverted .simplemenu-bar :where(.simplemenu-menu li).active :where(a)::after {
+	background: var(--simplemenu-marker-color-inverted, var(--simplemenu-marker-color, var(--c-theme-heading-color, currentColor)));
+}
+
+// Only if a logo was given a colour of its own. Without one it inherits the bar, which has already turned around by here.
+.c-theme-inverted .simplemenu-bar :where(.logo, a:has(.logo), .logo a),
+.c-theme-inverted .simplemenu-bar :where(.logo, a:has(.logo), .logo a):hover {
+	color: var(--simplemenu-logo-color-inverted, var(--simplemenu-logo-color, inherit));
 }
 
 // Only the menu fades. The items keep their own timing.
@@ -225,26 +317,22 @@ $item-transition:
 }
 
 // The marker leaves with whatever is hiding it, so it does not switch off in front of a bar that is still on its way out. Only the marker: the label goes back to its resting opacity on the item's own clock, as it does on any other slide.
-.hide-menubar .simplemenu-bar .simplemenu-menu li a::after {
+.hide-menubar .simplemenu-bar :where(.simplemenu-menu li a)::after {
 	transition-duration: var(--simplemenu-bar-duration, 0.8s);
 }
 
-.hide-menu .simplemenu-bar .simplemenu-menu li a::after {
+.hide-menu .simplemenu-bar :where(.simplemenu-menu li a)::after {
 	transition-duration: var(--simplemenu-menu-duration, 0.2s);
 }
 
-.slides ~ .simplemenu-bar, .simplemenu-bar.bottom {
-	top: auto;
-	bottom: 0;
-}
-
-.slides ~ .simplemenu-bar ~ .controls {
+// Lifts Reveal's controls above a bottom bar.
+.reveal:has(> .simplemenu-anchor > .simplemenu-bar.bottom) > .controls {
 	margin-bottom: clamp(16px, calc(2.5 * var(--slide-scale, 1) * var(--r-main-font-size) * var(--simplemenu-scale, 0.67)), 80px);
 }
 
-// Only a number moved into the bar. `.reveal` is there to beat Quarto's rule.
-.reveal .simplemenu-bar .slide-number,
-.simplemenu-bar .slide-number {
+// Only a number moved into the bar. `.reveal` is there to beat Quarto's rule. Only a number that is there, too: with Reveal's `slideNumber` switched off the element stays empty, and styling it would leave a gap in the bar where the number would have been.
+.reveal .simplemenu-bar .slide-number:not(:empty),
+.simplemenu-bar .slide-number:not(:empty) {
 	display: flex !important;
 	flex-direction: row;
 	justify-content: flex-end;
@@ -268,6 +356,18 @@ $item-transition:
 			opacity: var(--simplemenu-slidenumber-opacity-hover, var(--simplemenu-item-opacity-hover, 1));
 		}
 	}
+}
+
+// Reveal hides its own slide number in scroll view, and never updates it there:
+// `slideNumber.update()` is called from `slide()` and `sync()`, while scrolling
+// goes through `setCurrentScrollPage()`, which does not. The rule above outweighs
+// Reveal's hide (four classes against three), so without this one the bar would
+// keep showing whatever number was current when scroll view started. Same weight
+// as that rule, so it has to stay below it. No `.reveal` in the selector: the
+// class lands on the viewport, which is the deck's own element when it is
+// embedded.
+.reveal-scroll .simplemenu-bar .slide-number:not(:empty) {
+	display: none !important;
 }
 
 // Simplemenu's own list. Other lists on a centred slide are yours.

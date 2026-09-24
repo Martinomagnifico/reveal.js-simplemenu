@@ -17,6 +17,7 @@ block append scripts
 		script.
 			Reveal.initialize({
 				plugins: [ Simplemenu, RevealHighlight ],
+				slideNumber: 'c/t',
 				simplemenu: {
 					barhtml: {
 						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"
@@ -25,13 +26,11 @@ block append scripts
 			});
 	else
 		script(type="module").
-			import "/src/plugin/css/index.scss";
 			import Simplemenu from '@/plugin/js/index';
 			Reveal.initialize({
 				plugins: [ Simplemenu, RevealHighlight ],
 				slideNumber: 'c/t',
 				simplemenu: {
-					cssautoload: false,
 					debug: true,
 					barhtml: {
 						footer: "<nav class='menubar'><ul class='menu'></ul><div class='slide-number'></div></nav>"

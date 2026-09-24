@@ -32,7 +32,6 @@ block append scripts
 			});
 	else
 		script(type="module").
-			import "/src/plugin/css/index.scss";
 			import Simplemenu from '@/plugin/js/index';
 			Reveal.initialize({
 				plugins: [ Simplemenu, RevealHighlight ],
@@ -42,7 +41,6 @@ block append scripts
 					//- anchor rather than the li. Previously untested, and the combination
 					//- that used to crash.
 					activeelement: "a",
-					cssautoload: false,
 					debug: true
 				}
 			});

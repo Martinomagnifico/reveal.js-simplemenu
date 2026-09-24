@@ -11,8 +11,23 @@
 		font-size: 0.7em;
 	}
 }
-p {
+p, ul li {
 	code {
 		font-size: 0.7em;
 	}
+}
+
+i {
+	font-style: italic;
+}
+
+.slides {
+
+	p a,
+	ol li a,
+	ul li a {
+		text-decoration: underline;
+		  text-underline-offset: 0.15em;
+	}
+
 }

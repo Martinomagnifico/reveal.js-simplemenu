@@ -1,21 +1,51 @@
 # Changelog
 
-## [2.1.1]
+## [2.2.0]
 ### Added
-- CSS variables for the whole stylesheet, 50-plus of them. The list is in the [readme](https://github.com/martinomagnifico/reveal.js-simplemenu#css-variables).
-- An optional marker under the current chapter. Not visible unless you set `--simplemenu-marker-thickness` to something other than 0. A marker/tab thing was already used in the custom styling example, but now it can be done in an easier way.
-- An optional background on a menu item, for its normal, hover and active states.
-- `--simplemenu-item-align`, for when the marker does not line up with the edge of the bar.
-- `--simplemenu-bar-hidden-transform` and `--simplemenu-bar-hidden-opacity`. If you set the transform to `none` and the opacity to `0`, then the bar fades instead of sliding. Some people may like that.
-- `simplemenu-bar` and `simplemenu-menu` are used as identifiers for the bar and menu, in case  `menubarclass` and `menuclass` are changed. Helps to avoid a clash with another plugin and keep the styling.
+- A `padbox` class for your own things in the menubar, padded by `--simplemenu-bar-padbox`.
+- The bar and the marker follow the theme on a slide whose background contrasts it. `--simplemenu-bar-color-inverted` and `--simplemenu-marker-color-inverted` override that.
+- `--simplemenu-bar-color-duration`, for how fast the bar changes colour on such a slide.
+- `--simplemenu-logo-color` and `--simplemenu-logo-color-inverted`, for a logo drawn in `currentColor`.
+
+### Changed
+- A bar made from `barhtml` gets the class `simplemenu-headerbar` or `simplemenu-footerbar`, and the same `data-name`, instead of that id. A rule written for the id needs the class.
+- Reveal.js 4.1 is the minimum version. Below 4.1 the bar is sized wrong.
+- Simplemenu's rules weigh one class, so your own CSS overrides them more easily.
+- A logo in a `padbox` gets no padding of its own.
+- A logo is never dimmed and never reacts to the pointer, and it no longer takes the menu's colour. It follows the bar unless you give it a colour.
+- The marker takes the theme's heading colour instead of its text colour, so it changes on `moon`, `dracula` and `solarized`.
+- With `rtl`, the whole menubar is laid out right to left, not only the order of its items.
 
 ### Fixed
-- Menu gets has its own `--simplemenu-menu-duration` and `--simplemenu-menu-easing`.
+- The bar and the marker take the right colours in `print-pdf` on a page whose background contrasts the theme.
+- An embedded deck keeps its menubar on the deck, also in scroll view.
+- `hide-menubar` and `hide-menu` work in scroll view, also on vertical slides.
+- In `print-pdf`, a page in a stack also gets the stack's `data-state`.
+- A bar written after `.slides` is styled as a bottom bar.
+- Menu links go to the right slides in a deck with hidden slides.
+- Two chapters, or two decks, no longer get the same id.
+- The plugin files, the stylesheet and `package.json` can be imported by path again.
+- A menubar with a slide number in it leaves no gap when Reveal's `slideNumber` is off.
+- A slide number in the menubar is hidden in scroll view, like Reveal's own.
+
+
+
+## [2.1.1] - 2026-09-04
+### Added
+- CSS variables for the whole stylesheet, 50-plus of them. The list is in the [readme](https://github.com/martinomagnifico/reveal.js-simplemenu#css-variables).
+- An optional marker under the current chapter, shown once you set `--simplemenu-marker-thickness`.
+- An optional background on a menu item, for its normal, hover and active states.
+- `--simplemenu-item-align`, for when the marker does not line up with the edge of the bar.
+- `--simplemenu-bar-hidden-transform` and `--simplemenu-bar-hidden-opacity`, so the bar can fade instead of slide.
+- `simplemenu-bar` and `simplemenu-menu` as identifiers, so styling survives a renamed `menubarclass` or `menuclass`.
+
+### Fixed
+- The menu has its own `--simplemenu-menu-duration` and `--simplemenu-menu-easing`.
 - Now only a slide number in the menubar gets restyled.
-- A stack gets now always gets the resolved `data-name`.
-- A renamed `menuclass` or `menubarclass` no longer leaves you with an empty bar. The default `barhtml` is built from those two options, where it used to hold the default names.
-- The marker on a `.bottom` bar sits on the top edge again. Its rule had the same weight as the one it was there to beat, so it never won.
-- The menubar border will no longer overlap or underlap (if that is possible) the optional marker in the menu item.
+- A stack now always gets the resolved `data-name`.
+- A renamed `menuclass` or `menubarclass` no longer leaves you with an empty bar.
+- The marker on a `.bottom` bar sits on the top edge again.
+- The menubar border no longer overlaps the marker in a menu item.
 - Fix for menu fade if hide-menu.
 
 

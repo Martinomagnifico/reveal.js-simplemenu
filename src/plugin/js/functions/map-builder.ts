@@ -1,6 +1,7 @@
 import { pluginDebug as debug, textTools, warnOnce } from "reveal.js-plugintoolkit";
 import { PLUGIN_ID } from "../config";
 import type { Deck, SlideMapItem } from "../types";
+import { uniqueId } from "./unique-id";
 
 // A plain `name` on a section is not valid HTML and is no longer documented or demoed. It keeps working, so a deck that uses one is told what to write instead rather than losing its menu.
 const LEGACY_NAME_NOTICE =
@@ -58,13 +59,14 @@ export const buildBaseMap = (deck: Deck, options: { flat: boolean }): Map<number
 		const mapItem: SlideMapItem = {
 			index: currentIndex,
 			name: null,
+			element: section,
 		};
 
 		// Check for flat mode and inheritance
 		if (options.flat) {
 			if (section.querySelector("section")) {
 				debug.warn(
-					"Vertical slides detected while using flat mode. This may cause unexpected behavior."
+					"Vertical slides detected while using flat mode. This may cause unexpected behaviour."
 				);
 			}
 			if (section.getAttribute("data-sm") === "false") {
@@ -127,7 +129,8 @@ export const buildBaseMap = (deck: Deck, options: { flat: boolean }): Map<number
 					if (!vSlide.id) {
 						const name = getEffectiveName(vSlide);
 						if (name) {
-							vSlide.id = textTools.sanitizeText(name);
+							const base = textTools.sanitizeText(name);
+							if (base) vSlide.id = uniqueId(base);
 						}
 					}
 				}
@@ -159,13 +162,17 @@ export const buildBaseMap = (deck: Deck, options: { flat: boolean }): Map<number
 						name: stackName,
 						id: vSlide.id || mapItem.id,
 						isVertical: true,
+						element: vSlide,
 						verticalIndex: vIndex++,
 						langattr: langattr,
 					};
 
-					const vState = vSlide.getAttribute("data-state");
-					if (vState) {
-						verticalItem.state = vState;
+					// Reveal applies a stack's state together with the vertical slide's own, so a page gets both.
+					const pageState = [mapItem.state, vSlide.getAttribute("data-state")]
+						.filter(Boolean)
+						.join(" ");
+					if (pageState) {
+						verticalItem.state = pageState;
 					}
 
 					slideMap.set(currentIndex, verticalItem);

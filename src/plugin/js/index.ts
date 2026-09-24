@@ -1,3 +1,5 @@
+import "../css/index.scss";
+
 // Basic imports
 
 // Helper imports
@@ -21,11 +23,6 @@ const init = async (
 ): Promise<void> => {
 	// Simplemenu types the deck more narrowly than the toolkit does.
 	const deck = revealDeck as unknown as Deck;
-
-	// Reveal's own rtl is the default; an explicit simplemenu.rtl still wins.
-	if (plugin.userConfig.rtl === undefined) {
-		config.rtl = deck.getConfig().rtl;
-	}
 
 	// Barhtml is replaced wholesale rather than merged, so that an empty header or footer in user config can erase the default instead of falling back to it.
 	if (plugin.userConfig.barhtml !== undefined) {
@@ -56,11 +53,14 @@ const init = async (
 	const isQuartoContent =
 		generatorMetaTag instanceof HTMLMetaElement && generatorMetaTag.content.includes("quarto");
 
+	// Before anything is waited for, so that decks on one page claim their ids in the order they start. See `SimpleMenu.claim`.
+	const simplemenu = SimpleMenu.claim(deck, config);
+
 	if (!isQuartoContent) {
 		await pluginCSS(plugin, config);
 	}
 
-	await SimpleMenu.create(deck, config);
+	await simplemenu.start();
 };
 
 export default () => {

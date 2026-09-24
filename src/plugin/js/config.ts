@@ -9,6 +9,14 @@ export const PLUGIN_ID = "simplemenu";
 export const BAR_CLASS = "simplemenu-bar";
 export const MENU_CLASS = "simplemenu-menu";
 
+// The class on the toolkit anchor each bar is put in.
+export const ANCHOR_CLASS = "simplemenu-anchor";
+
+// The class, and the `data-name`, on a bar Simplemenu makes from `barhtml`. Not an
+// id: every deck on a page can have one, and an id may only be on a page once.
+export const HEADER_BAR_KEY = "simplemenu-headerbar";
+export const FOOTER_BAR_KEY = "simplemenu-footerbar";
+
 // The bar Simplemenu adds when the deck has none. Built from the class names, so
 // a renamed `menuclass` still produces a menu that Simplemenu goes on to find.
 export const defaultBarHeader = (menubarclass: string, menuclass: string): string =>
@@ -27,6 +35,7 @@ export interface Config {
 	flat: boolean;
 	menubarclass: string;
 	menuclass: string;
+	/** Read from the deck's own config, not from here: the bar takes its direction from Reveal's `rtl` unless a deck sets this one. See `anchor-bars.ts`. */
 	rtl?: boolean;
 	scale: number;
 	selectby: "id" | "data-name" | "name";

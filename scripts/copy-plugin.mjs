@@ -37,11 +37,23 @@ const copyPluginFiles = async () => {
     const srcDir = join('demo', 'plugin', pluginName)
     const destDir = join('plugin', pluginName)
  
-    // First add banners to files in demo
+    // Earlier versions shipped the module build as `<name>.esm.js`, and the readme
+    // has always told people to load the plugin folder by path — from node_modules
+    // or from a copy of it. A path is fetched as written, so the package's export
+    // map cannot redirect it and the old filename has to exist. Re-exporting the
+    // real build keeps those decks working without shipping it twice.
+    await fs.writeFile(
+      join(srcDir, `${pluginName}.esm.js`),
+      `export { default } from "./${pluginName}.mjs";\n`
+    )
+
+    // Read after the shim is written, so it is bannered like everything else.
     const files = await fs.readdir(srcDir)
     for (const file of files) {
-      console.log('Processing file:', file, 'from:', srcDir, 'to:', destDir);
-      if (file.endsWith('.mjs') || file.endsWith('.css')) {
+      // `.js` included: the banner was only ever missing there because this
+      // filter left it out, not because anything stripped it. Nothing
+      // re-minifies these after the build, so a leading comment survives.
+      if (file.endsWith('.js') || file.endsWith('.mjs') || file.endsWith('.css')) {
         await addBannerToFile(join(srcDir, file))
       }
     }

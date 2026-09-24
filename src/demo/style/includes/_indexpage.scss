@@ -1,0 +1,31 @@
+// The dev server's index, which vite-plugin-dynamic-index generates from the
+// files in views/. Not part of the build, so it is styled here rather than by a
+// Reveal theme: the page loads this stylesheet and nothing else.
+html.index {
+	color: #fff;
+	background: var(--r-background-color, #051525);
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+	font-size: var(--r-main-font-size, 36px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+
+	.fileindex {
+		display: inline-flex;
+		flex-direction: column;
+		margin: 0 auto;
+	}
+
+	a {
+		color: #42affa;
+		font-size: var(--r-main-font-size, 36px);
+		line-height: 1.4;
+
+		&:hover {
+			color: #8dcffc;
+		}
+	}
+}

@@ -25,6 +25,46 @@ block append styles
 			--c-theme-color: var(--r-main-color);
 		}
 
+		/*
+		 * The two logos on the swap slides. Simplemenu styles a `logo` in the bar, not
+		 * one in a slide, so these are sized here. The swap itself is the same three
+		 * rules an author would write, keyed on the class Simplemenu puts on the deck.
+		 */
+		.logoswap {
+			display: flex;
+			justify-content: center;
+		}
+
+		.logoswap img {
+			width: 8em;
+			background: none;
+			border: 0;
+			box-shadow: none;
+		}
+
+		.logoswap .inverted,
+		.c-theme-inverted .logoswap .regular {
+			display: none;
+		}
+
+		.c-theme-inverted .logoswap .inverted {
+			display: block;
+		}
+
+		/*
+		 * This deck's code blocks are dark, which disappears on a slide that is dark
+		 * too. `c-theme-inverted` is put on the deck for the plugin, and a deck can
+		 * read it as well, so the block turns around with everything else.
+		 */
+		.c-theme-inverted code.hljs {
+			background: var(--r-background-color);
+		}
+
+		.c-theme-inverted code.hljs,
+		.c-theme-inverted code.hljs * {
+			color: var(--r-main-color);
+		}
+
 		:root {
 			/* The bar and its line both use --r-main-color. */
 			--simplemenu-bar-background: transparent;
@@ -37,17 +77,24 @@ block append styles
 			--simplemenu-link-padding: 0;
 			--simplemenu-item-padding: 0.5em 1em;
 			--simplemenu-item-color: currentColor;
-			--simplemenu-item-opacity: 0.33;
-			--simplemenu-item-opacity-hover: 0.75;
+			--simplemenu-item-opacity: 0.5;
+			--simplemenu-item-opacity-hover: 0.9;
 			--simplemenu-item-opacity-active: 1;
 			--simplemenu-marker-thickness: 0.2em;
-			--simplemenu-marker-color: var(--r-heading-color);
 
-			/* The logo and the slide number, both put in the bar by barhtml. */
+			/* What the bar uses on a slide with the background the other way round. */
+			--simplemenu-bar-color-inverted: #cddddd;
+
+			/* The logo and the slide number, both put in the bar by barhtml. The logo sits in a padbox, which is what gives it room. It is an inline SVG drawn in currentColor, so it takes the bar's colour and turns around with it. */
 			--simplemenu-logo-width: 4em;
 			--simplemenu-logo-maxwidth: 100%;
-			--simplemenu-logo-padding: 0.25em 0.5em;
 			--simplemenu-slidenumber-opacity: 0.33;
+			/* The padbox around it gives it its space now. */
+			--simplemenu-slidenumber-padding: 0;
+
+			/* --simplemenu-logo-color: darkslategray; */
+			/* --simplemenu-logo-color-inverted: darkseagreen; */
+
 		}
 
 block slides
@@ -68,22 +115,20 @@ block append scripts
 				slideNumber: 'c/t',
 				simplemenu: {
 					barhtml: {
-						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+						header: "<nav class='menubar'><div class='padbox'><a class='logo' href='#'><svg xmlns='http://www.w3.org/2000/svg' width='94' height='50' viewBox='0 0 94 50' fill='none' role='img' aria-label='Logo'><path d='M34.5 20c2.17 0 4.5 2.23 4.5 5.75s-2.33 5.75-4.5 5.75-4.5-2.23-4.5-5.75S32.33 20 34.5 20m37 0 c2.17 0 4.5 2.23 4.5 5.75s-2.33 5.75-4.5 5.75-4.5-2.23-4.5-5.75S69.33 20 71.5 20' fill='currentColor'/><path fill-rule='evenodd' clip-rule='evenodd' d='M42.4 1.67c25.83-4.95 48.83 1.49 51.37 14.37 2.54 12.89-16.34 27.34-42.17 32.3C25.77 53.27 2.77 46.83.23 33.95S16.57 6.62 42.4 1.66M34.5 16c-5.01 0-8.5 4.71-8.5 9.75s3.49 9.75 8.5 9.75 8.5-4.7 8.5-9.75S39.5 16 34.5 16M54 16c-5.16 0-9 4.56-9 9.75s3.84 9.75 9 9.75a8.7 8.7 0 0 0 6.5-3l.5-.57V25.7h-7v4h3v.66a4.6 4.6 0 0 1-3 1.15c-2.57 0-5-2.38-5-5.75S51.42 20 54 20c1.33 0 2.57.6 3.5 1.65l3-2.65a8.7 8.7 0 0 0-6.5-3m17.5 0c-5.01 0-8.5 4.71-8.5 9.75s3.49 9.75 8.5 9.75 8.5-4.7 8.5-9.75S76.5 16 71.5 16M14 17v18h11.5v-4H18V17z' fill='currentColor'/></svg></a></div><ul class='menu'></ul><div class='padbox'><div class='slide-number'></div></div></nav>"
 					}
 				}
 			});
 	else
 		script(type="module").
-			import "/src/plugin/css/index.scss";
 			import Simplemenu from '@/plugin/js/index';
 			Reveal.initialize({
 				plugins: [ RevealMarkdown, RevealHighlight, Simplemenu ],
 				slideNumber: 'c/t',
 				simplemenu: {
-					cssautoload: false,
 					debug: true,
 					barhtml: {
-						header: "<nav class='menubar'><a class='logo' href='#'><img src='assets/img/logo.svg'></a><ul class='menu'></ul><div class='slide-number'></div></nav>"
+						header: "<nav class='menubar'><div class='padbox'><a class='logo' href='#'><svg xmlns='http://www.w3.org/2000/svg' width='94' height='50' viewBox='0 0 94 50' fill='none' role='img' aria-label='Logo'><path d='M34.5 20c2.17 0 4.5 2.23 4.5 5.75s-2.33 5.75-4.5 5.75-4.5-2.23-4.5-5.75S32.33 20 34.5 20m37 0 c2.17 0 4.5 2.23 4.5 5.75s-2.33 5.75-4.5 5.75-4.5-2.23-4.5-5.75S69.33 20 71.5 20' fill='currentColor'/><path fill-rule='evenodd' clip-rule='evenodd' d='M42.4 1.67c25.83-4.95 48.83 1.49 51.37 14.37 2.54 12.89-16.34 27.34-42.17 32.3C25.77 53.27 2.77 46.83.23 33.95S16.57 6.62 42.4 1.66M34.5 16c-5.01 0-8.5 4.71-8.5 9.75s3.49 9.75 8.5 9.75 8.5-4.7 8.5-9.75S39.5 16 34.5 16M54 16c-5.16 0-9 4.56-9 9.75s3.84 9.75 9 9.75a8.7 8.7 0 0 0 6.5-3l.5-.57V25.7h-7v4h3v.66a4.6 4.6 0 0 1-3 1.15c-2.57 0-5-2.38-5-5.75S51.42 20 54 20c1.33 0 2.57.6 3.5 1.65l3-2.65a8.7 8.7 0 0 0-6.5-3m17.5 0c-5.01 0-8.5 4.71-8.5 9.75s3.49 9.75 8.5 9.75 8.5-4.7 8.5-9.75S76.5 16 71.5 16M14 17v18h11.5v-4H18V17z' fill='currentColor'/></svg></a></div><ul class='menu'></ul><div class='padbox'><div class='slide-number'></div></div></nav>"
 					}
 				}
 			});
